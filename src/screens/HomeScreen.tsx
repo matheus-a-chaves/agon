@@ -15,6 +15,7 @@ import {
   ItemView,
   TextStyled,
 } from '../styles/HomeScreenCss';
+
 import {TeamData, useTeam} from '../contexts/Team';
 
 export function HomeScreen() {
