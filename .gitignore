@@ -66,3 +66,5 @@ ios
 
 # testing
 /coverage
+ios/Agon/Info.plist
+ios/Agon.xcodeproj/project.pbxproj
