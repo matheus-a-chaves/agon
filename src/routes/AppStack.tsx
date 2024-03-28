@@ -5,7 +5,7 @@ import {PerfilScreen} from '../screens/PerfilScreen';
 import {TeamProvider} from '../contexts/Team';
 import {MatamataScreen} from '../screens/MatamataScreen';
 import {FaseDeGrupoScreen} from '../screens/FaseDeGrupoScreen';
-import {CadastroScreen} from '../screens/campeonato/CadastroScreen';
+import {CadastroStack} from './CadastroStack';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +16,7 @@ export function AppStack() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Campeonato" component={CadastroScreen} />
+        <Stack.Screen name="Campeonato" component={CadastroStack} />
         <Stack.Screen name="Perfil" component={PerfilScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="FaseGrupos" component={FaseDeGrupoScreen} />

@@ -37,16 +37,18 @@ export const TextInfo = styled.Text`
 export const Form = styled.View`
   width: 100%;
   padding: 10px;
+  gap: 5px;
 `;
 
 export const ButtonAdd = styled.TouchableOpacity`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
+  width: 44px;
+  height: 44px;
   background-color: #004aad;
   border-radius: 5px;
+  margin-right: 2px;
 `;
 
 export const UploadCampo = styled.View`
@@ -59,5 +61,5 @@ export const UploadCampo = styled.View`
   border-radius: 5px;
   background-color: #fafafa;
   padding-left: 10px;
-  padding-right: 5px;
+  border: 1px solid #a3a3a3;
 `;

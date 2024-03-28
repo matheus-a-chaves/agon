@@ -1,4 +1,4 @@
 export interface Modalidade {
-    id: number
+    id:  string
     nome: string
 }

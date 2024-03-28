@@ -1,19 +1,17 @@
 import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {View, Text} from 'react-native';
+import {Text} from 'react-native';
+import {Button} from '../../styles/SharedStyles';
 import {
-  Container,
-  FundoInfo,
-  Image,
-  TextInfo,
-  Form,
   ButtonAdd,
+  Container,
+  Form,
   Icon,
   UploadCampo,
-} from '../../styles/campeonato/UploadFileScreenCss';
-import {Button} from '../../styles/SharedStyles';
+} from '../../styles/campeonato/CadastroCss';
+import NovoCampeonato from '../../components/NovoCampeonato';
+import {upload} from '../Utils';
 
-const image = require('../../assets/img/campeonato/upload-file.png');
 const icon = require('../../assets/icons/add.png');
 
 export function UploadFileScreen() {
@@ -23,11 +21,12 @@ export function UploadFileScreen() {
 
   return (
     <Container>
-      <FundoInfo>
-        <TextInfo>Novo Campeonato</TextInfo>
-        <Image source={image} />
-        <TextInfo>Adicione arquivos do campeonato</TextInfo>
-      </FundoInfo>
+      <NovoCampeonato
+        title="Novo Campeonato"
+        image={{url: upload, size: 230}}
+        descricao="Adicione os arquivos necessários para criar um campeonato"
+        height={438}
+      />
       <Form>
         <UploadCampo>
           <Text>Imagem de perfil</Text>
@@ -37,12 +36,14 @@ export function UploadFileScreen() {
         </UploadCampo>
 
         <UploadCampo>
-          <Text>Imagem de perfil</Text>
+          <Text>Regulamento pdf</Text>
           <ButtonAdd>
             <Icon source={icon} />
           </ButtonAdd>
         </UploadCampo>
-        <Button>
+        <Button
+          style={{marginTop: 10}}
+          onPress={() => navigation.navigate('NomeModalidade' as never)}>
           <Text
             style={{
               color: '#FFFFFF',
