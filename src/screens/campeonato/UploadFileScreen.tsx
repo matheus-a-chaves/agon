@@ -6,8 +6,8 @@ import {
   ButtonAdd,
   Container,
   Form,
-  Icon,
   UploadCampo,
+  Icon,
 } from '../../styles/campeonato/CadastroCss';
 import NovoCampeonato from '../../components/NovoCampeonato';
 import {upload} from '../Utils';

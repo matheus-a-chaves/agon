@@ -2,12 +2,14 @@ import {Input as NativeBaseInput, IInputProps, FormControl} from 'native-base';
 
 type Props = IInputProps & {
   errorMessage?: string | null;
+  widthForm?: string;
 };
 
 export function Input({errorMessage = null, isInvalid, ...rest}: Props) {
   const invalid = !!errorMessage || isInvalid;
+  const widthForm = rest.widthForm || 'full';
   return (
-    <FormControl isInvalid={invalid}>
+    <FormControl isInvalid={invalid} width={widthForm}>
       <NativeBaseInput
         bgColor={'#fff'}
         h={50}

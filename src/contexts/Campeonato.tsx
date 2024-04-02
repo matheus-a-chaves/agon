@@ -1,7 +1,8 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
+import {Campeonato} from '../interfaces/campeonatoModel';
 
-interface CampeonatoBody {
+export interface CampeonatoBody {
   nome?: string;
   quantidadeEquipes?: number;
   formato?: any;
@@ -10,8 +11,8 @@ interface CampeonatoBody {
 
 interface CampeonatoContextData {
   campeonatoData?: CampeonatoBody;
-  cadastrar: () => void;
-  setNome: (nome: string) => void;
+  cadastrar(campeonato: any): void;
+  setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>): void;
 }
 
 interface CampeonatoProviderProps {
@@ -25,29 +26,38 @@ export const CampeonatoContext = createContext<CampeonatoContextData>(
 export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
   children,
 }) => {
-  const [campeonatoData, setCampeonato] = useState<CampeonatoBody>();
+  const [campeonatoData, setCampeonato] = useState<Partial<CampeonatoBody>>();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log('campeonatoData', campeonatoData);
+  }, [campeonatoData]);
 
-  async function cadastrar() {
+  function setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>) {
+    setCampeonato(prevCampeonatoData => ({
+      ...prevCampeonatoData,
+      ...novaPropriedade,
+    }));
+  }
+
+  return (
+    <CampeonatoContext.Provider
+      value={{
+        campeonatoData,
+        setCampeonatoBody,
+        cadastrar,
+      }}>
+      {children}
+    </CampeonatoContext.Provider>
+  );
+
+  function cadastrar(campeonato: any) {
     try {
-      //chamar a service aqui, TODO: criar a service
-      console.log(campeonatoData);
+      console.log('cadastro', campeonato);
     } catch (error: any) {
       Alert.alert('404');
       return error;
     }
   }
-
-  function setNome(name: string) {
-    setCampeonato({...campeonatoData, nome: name});
-  }
-
-  return (
-    <CampeonatoContext.Provider value={{campeonatoData, cadastrar, setNome}}>
-      {children}
-    </CampeonatoContext.Provider>
-  );
 };
 
 export function useCampeonato() {

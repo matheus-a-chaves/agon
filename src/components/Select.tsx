@@ -3,14 +3,13 @@ import {
   ISelectProps,
   FormControl,
 } from 'native-base';
-import {Modalidade} from '../interfaces/modalidadesInterface';
 
 type Props = ISelectProps & {
   errorMessage?: string | null;
-  modalidades: Modalidade[];
+  lista: any[];
 };
 
-export function Select({errorMessage = null, modalidades, ...rest}: Props) {
+export function Select({errorMessage = null, lista, ...rest}: Props) {
   const invalid = !!errorMessage;
   return (
     <FormControl isInvalid={invalid}>
@@ -23,7 +22,7 @@ export function Select({errorMessage = null, modalidades, ...rest}: Props) {
         borderRadius={5}
         shadow={2}
         {...rest}>
-        {modalidades.map(item => (
+        {lista.map(item => (
           <NativeBaseSelect.Item
             key={item.id}
             label={item.nome}

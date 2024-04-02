@@ -12,8 +12,6 @@ import {useCampeonato} from '../../contexts/Campeonato';
 import {Modalidade} from '../../interfaces/modalidadesInterface';
 import {Select} from '../../components/Select';
 
-const icon = require('../../assets/icons/add.png');
-
 type FormData = {
   nomeCampeonato: string;
   modalidade: string;
@@ -39,7 +37,7 @@ export function NomeModalidadeScreen() {
     handleSubmit,
     formState: {errors},
   } = useForm<FormData>({resolver: yupResolver(CadastroSchema)});
-  const {setNome, cadastrar} = useCampeonato();
+  const {setCampeonatoBody} = useCampeonato();
 
   const navigation = useNavigation();
 
@@ -47,9 +45,8 @@ export function NomeModalidadeScreen() {
 
   function handleConsole(data: FormData) {
     console.log(data);
-    setNome(data.nomeCampeonato);
-    cadastrar(); // Pass the 'data' argument to the 'cadastrar' function
-    navigation.navigate('Upload' as never);
+    setCampeonatoBody({nome: data.nomeCampeonato, modalidade: data.modalidade});
+    navigation.navigate('Formato' as never);
   }
 
   return (
@@ -79,7 +76,7 @@ export function NomeModalidadeScreen() {
           render={({field: {onChange, value}}) => (
             <Select
               placeholder="Selecione a modalidade"
-              modalidades={modalidade}
+              lista={modalidade}
               errorMessage={errors.modalidade?.message}
               onValueChange={onChange}
               selectedValue={value}
