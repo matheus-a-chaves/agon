@@ -10,14 +10,20 @@ import {
   Icon,
 } from '../../styles/campeonato/CadastroCss';
 import NovoCampeonato from '../../components/NovoCampeonato';
-import {upload} from '../Utils';
-
-const icon = require('../../assets/icons/add.png');
+import {handleImage, upload} from '../Utils';
+import {useCampeonato} from '../../contexts/Campeonato';
 
 export function UploadFileScreen() {
+  const icon = require('../../assets/icons/add.png');
   const navigation = useNavigation();
+  const {setCampeonatoBody} = useCampeonato();
 
   useEffect(() => {}, []);
+
+  const handleImageCampeonato = async () => {
+    const imageUrl = await handleImage();
+    setCampeonatoBody({urlImage: imageUrl});
+  };
 
   return (
     <Container>
@@ -30,7 +36,7 @@ export function UploadFileScreen() {
       <Form>
         <UploadCampo>
           <Text>Imagem de perfil</Text>
-          <ButtonAdd>
+          <ButtonAdd onPress={() => handleImageCampeonato()}>
             <Icon source={icon} />
           </ButtonAdd>
         </UploadCampo>

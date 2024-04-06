@@ -1,12 +1,12 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
-import {Campeonato} from '../interfaces/campeonatoModel';
 
 export interface CampeonatoBody {
   nome?: string;
   quantidadeEquipes?: number;
   formato?: any;
   modalidade?: any;
+  urlImage?: string;
 }
 
 interface CampeonatoContextData {
