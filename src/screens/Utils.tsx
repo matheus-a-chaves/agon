@@ -5,6 +5,7 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {storage} from '../services/firebaseConfig';
+import {assets} from '../../react-native.config';
 
 export const bascket =
   'https://firebasestorage.googleapis.com/v0/b/agon-c176b.appspot.com/o/campeonato%2Fbasketball.png?alt=media&token=eaa42139-c587-4265-835d-fd6b430eccd2';
@@ -25,7 +26,11 @@ export async function handleImage() {
     Alert.alert('Error:', result.errorMessage);
   } else {
     if (!result.didCancel && result.assets && result.assets.length > 0) {
-      return result.assets[0].uri;
+      const data: any = {
+        uri: result.assets[0].uri,
+        fileName: result.assets[0].fileName,
+      };
+      return data;
     }
   }
 }

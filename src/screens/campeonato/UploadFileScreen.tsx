@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Text} from 'react-native';
 import {Button} from '../../styles/SharedStyles';
@@ -17,12 +17,14 @@ export function UploadFileScreen() {
   const icon = require('../../assets/icons/add.png');
   const navigation = useNavigation();
   const {setCampeonatoBody} = useCampeonato();
+  const [nomeImage, setNomeImage] = useState('Imagem de perfil');
 
   useEffect(() => {}, []);
 
   const handleImageCampeonato = async () => {
-    const imageUrl = await handleImage();
-    setCampeonatoBody({urlImage: imageUrl});
+    const {uri, fileName} = await handleImage();
+    setNomeImage(fileName);
+    setCampeonatoBody({urlImage: uri});
   };
 
   return (
@@ -35,7 +37,7 @@ export function UploadFileScreen() {
       />
       <Form>
         <UploadCampo>
-          <Text>Imagem de perfil</Text>
+          <Text>{nomeImage}</Text>
           <ButtonAdd onPress={() => handleImageCampeonato()}>
             <Icon source={icon} />
           </ButtonAdd>
