@@ -11,7 +11,6 @@ import {useCampeonato} from '../../contexts/Campeonato';
 import {Select} from '../../components/Select';
 import {Contador} from '../../components/Contador';
 import {Formato} from '../../interfaces/formatoModel';
-import {Text} from 'native-base';
 
 type FormData = {
   formato: string;
