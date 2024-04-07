@@ -18,8 +18,6 @@ type FormData = {
   modalidade: string;
 };
 
-const modalidade: Modalidade[] = [];
-
 const CadastroSchema = yup.object().shape({
   nomeCampeonato: yup
     .string()
