@@ -11,16 +11,11 @@ import {useCampeonato} from '../../contexts/Campeonato';
 import {Select} from '../../components/Select';
 import {Contador} from '../../components/Contador';
 import {Formato} from '../../interfaces/formatoModel';
+import {FormatoService} from '../../services/formato.service';
 
 type FormData = {
   formato: string;
 };
-
-const formato: Formato[] = [
-  {id: '1', nome: 'Formato A'},
-  {id: '2', nome: 'Formato B'},
-  {id: '3', nome: 'Formato C'},
-];
 
 const CadastroSchema = yup.object().shape({
   formato: yup.string().required('Formato é obrigatório'),
@@ -33,10 +28,20 @@ export function FormatoScreen() {
     formState: {errors},
   } = useForm<FormData>({resolver: yupResolver(CadastroSchema)});
   const {cadastrar, campeonatoData} = useCampeonato();
-
+  const [formatos, setFormatos] = useState<Formato[]>([]);
   const navigation = useNavigation();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    async function fetchFormatos() {
+      try {
+        const formatosData = await FormatoService.buscarFormatos();
+        setFormatos(formatosData);
+      } catch (error) {
+        console.error('Erro ao buscar modalidades:', error);
+      }
+    }
+    fetchFormatos();
+  }, []);
 
   const [quantidade, setQuantidade] = useState(0);
 
@@ -65,7 +70,7 @@ export function FormatoScreen() {
           render={({field: {onChange, value}}) => (
             <Select
               placeholder="Formato do campeonato"
-              lista={formato}
+              lista={formatos}
               errorMessage={errors.formato?.message}
               onValueChange={onChange}
               selectedValue={value}
