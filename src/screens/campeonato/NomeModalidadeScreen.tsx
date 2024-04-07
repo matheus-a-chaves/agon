@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -11,17 +11,12 @@ import {bascket} from '../Utils';
 import {useCampeonato} from '../../contexts/Campeonato';
 import {Modalidade} from '../../interfaces/modalidadesInterface';
 import {Select} from '../../components/Select';
+import {ModalideService} from '../../services/modalidade.service';
 
 type FormData = {
   nomeCampeonato: string;
   modalidade: string;
 };
-
-const modalidade: Modalidade[] = [
-  {id: '1', nome: 'Futebol'},
-  {id: '2', nome: 'Basquete'},
-  {id: '3', nome: 'Volei'},
-];
 
 const CadastroSchema = yup.object().shape({
   nomeCampeonato: yup
@@ -38,13 +33,23 @@ export function NomeModalidadeScreen() {
     formState: {errors},
   } = useForm<FormData>({resolver: yupResolver(CadastroSchema)});
   const {setCampeonatoBody} = useCampeonato();
-
+  const [modalidades, setModalidades] = useState<Modalidade[]>([]);
   const navigation = useNavigation();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // Função para buscar as modalidades quando o componente for montado
+    async function fetchModalidades() {
+      try {
+        const modalidadesData = await ModalideService.buscarModalidade();
+        setModalidades(modalidadesData);
+      } catch (error) {
+        console.error('Erro ao buscar modalidades:', error);
+      }
+    }
+    fetchModalidades();
+  }, []);
 
   function handleConsole(data: FormData) {
-    console.log(data);
     setCampeonatoBody({nome: data.nomeCampeonato, modalidade: data.modalidade});
     navigation.navigate('Formato' as never);
   }
@@ -76,7 +81,7 @@ export function NomeModalidadeScreen() {
           render={({field: {onChange, value}}) => (
             <Select
               placeholder="Selecione a modalidade"
-              lista={modalidade}
+              lista={modalidades}
               errorMessage={errors.modalidade?.message}
               onValueChange={onChange}
               selectedValue={value}
@@ -88,4 +93,7 @@ export function NomeModalidadeScreen() {
       </Form>
     </Container>
   );
+}
+function buscarModalidade() {
+  throw new Error('Function not implemented.');
 }

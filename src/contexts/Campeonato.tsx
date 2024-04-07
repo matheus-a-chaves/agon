@@ -5,7 +5,7 @@ export interface CampeonatoBody {
   nome?: string;
   quantidadeEquipes?: number;
   formato?: any;
-  modalidade?: any;
+  modalidade?: string;
   urlImage?: string;
 }
 
