@@ -49,8 +49,9 @@ export function FormatoScreen() {
     const campeonato = {
       nome: campeonatoData?.nome,
       quantidadeEquipes: quantidade,
-      formato: data.formato,
+      formato: parseInt(data.formato),
       modalidade: campeonatoData?.modalidade,
+      imagem: campeonatoData?.imagem,
     };
     console.log(campeonato);
     cadastrar(campeonato);

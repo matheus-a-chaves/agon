@@ -1,12 +1,14 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
+import {CampeonatoService} from '../services/campeonato.service';
 
 export interface CampeonatoBody {
   nome?: string;
   quantidadeEquipes?: number;
-  formato?: any;
-  modalidade?: string;
-  urlImage?: string;
+  formato?: number;
+  modalidade?: number;
+  imagem?: string;
+  regulamento?: string;
 }
 
 interface CampeonatoContextData {
@@ -52,7 +54,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 
   function cadastrar(campeonato: any) {
     try {
-      console.log('cadastro', campeonato);
+      CampeonatoService.cadastro(campeonato);
     } catch (error: any) {
       Alert.alert('404');
       return error;

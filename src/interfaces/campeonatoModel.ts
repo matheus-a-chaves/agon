@@ -8,13 +8,13 @@ interface CampeonatoInterface {
     quantidadeEquipes?: number;
     formato?: Formato;
     modalidade?: Modalidade;
-    imagem?: Uint8Array;
+    imagem?: string;
     regulamento?: Uint8Array;
     partidas?: Partidas;
 }
 
 export class Campeonato {
-    imagem?: Uint8Array;
+    imagem?: string;
     nome?: string;
     regulamento?: Uint8Array;
     dataInicio?: Date;
@@ -34,11 +34,11 @@ export class Campeonato {
         this.partidas = campeonatoData.partidas;
     }
 
-    getImagem(): Uint8Array | undefined {
+    getImagem(): string | undefined {
         return this.imagem;
     }
 
-    setImagem(imagem: Uint8Array | undefined) {
+    setImagem(imagem: string | undefined) {
         this.imagem = imagem;
     }
 
