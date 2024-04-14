@@ -12,13 +12,28 @@ import {Select} from '../../components/Select';
 import {Contador} from '../../components/Contador';
 import {Formato} from '../../interfaces/formatoModel';
 import {FormatoService} from '../../services/formato.service';
+import {Input} from '../../components/Input';
+import {DatePicker} from '../../components/DatePicker';
+import {Box} from 'native-base';
 
 type FormData = {
   formato: string;
+  dataInicio: Date;
+  dataFim: Date;
+  quantidade: number;
 };
 
 const CadastroSchema = yup.object().shape({
   formato: yup.string().required('Formato é obrigatório'),
+  dataInicio: yup.date().required('Data inicio é obrigatória'),
+  dataFim: yup
+    .date()
+    .required('Data de fim é obrigatória')
+    .min(yup.ref('dataInicio'), 'Deve ser maior que a de início'),
+  quantidade: yup
+    .number()
+    .required('Quantidade é obrigatória')
+    .min(2, 'Quantidade deve ser no minimo 2'),
 });
 
 export function FormatoScreen() {
@@ -27,8 +42,12 @@ export function FormatoScreen() {
     handleSubmit,
     formState: {errors},
   } = useForm<FormData>({resolver: yupResolver(CadastroSchema)});
+
   const {cadastrar, campeonatoData} = useCampeonato();
   const [formatos, setFormatos] = useState<Formato[]>([]);
+  const [dataInicio, setDataInicio] = useState('');
+  const [quantidade, setQuantidade] = useState(0);
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -43,8 +62,6 @@ export function FormatoScreen() {
     fetchFormatos();
   }, []);
 
-  const [quantidade, setQuantidade] = useState(0);
-
   function salvar(data: FormData) {
     const campeonato = {
       nome: campeonatoData?.nome,
@@ -52,8 +69,9 @@ export function FormatoScreen() {
       formato: parseInt(data.formato),
       modalidade: campeonatoData?.modalidade,
       imagem: campeonatoData?.imagem,
+      dataInicio: data.dataInicio,
+      dataFim: data.dataFim,
     };
-    console.log(campeonato);
     cadastrar(campeonato);
   }
   return (
@@ -78,8 +96,54 @@ export function FormatoScreen() {
             />
           )}
         />
-
-        <Contador quantidade={quantidade} setQuantidade={setQuantidade} />
+        <Box
+          flexDirection={'row'}
+          display={'flex'}
+          justifyContent={'space-between'}>
+          <Controller
+            control={control}
+            name="dataInicio"
+            render={({field: {onChange}}) => (
+              <DatePicker
+                title={'Previsão de início'}
+                defaultValue={new Date()}
+                onDateChange={(value: any) => {
+                  onChange(value);
+                  setDataInicio(value);
+                }}
+                errorMessage={errors.dataInicio?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="dataFim"
+            render={({field: {onChange}}) => (
+              <DatePicker
+                title={'Previsão de fim'}
+                defaultValue={dataInicio || new Date()}
+                onDateChange={(value: any) => {
+                  onChange(value);
+                }}
+                errorMessage={errors.dataFim?.message}
+              />
+            )}
+          />
+        </Box>
+        <Controller
+          control={control}
+          name="quantidade"
+          render={({field: {onChange}}) => (
+            <Contador
+              quantidade={quantidade}
+              onChangeContador={(quantidade: number) => {
+                onChange(quantidade);
+                setQuantidade(quantidade);
+              }}
+              errorMessage={errors.quantidade?.message}
+            />
+          )}
+        />
 
         <Button title={'FINALIZAR'} onPress={handleSubmit(salvar)} />
       </Form>

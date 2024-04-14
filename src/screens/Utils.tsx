@@ -15,6 +15,8 @@ import {storage} from '../services/firebaseConfig';
 import DocumentPicker from 'react-native-document-picker';
 import RNFS, {copyFile} from 'react-native-fs';
 import {decode} from 'base-64';
+import {useState} from 'react';
+import RNFetchBlob from 'rn-fetch-blob';
 
 if (typeof atob === 'undefined') {
   global.atob = decode;
@@ -39,13 +41,54 @@ export async function handleImage() {
     Alert.alert('Error:', result.errorMessage);
   } else {
     if (!result.didCancel && result.assets && result.assets.length > 0) {
+      const uri: string = result.assets[0]?.uri || '0';
+      const base64Document = await RNFS.readFile(uri, 'base64');
+
       const data: any = {
-        uri: result.assets[0].uri,
+        uri: base64Document,
         fileName: result.assets[0].fileName,
       };
+
       return data;
     }
   }
+}
+
+export async function handleDocument() {
+  try {
+    const document = await DocumentPicker.pick({
+      type: [DocumentPicker.types.pdf],
+    });
+
+    const url = await RNFetchBlob.fs
+      .readFile(document[0].uri, 'base64')
+      .then(data => {
+        return data;
+      })
+      .catch(err => {
+        console.log('Erro ao converter a url para base64 ' + err);
+      });
+
+    const data: any = {
+      uri: url,
+      fileName: document[0].name,
+    };
+
+    return data;
+  } catch (error) {
+    if (DocumentPicker.isCancel(error)) {
+      console.log('Usuário cancelou a escolha do documento');
+    } else {
+      console.log('Erro ao escolher o documento' + error);
+    }
+  }
+}
+
+export async function parseInteiro(input: any | undefined) {
+  if (input === undefined) {
+    return 'error';
+  }
+  return parseInt(input);
 }
 
 export async function uploadImage(uri: any, path: any) {
@@ -71,28 +114,4 @@ export async function findByNameImage(name: any) {
     console.log(url);
   });
   return url;
-}
-
-export async function parseInteiro(input: any | undefined) {
-  if (input === undefined) {
-    return 'error';
-  }
-  return parseInt(input);
-}
-
-export async function handleDocument() {
-  try {
-    const document = await DocumentPicker.pick({
-      type: [DocumentPicker.types.pdf],
-    });
-    const base64Document = await RNFS.readFile(document[0].uri, 'base64');
-    console.log(base64Document);
-    return base64Document;
-  } catch (error) {
-    if (DocumentPicker.isCancel(error)) {
-      console.log('User cancelled the picker');
-    } else {
-      console.log(error);
-    }
-  }
 }

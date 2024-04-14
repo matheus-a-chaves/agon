@@ -18,6 +18,7 @@ export function UploadFileScreen() {
   const navigation = useNavigation();
   const {setCampeonatoBody} = useCampeonato();
   const [nomeImage, setNomeImage] = useState('Imagem de perfil');
+  const [nomeDocumento, setNomeDocumento] = useState('Regulamento pdf');
 
   useEffect(() => {}, []);
 
@@ -28,9 +29,9 @@ export function UploadFileScreen() {
   };
 
   const handlePdfCampeonato = async () => {
-    const document = await handleDocument();
-    setCampeonatoBody({regulamento: document});
-    console.log('DOCUMENTO' + document);
+    const {uri, fileName} = await handleDocument();
+    setCampeonatoBody({regulamento: uri});
+    setNomeDocumento(fileName);
   };
 
   return (
@@ -50,7 +51,7 @@ export function UploadFileScreen() {
         </UploadCampo>
 
         <UploadCampo>
-          <Text>Regulamento pdf</Text>
+          <Text>{nomeDocumento}</Text>
           <ButtonAdd onPress={() => handlePdfCampeonato()}>
             <Icon source={icon} />
           </ButtonAdd>
