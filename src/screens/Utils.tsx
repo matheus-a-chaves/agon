@@ -115,3 +115,7 @@ export async function findByNameImage(name: any) {
   });
   return url;
 }
+
+export function formatDate(date: any): string {
+  return date.toISOString().split('T')[0];
+}

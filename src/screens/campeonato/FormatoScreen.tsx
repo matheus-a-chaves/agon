@@ -71,6 +71,7 @@ export function FormatoScreen() {
       imagem: campeonatoData?.imagem,
       dataInicio: data.dataInicio,
       dataFim: data.dataFim,
+      regulamento: campeonatoData?.regulamento,
     };
     cadastrar(campeonato);
   }

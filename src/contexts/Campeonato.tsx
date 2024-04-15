@@ -9,6 +9,8 @@ export interface CampeonatoBody {
   modalidade?: number;
   imagem?: string;
   regulamento?: string;
+  dataInicio?: Date;
+  dataFim?: Date;
 }
 
 interface CampeonatoContextData {
@@ -30,9 +32,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 }) => {
   const [campeonatoData, setCampeonato] = useState<Partial<CampeonatoBody>>();
 
-  useEffect(() => {
-    console.log('campeonatoData', campeonatoData);
-  }, [campeonatoData]);
+  useEffect(() => {}, [campeonatoData]);
 
   function setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>) {
     setCampeonato(prevCampeonatoData => ({
