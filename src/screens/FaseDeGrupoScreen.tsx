@@ -4,8 +4,6 @@ import Orientation from 'react-native-orientation-locker';
 import {useAuth} from '../contexts/Auth';
 import LinearGradient from 'react-native-linear-gradient';
 import {TextHeader} from '../styles/MatamataScreenCss';
-import {ConfrontoComponent} from '../components/ConfrontoComponent';
-import {Text} from 'react-native';
 import {TabelaGruposComponent} from '../components/TabelaGruposComponent';
 import {Container} from '../styles/FaseDeGrupoScreenCss';
 

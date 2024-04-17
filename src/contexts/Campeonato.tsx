@@ -1,12 +1,16 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
-import {Campeonato} from '../interfaces/campeonatoModel';
+import {CampeonatoService} from '../services/campeonato.service';
 
 export interface CampeonatoBody {
   nome?: string;
   quantidadeEquipes?: number;
-  formato?: any;
-  modalidade?: any;
+  formato?: number;
+  modalidade?: number;
+  imagem?: string;
+  regulamento?: string;
+  dataInicio?: Date;
+  dataFim?: Date;
 }
 
 interface CampeonatoContextData {
@@ -28,9 +32,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 }) => {
   const [campeonatoData, setCampeonato] = useState<Partial<CampeonatoBody>>();
 
-  useEffect(() => {
-    console.log('campeonatoData', campeonatoData);
-  }, [campeonatoData]);
+  useEffect(() => {}, [campeonatoData]);
 
   function setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>) {
     setCampeonato(prevCampeonatoData => ({
@@ -52,7 +54,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 
   function cadastrar(campeonato: any) {
     try {
-      console.log('cadastro', campeonato);
+      CampeonatoService.cadastro(campeonato);
     } catch (error: any) {
       Alert.alert('404');
       return error;
