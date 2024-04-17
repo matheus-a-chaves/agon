@@ -10,7 +10,7 @@ import {
   Icon,
 } from '../../styles/campeonato/CadastroCss';
 import NovoCampeonato from '../../components/NovoCampeonato';
-import {handleImage, upload} from '../Utils';
+import {handleDocument, handleImage, upload} from '../Utils';
 import {useCampeonato} from '../../contexts/Campeonato';
 
 export function UploadFileScreen() {
@@ -18,13 +18,20 @@ export function UploadFileScreen() {
   const navigation = useNavigation();
   const {setCampeonatoBody} = useCampeonato();
   const [nomeImage, setNomeImage] = useState('Imagem de perfil');
+  const [nomeDocumento, setNomeDocumento] = useState('Regulamento pdf');
 
   useEffect(() => {}, []);
 
   const handleImageCampeonato = async () => {
     const {uri, fileName} = await handleImage();
     setNomeImage(fileName);
-    setCampeonatoBody({urlImage: uri});
+    setCampeonatoBody({imagem: uri});
+  };
+
+  const handlePdfCampeonato = async () => {
+    const {uri, fileName} = await handleDocument();
+    setCampeonatoBody({regulamento: uri});
+    setNomeDocumento(fileName);
   };
 
   return (
@@ -44,8 +51,8 @@ export function UploadFileScreen() {
         </UploadCampo>
 
         <UploadCampo>
-          <Text>Regulamento pdf</Text>
-          <ButtonAdd>
+          <Text>{nomeDocumento}</Text>
+          <ButtonAdd onPress={() => handlePdfCampeonato()}>
             <Icon source={icon} />
           </ButtonAdd>
         </UploadCampo>

@@ -50,7 +50,10 @@ export function NomeModalidadeScreen() {
   }, []);
 
   function handleConsole(data: FormData) {
-    setCampeonatoBody({nome: data.nomeCampeonato, modalidade: data.modalidade});
+    setCampeonatoBody({
+      nome: data.nomeCampeonato,
+      modalidade: parseInt(data.modalidade),
+    });
     navigation.navigate('Formato' as never);
   }
 

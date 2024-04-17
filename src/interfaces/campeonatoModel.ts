@@ -5,19 +5,21 @@ import { Partidas } from "./partidasInterface";
 interface CampeonatoInterface {
     nome?: string;
     dataInicio?: Date;
+    dataFim?: Date;
     quantidadeEquipes?: number;
     formato?: Formato;
     modalidade?: Modalidade;
-    imagem?: Uint8Array;
+    imagem?: string;
     regulamento?: Uint8Array;
     partidas?: Partidas;
 }
 
 export class Campeonato {
-    imagem?: Uint8Array;
+    imagem?: string;
     nome?: string;
     regulamento?: Uint8Array;
     dataInicio?: Date;
+    dataFim?: Date;
     quantidadeEquipes?: number;
     formato?: Formato;
     modalidade?: Modalidade;
@@ -26,6 +28,7 @@ export class Campeonato {
     constructor(campeonatoData: CampeonatoInterface) {
         this.nome = campeonatoData.nome;
         this.dataInicio = campeonatoData.dataInicio;
+        this.dataFim = campeonatoData.dataFim;
         this.quantidadeEquipes = campeonatoData.quantidadeEquipes;
         this.formato = campeonatoData.formato;
         this.modalidade = campeonatoData.modalidade;
@@ -34,11 +37,11 @@ export class Campeonato {
         this.partidas = campeonatoData.partidas;
     }
 
-    getImagem(): Uint8Array | undefined {
+    getImagem(): string | undefined {
         return this.imagem;
     }
 
-    setImagem(imagem: Uint8Array | undefined) {
+    setImagem(imagem: string | undefined) {
         this.imagem = imagem;
     }
 
@@ -64,6 +67,14 @@ export class Campeonato {
 
     setDataInicio(dataInicio: Date | undefined) {
         this.dataInicio = dataInicio;
+    }
+
+    getDataFim(): Date | undefined {
+        return this.dataFim;
+    }
+
+    setDataFim(dataFim: Date | undefined) {
+        this.dataFim = dataFim;
     }
 
     getQuantidadeEquipes(): number | undefined {
