@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {PerfilScreen} from '../screens/PerfilScreen';
 import {MatamataScreen} from '../screens/MatamataScreen';
-import {CadastroStack} from './CadastroStack';
+import {CampeonatoStack} from './CampeonatoStack';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -26,7 +26,7 @@ export function AppStack() {
       }}>
       <Tab.Screen
         name="Home"
-        component={CadastroStack}
+        component={CampeonatoStack}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({color}) => (
