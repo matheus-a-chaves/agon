@@ -1,111 +1,122 @@
-import { Formato } from "./formatoModel";
-import { Modalidade } from "./modalidadesInterface";
-import { Partidas } from "./partidasInterface";
+import {Formato} from './formatoModel';
+import {Modalidade} from './modalidadesInterface';
+import {Partidas} from './partidasInterface';
 
 interface CampeonatoInterface {
-    nome?: string;
-    dataInicio?: Date;
-    dataFim?: Date;
-    quantidadeEquipes?: number;
-    formato?: Formato;
-    modalidade?: Modalidade;
-    imagem?: string;
-    regulamento?: Uint8Array;
-    partidas?: Partidas;
+  id?: number;
+  nome?: string;
+  dataInicio?: Date;
+  dataFim?: Date;
+  quantidadeEquipes?: number;
+  formato?: Formato;
+  modalidade?: Modalidade;
+  imagem?: string;
+  regulamento?: Uint8Array;
+  partidas?: Partidas;
 }
 
 export class Campeonato {
-    imagem?: string;
-    nome?: string;
-    regulamento?: Uint8Array;
-    dataInicio?: Date;
-    dataFim?: Date;
-    quantidadeEquipes?: number;
-    formato?: Formato;
-    modalidade?: Modalidade;
-    partidas?: Partidas;
+  id?: number;
+  imagem?: string;
+  nome?: string;
+  regulamento?: Uint8Array;
+  dataInicio?: Date;
+  dataFim?: Date;
+  quantidadeEquipes?: number;
+  formato?: Formato;
+  modalidade?: Modalidade;
+  partidas?: Partidas;
 
-    constructor(campeonatoData: CampeonatoInterface) {
-        this.nome = campeonatoData.nome;
-        this.dataInicio = campeonatoData.dataInicio;
-        this.dataFim = campeonatoData.dataFim;
-        this.quantidadeEquipes = campeonatoData.quantidadeEquipes;
-        this.formato = campeonatoData.formato;
-        this.modalidade = campeonatoData.modalidade;
-        this.imagem = campeonatoData.imagem;
-        this.regulamento = campeonatoData.regulamento;
-        this.partidas = campeonatoData.partidas;
-    }
+  constructor(campeonatoData: CampeonatoInterface) {
+    this.id = campeonatoData.id;
+    this.nome = campeonatoData.nome;
+    this.dataInicio = campeonatoData.dataInicio;
+    this.dataFim = campeonatoData.dataFim;
+    this.quantidadeEquipes = campeonatoData.quantidadeEquipes;
+    this.formato = campeonatoData.formato;
+    this.modalidade = campeonatoData.modalidade;
+    this.imagem = campeonatoData.imagem;
+    this.regulamento = campeonatoData.regulamento;
+    this.partidas = campeonatoData.partidas;
+  }
 
-    getImagem(): string | undefined {
-        return this.imagem;
-    }
+  getImagem(): string | undefined {
+    return this.imagem;
+  }
 
-    setImagem(imagem: string | undefined) {
-        this.imagem = imagem;
-    }
+  setImagem(imagem: string | undefined) {
+    this.imagem = imagem;
+  }
 
-    getNome(): string | undefined {
-        return this.nome;
-    }
+  getId(): number | undefined {
+    return this.id;
+  }
 
-    setNome(nome: string | undefined) {
-        this.nome = nome;
-    }
+  setId(id: number | undefined) {
+    this.id = id;
+  }
 
-    getRegulamento(): Uint8Array | undefined {
-        return this.regulamento;
-    }
+  getNome(): string | undefined {
+    return this.nome;
+  }
 
-    setRegulamento(regulamento: Uint8Array | undefined) {
-        this.regulamento = regulamento;
-    }
+  setNome(nome: string | undefined) {
+    this.nome = nome;
+  }
 
-    getDataInicio(): Date | undefined {
-        return this.dataInicio;
-    }
+  getRegulamento(): Uint8Array | undefined {
+    return this.regulamento;
+  }
 
-    setDataInicio(dataInicio: Date | undefined) {
-        this.dataInicio = dataInicio;
-    }
+  setRegulamento(regulamento: Uint8Array | undefined) {
+    this.regulamento = regulamento;
+  }
 
-    getDataFim(): Date | undefined {
-        return this.dataFim;
-    }
+  getDataInicio(): Date | undefined {
+    return this.dataInicio;
+  }
 
-    setDataFim(dataFim: Date | undefined) {
-        this.dataFim = dataFim;
-    }
+  setDataInicio(dataInicio: Date | undefined) {
+    this.dataInicio = dataInicio;
+  }
 
-    getQuantidadeEquipes(): number | undefined {
-        return this.quantidadeEquipes;
-    }
+  getDataFim(): Date | undefined {
+    return this.dataFim;
+  }
 
-    setQuantidadeEquipes(quantidadeEquipes: number | undefined) {
-        this.quantidadeEquipes = quantidadeEquipes;
-    }
+  setDataFim(dataFim: Date | undefined) {
+    this.dataFim = dataFim;
+  }
 
-    getFormato(): Formato | undefined {
-        return this.formato;
-    }
+  getQuantidadeEquipes(): number | undefined {
+    return this.quantidadeEquipes;
+  }
 
-    setFormato(formato: Formato | undefined) {
-        this.formato = formato;
-    }
+  setQuantidadeEquipes(quantidadeEquipes: number | undefined) {
+    this.quantidadeEquipes = quantidadeEquipes;
+  }
 
-    getModalidade(): Modalidade | undefined {
-        return this.modalidade;
-    }
+  getFormato(): Formato | undefined {
+    return this.formato;
+  }
 
-    setModalidade(modalidade: Modalidade | undefined) {
-        this.modalidade = modalidade;
-    }
+  setFormato(formato: Formato | undefined) {
+    this.formato = formato;
+  }
 
-    getPartidas(): Partidas | undefined {
-        return this.partidas;
-    }
+  getModalidade(): Modalidade | undefined {
+    return this.modalidade;
+  }
 
-    setPartidas(partidas: Partidas | undefined) {
-        this.partidas = partidas;
-    }
+  setModalidade(modalidade: Modalidade | undefined) {
+    this.modalidade = modalidade;
+  }
+
+  getPartidas(): Partidas | undefined {
+    return this.partidas;
+  }
+
+  setPartidas(partidas: Partidas | undefined) {
+    this.partidas = partidas;
+  }
 }
