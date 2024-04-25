@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import {CampeonatoService} from '../services/campeonato.service';
+import {Campeonato} from '../interfaces/campeonatoModel';
 
 export interface CampeonatoBody {
   nome?: string;
@@ -13,10 +14,19 @@ export interface CampeonatoBody {
   dataFim?: Date;
 }
 
+export interface CampeonatoList {
+  id: string;
+  nome: string;
+  imagem: string;
+  dataInicio: string;
+}
+
 interface CampeonatoContextData {
   campeonatoData?: CampeonatoBody;
   cadastrar(campeonato: any): void;
   setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>): void;
+  buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]>;
+  buscarCampeonatosExternos(id: any): Promise<CampeonatoList[]>;
 }
 
 interface CampeonatoProviderProps {
@@ -41,17 +51,6 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
     }));
   }
 
-  return (
-    <CampeonatoContext.Provider
-      value={{
-        campeonatoData,
-        setCampeonatoBody,
-        cadastrar,
-      }}>
-      {children}
-    </CampeonatoContext.Provider>
-  );
-
   function cadastrar(campeonato: any) {
     try {
       CampeonatoService.cadastro(campeonato);
@@ -60,6 +59,37 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
       return error;
     }
   }
+
+  function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
+    try {
+      return CampeonatoService.buscarCampeonatosInternos(id);
+    } catch (error: any) {
+      Alert.alert('404');
+      return error;
+    }
+  }
+
+  function buscarCampeonatosExternos(id: any): Promise<CampeonatoList[]> {
+    try {
+      return CampeonatoService.buscarCampeonatosExternos(id);
+    } catch (error: any) {
+      Alert.alert('404');
+      return error;
+    }
+  }
+
+  return (
+    <CampeonatoContext.Provider
+      value={{
+        campeonatoData,
+        setCampeonatoBody,
+        cadastrar,
+        buscarCampeonatosInternos,
+        buscarCampeonatosExternos,
+      }}>
+      {children}
+    </CampeonatoContext.Provider>
+  );
 };
 
 export function useCampeonato() {
