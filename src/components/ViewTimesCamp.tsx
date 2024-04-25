@@ -1,6 +1,5 @@
 import React from 'react';
-import {Box, HStack, Image, Text} from 'native-base';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Box, HStack, Image, Text } from 'native-base';
 
 interface ViewTimesCampProps {
   numero: number;
@@ -34,7 +33,7 @@ export function ViewTimesCamp(props: ViewTimesCampProps) {
             h="100%"
             w="100%"
             borderRadius={100}
-            source={{uri: props.imagem}}
+            source={{ uri: props.imagem }}
             alt="imagem do time"
           />
         </Box>

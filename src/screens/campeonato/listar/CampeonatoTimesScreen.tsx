@@ -15,7 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {CampeonatoList, useCampeonato} from '../../../contexts/Campeonato';
 import {ViewTimesCamp} from '../../../components/ViewTimesCamp';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView} from 'react-native';
 
 export function CampeonatoTimesScreen() {
   const navigation = useNavigation();
@@ -103,7 +103,6 @@ export function CampeonatoTimesScreen() {
           w={'100%'}
           data={campeonatos}
           renderItem={({item, index}) => {
-            let numero = index + 1;
             return (
               <Box
                 marginBottom={'10px'}
@@ -113,7 +112,7 @@ export function CampeonatoTimesScreen() {
                 <ViewTimesCamp
                   nome={item.nome}
                   imagem={upload}
-                  numero={numero}
+                  numero={index + 1}
                 />
               </Box>
             );
