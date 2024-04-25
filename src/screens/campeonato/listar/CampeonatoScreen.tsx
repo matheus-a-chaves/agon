@@ -5,11 +5,10 @@ import {upload} from '../../Utils';
 import {ViewCampeonato} from '../../../components/ViewCampeonato';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {set} from 'react-hook-form';
 import {CampeonatoList, useCampeonato} from '../../../contexts/Campeonato';
-import {Campeonato} from '../../../interfaces/campeonatoModel';
+import {SafeAreaView} from 'react-native';
 
-export function CampeonatoInternoScreen() {
+export function CampeonatoScreen() {
   const navigation = useNavigation();
   const [activeInterno, setActiveInterno] = useState('#051326');
   const [activeExterno, setActiveExterno] = useState('');
@@ -47,8 +46,12 @@ export function CampeonatoInternoScreen() {
     }
   };
 
+  const handleCampeonato = (id: any) => {
+    navigation.navigate('CampeonatosTimes', {id});
+  };
+
   return (
-    <Box>
+    <SafeAreaView style={{height: '80%'}}>
       <Box
         w="100%"
         h="110px"
@@ -56,7 +59,12 @@ export function CampeonatoInternoScreen() {
         marginBottom={'20px'}
         borderBottomRadius={'10px'}>
         <HStack justifyContent={'space-between'} padding={'10px'}>
-          <Ionicons name="arrow-back" size={30} color={'#fff'} />
+          <Ionicons
+            name="arrow-back"
+            size={30}
+            color={'#fff'}
+            onPress={() => navigation.goBack()}
+          />
           <Text color={'#fff'} fontWeight={'medium'} fontSize={18}>
             Campeonatos
           </Text>
@@ -89,17 +97,19 @@ export function CampeonatoInternoScreen() {
         <FlatList
           data={campeonatos}
           renderItem={({item}) => (
-            <Box marginBottom={'10px'}>
+            <Pressable
+              marginBottom={'10px'}
+              onPress={() => handleCampeonato(item.id)}>
               <ViewCampeonato
                 nome={item.nome}
                 imagem={upload}
                 dataInicio={item.dataInicio}
               />
-            </Box>
+            </Pressable>
           )}
           keyExtractor={item => item.id}
         />
       </VStack>
-    </Box>
+    </SafeAreaView>
   );
 }
