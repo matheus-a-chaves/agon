@@ -5,7 +5,6 @@ import { NomeModalidadeScreen } from '../screens/campeonato/NomeModalidadeScreen
 import { CampeonatoProvider } from '../contexts/Campeonato';
 import { FormatoScreen } from '../screens/campeonato/FormatoScreen';
 import { CampeonatoTimesScreen } from '../screens/campeonato/listar/CampeonatoTimesScreen';
-import { FaseDeGrupoScreen } from '../screens/campeonato/listar/FaseDeGrupoScreen';
 import { CampeonatoScreen } from '../screens/campeonato/listar/CampeonatoScreen';
 
 const Stack = createNativeStackNavigator();
