@@ -1,5 +1,6 @@
-import React, {createContext, useContext, useState} from 'react';
-import {teamService} from '../services/teamService';
+import React, { createContext, useContext, useState } from 'react';
+import { TeamService } from '../services/time.service';
+import { Equipe } from '../interfaces/equipeInterface';
 
 export interface TeamData {
   id: string;
@@ -12,30 +13,28 @@ interface TeamProviderProps {
 }
 
 interface TeamContextData {
-  teamData?: TeamData[];
-  findAllTeam: (idAtletica: string) => Promise<TeamData[]>;
+  teamData?: Equipe[];
+  findAllTeam: (idAtletica: string) => void;
 }
 
 export const TeamContext = createContext<TeamContextData>(
   {} as TeamContextData,
 );
 
-export const TeamProvider: React.FC<TeamProviderProps> = ({children}) => {
-  const [teamData, setTeamData] = useState<TeamData[]>([]);
+export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
+  const [teamData, setTeamData] = useState<Equipe[]>([]);
 
-  async function findAllTeam(idAtletica: string): Promise<TeamData[]> {
+  async function findAllTeam(idAtletica: string): Promise<void> {
     try {
-      const team = await teamService.findTeam(idAtletica);
-      console.log(team);
-      setTeamData(team);
-      return team;
+      const team = await TeamService.buscarTimes(idAtletica);
+      setTeamData(team)
     } catch (error: any) {
       return error;
     }
   }
 
   return (
-    <TeamContext.Provider value={{teamData, findAllTeam}}>
+    <TeamContext.Provider value={{ teamData, findAllTeam }}>
       {children}
     </TeamContext.Provider>
   );
