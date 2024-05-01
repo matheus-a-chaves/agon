@@ -5,4 +5,5 @@ export interface Equipe {
     imagem: Uint8Array
     modalidade: Modalidade
     atletica: number
+    usuario: string
 }

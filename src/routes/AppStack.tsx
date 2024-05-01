@@ -1,14 +1,12 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {PerfilScreen} from '../screens/PerfilScreen';
-import {MatamataScreen} from '../screens/MatamataScreen';
-import {CampeonatoStack} from './CampeonatoStack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { PerfilScreen } from '../screens/PerfilScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { CampeonatoStack } from './CampeonatoStack';
+import { HomeScreen } from '../screens/time/HomeScreen';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 export function AppStack() {
   return (
@@ -26,30 +24,30 @@ export function AppStack() {
       }}>
       <Tab.Screen
         name="Home"
-        component={CampeonatoStack}
+        component={HomeScreen}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <FontAwesome name="home" size={30} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="Chaveamento"
-        component={MatamataScreen}
-        options={{
+        name="Menu"
+        component={CampeonatoStack}
+        options={({ navigation }) => ({
           tabBarLabel: '',
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <Entypo name="circle-with-plus" size={36} color={color} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="Perfil"
         component={PerfilScreen}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <FontAwesome name="user-circle-o" size={30} color={color} />
           ),
         }}

@@ -1,11 +1,12 @@
 import React from 'react';
-import {Box, Image, Text} from 'native-base';
+import { Box, Image, Text } from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface ViewCampeonatoProps {
   nome: string;
   imagem: string;
-  dataInicio: string;
+  dataCriacao?: string;
+  dataInicio?: string;
 }
 
 export function ViewCampeonato(props: ViewCampeonatoProps) {
@@ -32,7 +33,7 @@ export function ViewCampeonato(props: ViewCampeonatoProps) {
             h="100%"
             w="100%"
             borderRadius={100}
-            source={{uri: props.imagem}}
+            source={{ uri: props.imagem }}
             alt="imagem do time"
           />
         </Box>
@@ -41,8 +42,14 @@ export function ViewCampeonato(props: ViewCampeonatoProps) {
         <Text fontSize={'14px'} fontWeight={'bold'} color={'#A3A3A3'}>
           {props.nome}
         </Text>
-        <Text color={'#A3A3A3'}>Organizador: Externo</Text>
-        <Text color={'#A3A3A3'}>Data de inicio: {props.dataInicio}</Text>
+        {props.dataCriacao === undefined ? (
+          <>
+            <Text color={'#A3A3A3'}>Organizador: Externo</Text>
+            <Text color={'#A3A3A3'}>Data de inicio: {props.dataInicio}</Text>
+          </>
+        ) : (
+          <Text color={'#A3A3A3'}>Data de criação: {props.dataCriacao}</Text>
+        )}
       </Box>
       <Box>
         <MaterialIcons name="navigate-next" size={36} color={'#7ED957'} />
