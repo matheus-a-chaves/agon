@@ -13,19 +13,18 @@ export function HomeScreen() {
   const navigation = useNavigation();
   const [times, setTimes] = useState<any[]>([]);
 
+  async function fetchTeams() {
+    const idAtletica = '1';
+    const team = await TeamService.buscarTimes(idAtletica);
+    setTimes(team);
+  };
   useEffect(() => {
-
-    async function fetchTeams() {
-      const idAtletica = '1';
-      const team = await TeamService.buscarTimes(idAtletica);
-      setTimes(team);
-    };
     fetchTeams();
-
-  }, []);
+  }, [fetchTeams]);
 
 
   const handleTime = (id: string) => {
+    navigation.navigate('NovaEquipe' as never);
     console.log(id);
   };
 

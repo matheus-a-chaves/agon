@@ -1,15 +1,15 @@
-import {Box, IButtonProps, Text, Image, Spacer} from 'native-base';
+import { Box, IButtonProps, Text, Image, Spacer } from 'native-base';
 
 type Props = IButtonProps & {
   title: string;
   image: {
-    url: string;
+    url: any;
     size: number;
   };
   descricao: string;
 };
 
-export function NovoCampeonato({title, image, descricao, height}: Props) {
+export function NovoCampeonato({ title, image, descricao, height }: Props) {
   return (
     <Box
       w={'full'}
@@ -29,7 +29,7 @@ export function NovoCampeonato({title, image, descricao, height}: Props) {
       <Image
         w={'full'}
         h={image.size}
-        source={{uri: image.url}}
+        source={image.url}
         alt="Descrição da imagem"
       />
       <Text

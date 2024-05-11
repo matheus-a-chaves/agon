@@ -1,20 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {yupResolver} from '@hookform/resolvers/yup';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {Container, Form} from '../../styles/campeonato/CadastroCss';
-import {Button} from '../../components/Button';
-import {useForm, Controller} from 'react-hook-form';
+import { Container, Form } from '../../styles/campeonato/CadastroCss';
+import { Button } from '../../components/Button';
+import { useForm, Controller } from 'react-hook-form';
 import NovoCampeonato from '../../components/NovoCampeonato';
-import {faq} from '../Utils';
-import {useCampeonato} from '../../contexts/Campeonato';
-import {Select} from '../../components/Select';
-import {Contador} from '../../components/Contador';
-import {Formato} from '../../interfaces/formatoModel';
-import {FormatoService} from '../../services/formato.service';
-import {Input} from '../../components/Input';
-import {DatePicker} from '../../components/DatePicker';
-import {Box} from 'native-base';
+import { useCampeonato } from '../../contexts/Campeonato';
+import { Select } from '../../components/Select';
+import { Contador } from '../../components/Contador';
+import { Formato } from '../../interfaces/formatoModel';
+import { FormatoService } from '../../services/formato.service';
+import { DatePicker } from '../../components/DatePicker';
+import { Box } from 'native-base';
 
 type FormData = {
   formato: string;
@@ -37,13 +35,15 @@ const CadastroSchema = yup.object().shape({
 });
 
 export function FormatoScreen() {
+  const faq = require('../../assets/img/campeonato/basketball.png');
+
   const {
     control,
     handleSubmit,
-    formState: {errors},
-  } = useForm<FormData>({resolver: yupResolver(CadastroSchema)});
+    formState: { errors },
+  } = useForm<FormData>({ resolver: yupResolver(CadastroSchema) });
 
-  const {cadastrar, campeonatoData} = useCampeonato();
+  const { cadastrar, campeonatoData } = useCampeonato();
   const [formatos, setFormatos] = useState<Formato[]>([]);
   const [dataInicio, setDataInicio] = useState('');
   const [quantidade, setQuantidade] = useState(0);
@@ -74,12 +74,13 @@ export function FormatoScreen() {
       regulamento: campeonatoData?.regulamento,
     };
     cadastrar(campeonato);
+    navigation.navigate('CampeonatosTimes' as never);
   }
   return (
     <Container>
       <NovoCampeonato
         title="Novo Campeonato"
-        image={{url: faq, size: 200}}
+        image={{ url: faq, size: 200 }}
         descricao="Escolha um nome para o campeonato e selecione a modalidade"
         height={383}
       />
@@ -87,7 +88,7 @@ export function FormatoScreen() {
         <Controller
           control={control}
           name="formato"
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Select
               placeholder="Formato do campeonato"
               lista={formatos}
@@ -104,7 +105,7 @@ export function FormatoScreen() {
           <Controller
             control={control}
             name="dataInicio"
-            render={({field: {onChange}}) => (
+            render={({ field: { onChange } }) => (
               <DatePicker
                 title={'Previsão de início'}
                 defaultValue={new Date()}
@@ -119,7 +120,7 @@ export function FormatoScreen() {
           <Controller
             control={control}
             name="dataFim"
-            render={({field: {onChange}}) => (
+            render={({ field: { onChange } }) => (
               <DatePicker
                 title={'Previsão de fim'}
                 defaultValue={dataInicio || new Date()}
@@ -134,7 +135,7 @@ export function FormatoScreen() {
         <Controller
           control={control}
           name="quantidade"
-          render={({field: {onChange}}) => (
+          render={({ field: { onChange } }) => (
             <Contador
               quantidade={quantidade}
               onChangeContador={(quantidade: number) => {

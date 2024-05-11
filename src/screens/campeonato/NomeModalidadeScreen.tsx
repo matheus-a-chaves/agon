@@ -1,17 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {yupResolver} from '@hookform/resolvers/yup';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {Container, Form} from '../../styles/campeonato/CadastroCss';
-import {Input} from '../../components/Input';
-import {Button} from '../../components/Button';
-import {useForm, Controller} from 'react-hook-form';
+import { Container, Form } from '../../styles/campeonato/CadastroCss';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
+import { useForm, Controller } from 'react-hook-form';
 import NovoCampeonato from '../../components/NovoCampeonato';
-import {bascket} from '../Utils';
-import {useCampeonato} from '../../contexts/Campeonato';
-import {Modalidade} from '../../interfaces/modalidadesInterface';
-import {Select} from '../../components/Select';
-import {ModalideService} from '../../services/modalidade.service';
+import { useCampeonato } from '../../contexts/Campeonato';
+import { Modalidade } from '../../interfaces/modalidadesInterface';
+import { Select } from '../../components/Select';
+import { ModalideService } from '../../services/modalidade.service';
 
 type FormData = {
   nomeCampeonato: string;
@@ -27,12 +26,14 @@ const CadastroSchema = yup.object().shape({
 });
 
 export function NomeModalidadeScreen() {
+  const bascket = require('../../assets/img/campeonato/basketball.png');
+
   const {
     control,
     handleSubmit,
-    formState: {errors},
-  } = useForm<FormData>({resolver: yupResolver(CadastroSchema)});
-  const {setCampeonatoBody} = useCampeonato();
+    formState: { errors },
+  } = useForm<FormData>({ resolver: yupResolver(CadastroSchema) });
+  const { setCampeonatoBody } = useCampeonato();
   const [modalidades, setModalidades] = useState<Modalidade[]>([]);
   const navigation = useNavigation();
 
@@ -54,6 +55,7 @@ export function NomeModalidadeScreen() {
       nome: data.nomeCampeonato,
       modalidade: parseInt(data.modalidade),
     });
+    console.log('formatos')
     navigation.navigate('Formato' as never);
   }
 
@@ -61,7 +63,7 @@ export function NomeModalidadeScreen() {
     <Container>
       <NovoCampeonato
         title="Novo Campeonato"
-        image={{url: bascket, size: 200}}
+        image={{ url: bascket, size: 200 }}
         descricao="Escolha um nome para o campeonato e selecione a modalidade"
         height={383}
       />
@@ -69,7 +71,7 @@ export function NomeModalidadeScreen() {
         <Controller
           control={control}
           name="nomeCampeonato"
-          render={({field: {onChange}}) => (
+          render={({ field: { onChange } }) => (
             <Input
               placeholder="Nome do Campeonato"
               onChangeText={onChange}
@@ -81,7 +83,7 @@ export function NomeModalidadeScreen() {
         <Controller
           control={control}
           name="modalidade"
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Select
               placeholder="Selecione a modalidade"
               lista={modalidades}
@@ -96,7 +98,4 @@ export function NomeModalidadeScreen() {
       </Form>
     </Container>
   );
-}
-function buscarModalidade() {
-  throw new Error('Function not implemented.');
 }

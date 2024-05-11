@@ -1,11 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { CadastroScreen } from '../screens/campeonato/CadastroScreen';
-import { NomeModalidadeScreen } from '../screens/campeonato/NomeModalidadeScreen';
-import { FormatoScreen } from '../screens/campeonato/FormatoScreen';
 import { HomeScreen } from '../screens/time/HomeScreen';
 import { FaseDeGrupoScreen } from '../screens/campeonato/listar/FaseDeGrupoScreen';
 import { TeamProvider } from '../contexts/Team';
+import { NovaEquipeScreen } from '../screens/time/NovaEquipeScreen';
 
 const Stack = createNativeStackNavigator();
 export function TimeStack() {
@@ -16,10 +14,8 @@ export function TimeStack() {
                     headerShown: false,
                 }}>
                 <Stack.Screen name="Time" component={HomeScreen} />
-                <Stack.Screen name="Upload" component={CadastroScreen} />
-                <Stack.Screen name="NomeModalidade" component={NomeModalidadeScreen} />
+                <Stack.Screen name="NovaEquipe" component={NovaEquipeScreen} />
                 <Stack.Screen name="FaseDeGrupos" component={FaseDeGrupoScreen} />
-                <Stack.Screen name="Formato" component={FormatoScreen} />
             </Stack.Navigator>
         </TeamProvider>
     );

@@ -15,6 +15,7 @@ interface TeamProviderProps {
 interface TeamContextData {
   teamData?: Equipe[];
   findAllTeam: (idAtletica: string) => void;
+  cadastrar(equipe: any): void;
 }
 
 export const TeamContext = createContext<TeamContextData>(
@@ -33,8 +34,16 @@ export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
     }
   }
 
+  async function cadastrar(equipe: any) {
+    try {
+      TeamService.cadastro(equipe);
+    } catch (error: any) {
+      return error;
+    }
+  }
+
   return (
-    <TeamContext.Provider value={{ teamData, findAllTeam }}>
+    <TeamContext.Provider value={{ teamData, findAllTeam, cadastrar }}>
       {children}
     </TeamContext.Provider>
   );

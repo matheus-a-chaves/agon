@@ -4,6 +4,24 @@ import { Equipe } from "../interfaces/equipeInterface";
 
 const URL = `${environment.URL}/times`;
 
+async function cadastro(equipe: Equipe) {
+    try {
+      const body = {
+        nome: equipe.nome,
+        imagem: equipe.imagem,
+        modalidade: {
+            codigoModalidade: equipe.modalidade,
+        },
+      };
+      console.log(body);
+      const response = await axios.post(URL, body);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+}
+
 async function buscarTimes(id:any): Promise<Equipe[]> {
     try {
         const response = await axios.get(URL);
@@ -21,4 +39,6 @@ async function buscarTimes(id:any): Promise<Equipe[]> {
     }
 }
 
-export const TeamService = {buscarTimes}
+
+
+export const TeamService = {buscarTimes, cadastro}

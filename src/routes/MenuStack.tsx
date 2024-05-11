@@ -3,21 +3,28 @@ import React from 'react';
 import { CadastroScreen } from '../screens/campeonato/CadastroScreen';
 import { NomeModalidadeScreen } from '../screens/campeonato/NomeModalidadeScreen';
 import { MenuAddScreen } from '../screens/MenuAddScreen';
+import { CampeonatoScreen } from '../screens/campeonato/listar/CampeonatoScreen';
+import { CampeonatoProvider } from '../contexts/Campeonato';
+import { CampeonatoStack } from './CampeonatoStack';
+import { TimeStack } from './TimeStack';
+
+
 
 const Stack = createNativeStackNavigator();
-function EmptyScreen() {
-    return null;
-}
+
+
 export function MenuStack() {
     return (
+
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
             }}>
-            <Stack.Screen name="MenuAdd" component={MenuAddScreen} />
-            <Stack.Screen name="NovoTime" component={MenuAddScreen} />
-            <Stack.Screen name="NovoCampeonato" component={CadastroScreen} />
-            <Stack.Screen name="NovoAmistoso" component={NomeModalidadeScreen} />
+            <Stack.Screen name="CampeonatoStack"
+                component={CampeonatoStack}
+                initialParams={{ screen: 'Upload' }} />
+            <Stack.Screen name="TimeStack" component={TimeStack} initialParams={{ screen: 'NovaEquipe' }} />
+            <Stack.Screen name="AmistosoStack" component={MenuAddScreen} />
         </Stack.Navigator>
     );
 }

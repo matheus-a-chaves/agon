@@ -32,29 +32,16 @@ async function cadastro(campeonato: Campeonato) {
 
 async function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
   try {
-    //const response = await axios.get(URL);
-    const response = {
-      data: [
-        {id: 1, imagem: upload, nome: 'Campeonato 1', date: '20-12-2023'},
-        {id: 2, imagem: upload, nome: 'Campeonato 2', date: '20-12-2023'},
-        {id: 3, imagem: upload, nome: 'Campeonato 3', date: '20-12-2023'},
-        {id: 4, imagem: upload, nome: 'Campeonato 1', date: '20-12-2023'},
-        {id: 5, imagem: upload, nome: 'Campeonato 2', date: '20-12-2023'},
-        {id: 6, imagem: upload, nome: 'Campeonato 3', date: '20-12-2023'},
-        {id: 7, imagem: upload, nome: 'Campeonato 1', date: '20-12-2023'},
-        {id: 8, imagem: upload, nome: 'Campeonato 2', date: '20-12-2023'},
-        {id: 9, imagem: upload, nome: 'Campeonato 3', date: '20-12-2023'},
-        {id: 10, imagem: upload, nome: 'Campeonato 1', date: '20-12-2023'},
-        {id: 11, imagem: upload, nome: 'Campeonato 2', date: '20-12-2023'},
-        {id: 12, imagem: upload, nome: 'Campeonato 3', date: '20-12-2023'},
-      ],
-    };
+    const idAtletica =1;
+    const idModalidade=2;
+    const response = await axios.get(`${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`);
+  
     const campeonatos: CampeonatoList[] = response.data.map((item: any) => {
       return {
         id: item.id,
         nome: item.nome,
         imagem: item.imagem,
-        dataInicio: item.date,
+        dataInicio: item.dataInicio,
       };
     });
     return campeonatos;

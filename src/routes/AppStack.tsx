@@ -5,6 +5,42 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { CampeonatoStack } from './CampeonatoStack';
 import { HomeScreen } from '../screens/time/HomeScreen';
+import { CadastroScreen } from '../screens/campeonato/CadastroScreen';
+import { TimeStack } from './TimeStack';
+import { UploadFileScreen } from '../screens/campeonato/UploadFileScreen';
+import { CampeonatoScreen } from '../screens/campeonato/listar/CampeonatoScreen';
+import { MenuStack } from './MenuStack';
+import { FormControl, Input, Modal, Text, Button, VStack } from 'native-base';
+import { MenuAddScreen } from '../screens/MenuAddScreen';
+
+function Example(props: any) {
+  const [modalVisible, setModalVisible] = React.useState(true);
+  return <>
+    <Modal isOpen={modalVisible}
+      onClose={() => setModalVisible(false)} avoidKeyboard
+      justifyContent="flex-end" bottom="4" size="lg">
+      <Modal.Content>
+        <Modal.CloseButton />
+        <Modal.Header>Forgot Password?</Modal.Header>
+        <Modal.Body>
+          Enter email address and we'll send a link to reset your password.
+          <FormControl mt="3">
+            <FormControl.Label>Email</FormControl.Label>
+            <Input />
+          </FormControl>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button flex="1" onPress={() => {
+            setModalVisible(false);
+          }}>
+            Proceed
+          </Button>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal>
+  </>;
+}
+
 
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +59,8 @@ export function AppStack() {
         tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Time"
+        component={TimeStack}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color }) => (
@@ -34,17 +70,22 @@ export function AppStack() {
       />
       <Tab.Screen
         name="Menu"
-        component={CampeonatoStack}
+        component={MenuStack}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+          },
+        }}
         options={({ navigation }) => ({
           tabBarLabel: '',
           tabBarIcon: ({ color }) => (
-            <Entypo name="circle-with-plus" size={36} color={color} />
+            <MenuAddScreen navigation={navigation} />
           ),
         })}
       />
       <Tab.Screen
         name="Perfil"
-        component={PerfilScreen}
+        component={CampeonatoStack}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color }) => (

@@ -15,8 +15,8 @@ export function CampeonatoStack() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Campeonatos" component={CampeonatoScreen} />
         <Stack.Screen name="Upload" component={CadastroScreen} />
+        <Stack.Screen name="Campeonatos" component={CampeonatoScreen} />
         <Stack.Screen name="NomeModalidade" component={NomeModalidadeScreen} />
         <Stack.Screen name="Formato" component={FormatoScreen} />
         <Stack.Screen

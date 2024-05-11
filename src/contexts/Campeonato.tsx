@@ -1,7 +1,6 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
-import {Alert} from 'react-native';
-import {CampeonatoService} from '../services/campeonato.service';
-import {Campeonato} from '../interfaces/campeonatoModel';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
+import { CampeonatoService } from '../services/campeonato.service';
 
 export interface CampeonatoBody {
   nome?: string;
@@ -42,7 +41,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 }) => {
   const [campeonatoData, setCampeonato] = useState<Partial<CampeonatoBody>>();
 
-  useEffect(() => {}, [campeonatoData]);
+  useEffect(() => { }, [campeonatoData]);
 
   function setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>) {
     setCampeonato(prevCampeonatoData => ({
