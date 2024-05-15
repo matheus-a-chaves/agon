@@ -20,7 +20,7 @@ export function HomeScreen() {
   };
   useEffect(() => {
     fetchTeams();
-  }, [fetchTeams]);
+  }, []);
 
 
   const handleTime = (id: string) => {

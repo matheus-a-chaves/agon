@@ -1,10 +1,7 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { Box, Button, Modal, Pressable, Text, VStack } from 'native-base';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Campeonato } from '../interfaces/campeonatoModel';
 import LinearGradient from 'react-native-linear-gradient';
-import { StyleSheet } from 'react-native';
 
 export function MenuAddScreen({ navigation }: any) {
     const [modalVisible, setModalVisible] = React.useState(false);
