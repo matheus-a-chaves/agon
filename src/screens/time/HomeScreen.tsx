@@ -24,7 +24,7 @@ export function HomeScreen() {
 
 
   const handleTime = (id: string) => {
-    navigation.navigate('NovaEquipe' as never);
+    navigation.navigate('JogadoresScreen' as never);
     console.log(id);
   };
 
