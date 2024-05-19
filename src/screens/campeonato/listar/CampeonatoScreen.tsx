@@ -1,20 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {Box, VStack, Text, HStack, Pressable, FlatList} from 'native-base';
-import {upload} from '../../Utils';
-import {ViewCampeonato} from '../../../components/ViewCampeonato';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { Box, VStack, Text, HStack, Pressable, FlatList } from 'native-base';
+import { upload } from '../../Utils';
+import { ViewCampeonato } from '../../../components/ViewCampeonato';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {CampeonatoList, useCampeonato} from '../../../contexts/Campeonato';
-import {SafeAreaView} from 'react-native';
+import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
+import { SafeAreaView } from 'react-native';
 
 export function CampeonatoScreen() {
   const navigation = useNavigation();
   const [activeInterno, setActiveInterno] = useState('#051326');
   const [activeExterno, setActiveExterno] = useState('');
   const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
-  const {buscarCampeonatosInternos, buscarCampeonatosExternos} =
-    useCampeonato();
+  const { buscarCampeonatosInternos, buscarCampeonatosExternos } = useCampeonato();
 
   useEffect(() => {
     campeonatoInterno();
@@ -24,9 +23,7 @@ export function CampeonatoScreen() {
     try {
       setActiveExterno('#051326');
       setActiveInterno('#004AAD');
-      const modalidadesData: CampeonatoList[] = await buscarCampeonatosExternos(
-        0,
-      );
+      const modalidadesData: CampeonatoList[] = await buscarCampeonatosExternos(0);
       setCampeonatos(modalidadesData);
     } catch (error) {
       console.error('Erro ao buscar modalidades:', error);
@@ -47,11 +44,11 @@ export function CampeonatoScreen() {
   };
 
   const handleCampeonato = (id: any) => {
-    navigation.navigate('CampeonatosTimes', {id});
+    navigation.navigate('CampeonatosTimes', { id });
   };
 
   return (
-    <SafeAreaView style={{height: '80%'}}>
+    <SafeAreaView style={{ height: '80%' }}>
       <Box
         w="100%"
         h="110px"
@@ -96,7 +93,7 @@ export function CampeonatoScreen() {
       <VStack alignItems={'center'}>
         <FlatList
           data={campeonatos}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <Pressable
               marginBottom={'10px'}
               onPress={() => handleCampeonato(item.id)}>

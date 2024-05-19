@@ -2,7 +2,8 @@ import { Modalidade } from "./modalidadesInterface"
 
 export interface Equipe {
     nome: string
-    imagem: Uint8Array
+    imagem: string
     modalidade: Modalidade
     atletica: number
+    usuario: string
 }

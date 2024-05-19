@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Box,
   VStack,
@@ -10,26 +10,26 @@ import {
   Menu,
   Pressable,
 } from 'native-base';
-import {upload} from '../../Utils';
+import { upload } from '../../Utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {CampeonatoList, useCampeonato} from '../../../contexts/Campeonato';
-import {ViewTimesCamp} from '../../../components/ViewTimesCamp';
-import {SafeAreaView} from 'react-native';
+import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
+import { ViewTimesCamp } from '../../../components/ViewTimesCamp';
+import { SafeAreaView } from 'react-native';
 
 export function CampeonatoTimesScreen() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const {id}: any = route.params;
+  //  const {id}: any = route.params;
 
   const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
-  const {buscarCampeonatosInternos, buscarCampeonatosExternos} =
+  const { buscarCampeonatosInternos, buscarCampeonatosExternos } =
     useCampeonato();
 
   useEffect(() => {
     campeonatoInterno();
-    console.log(id);
+    //  console.log(id);
   }, []);
 
   const campeonatoInterno = async () => {
@@ -44,7 +44,7 @@ export function CampeonatoTimesScreen() {
   };
 
   return (
-    <SafeAreaView style={{height: '100%', backgroundColor: '#004AAD'}}>
+    <SafeAreaView style={{ height: '100%', backgroundColor: '#004AAD' }}>
       <Box w="100%" h="215px" marginBottom={'20px'} borderBottomRadius={'10px'}>
         <HStack justifyContent={'space-between'} padding={'10px'}>
           <Ionicons
@@ -102,7 +102,7 @@ export function CampeonatoTimesScreen() {
         <FlatList
           w={'100%'}
           data={campeonatos}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             return (
               <Box
                 marginBottom={'10px'}

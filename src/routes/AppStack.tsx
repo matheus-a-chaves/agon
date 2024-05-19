@@ -1,14 +1,12 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {PerfilScreen} from '../screens/PerfilScreen';
-import {MatamataScreen} from '../screens/MatamataScreen';
-import {CampeonatoStack} from './CampeonatoStack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
+import { TimeStack } from './TimeStack';
+import { MenuStack } from './MenuStack';
+import { MenuAddScreen } from '../screens/MenuAddScreen';
+import { PerfilStack } from './PerfilStack';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 export function AppStack() {
   return (
@@ -25,31 +23,36 @@ export function AppStack() {
         tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
-        name="Home"
-        component={CampeonatoStack}
+        name="TimeStack"
+        component={TimeStack}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <FontAwesome name="home" size={30} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="Chaveamento"
-        component={MatamataScreen}
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: ({color}) => (
-            <Entypo name="circle-with-plus" size={36} color={color} />
-          ),
+        name="Menu"
+        component={MenuStack}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+          },
         }}
+        options={({ navigation }) => ({
+          tabBarLabel: '',
+          tabBarIcon: ({ color }) => (
+            <MenuAddScreen navigation={navigation} />
+          ),
+        })}
       />
       <Tab.Screen
-        name="Perfil"
-        component={PerfilScreen}
+        name="PerfilStack"
+        component={PerfilStack}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <FontAwesome name="user-circle-o" size={30} color={color} />
           ),
         }}
