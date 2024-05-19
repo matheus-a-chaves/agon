@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { HomeScreen } from '../screens/time/HomeScreen';
-import { FaseDeGrupoScreen } from '../screens/campeonato/listar/FaseDeGrupoScreen';
 import { TeamProvider } from '../contexts/Team';
 import { NovaEquipeScreen } from '../screens/time/NovaEquipeScreen';
+import { JogadoresScreen } from '../screens/time/JogadoresScreen';
 
 const Stack = createNativeStackNavigator();
 export function TimeStack() {
@@ -15,7 +15,7 @@ export function TimeStack() {
                 }}>
                 <Stack.Screen name="Time" component={HomeScreen} />
                 <Stack.Screen name="NovaEquipe" component={NovaEquipeScreen} />
-                <Stack.Screen name="FaseDeGrupos" component={FaseDeGrupoScreen} />
+                <Stack.Screen name="JogadoresScreen" component={JogadoresScreen} />
             </Stack.Navigator>
         </TeamProvider>
     );
