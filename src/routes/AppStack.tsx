@@ -23,7 +23,7 @@ export function AppStack() {
         tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
-        name="Time"
+        name="TimeStack"
         component={TimeStack}
         options={{
           tabBarLabel: '',

@@ -6,7 +6,7 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
-import { Box, FlatList, Pressable, Text, HStack, Avatar, Divider, VStack, ScrollView } from 'native-base';
+import { Box, FlatList, Pressable, Text, HStack, Avatar, Divider, VStack } from 'native-base';
 import Header from '../../components/Header';
 
 
@@ -15,8 +15,6 @@ export function JogadoresScreen() {
     const [jogadores, setjogadores] = useState<any[]>([]);
 
     async function fetchTeams() {
-        const idAtletica = '1';
-
         const players = [
             {
                 id: '1',
@@ -69,7 +67,6 @@ export function JogadoresScreen() {
 
     const handleTime = (id: string) => {
         navigation.navigate('NovaEquipe' as never);
-        console.log(id);
     };
 
 
