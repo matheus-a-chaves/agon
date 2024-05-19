@@ -69,11 +69,9 @@ export function JogadoresScreen() {
         navigation.navigate('NovaEquipe' as never);
     };
 
-
     return (
-
         <Box flex={1} bg={'rgba(0, 74, 173, 1)'}>
-            <SafeAreaView style={{ height: '70%' }}>
+            <SafeAreaView style={{ height: '72%' }}>
                 <Header titulo="Jogadores" />
                 <ImageBackground
                     source={require('../../assets/img/campeonato/basketball.png')}

@@ -1,7 +1,8 @@
 import React from 'react';
-import { HStack, Text, IconButton } from 'native-base';
+import { HStack, Text, IconButton, Box } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { MenuTimeScreen } from '../screens/time/MenuTimeScreen';
 
 const Header = (props: any) => {
     const navigation = useNavigation();
@@ -13,14 +14,18 @@ const Header = (props: any) => {
                 onPress={() => navigation.goBack()}
             />
             <HStack flex={'1'} justifyContent={'center'} alignItems="center" >
-                <Text color="white" fontWeight="medium" fontSize={18} textAlign={'end'}>{props.titulo}</Text>
+                <Text color="white" fontWeight="medium" fontSize={18} >{props.titulo}</Text>
             </HStack>
-            <IconButton
-                icon={<Ionicons name="menu" size={30} color="#fff" />}
-                onPress={() => navigation.goBack()}
-            />
+            <Box justifyContent={'center'}>
+                <MenuTimeScreen navigation={navigation} />
+            </Box>
         </HStack>
     );
+
+
+
+
+
 };
 
 export default Header;
