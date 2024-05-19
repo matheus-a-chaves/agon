@@ -4,6 +4,7 @@ import { HomeScreen } from '../screens/time/HomeScreen';
 import { TeamProvider } from '../contexts/Team';
 import { NovaEquipeScreen } from '../screens/time/NovaEquipeScreen';
 import { JogadoresScreen } from '../screens/time/JogadoresScreen';
+import AgendaScreen from '../screens/time/AgendaScreen';
 
 const Stack = createNativeStackNavigator();
 export function TimeStack() {
@@ -18,6 +19,7 @@ export function TimeStack() {
                 <Stack.Screen name="JogadoresScreen" component={JogadoresScreen} />
                 <Stack.Screen name="AmistosoTime" component={JogadoresScreen} />
                 <Stack.Screen name="CampeonatosTime" component={JogadoresScreen} />
+                <Stack.Screen name="AgendaTime" component={AgendaScreen} />
             </Stack.Navigator>
         </TeamProvider>
     );

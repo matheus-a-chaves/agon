@@ -22,7 +22,7 @@ export function MenuTimeScreen({ navigation }: any) {
                                 margin={'10px'}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate('');
+                                    navigation.navigate('AgendaTime');
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Agenda</Text>
                             </Button>
