@@ -16,6 +16,8 @@ export function TimeStack() {
                 <Stack.Screen name="Time" component={HomeScreen} />
                 <Stack.Screen name="NovaEquipe" component={NovaEquipeScreen} />
                 <Stack.Screen name="JogadoresScreen" component={JogadoresScreen} />
+                <Stack.Screen name="AmistosoTime" component={JogadoresScreen} />
+                <Stack.Screen name="CampeonatosTime" component={JogadoresScreen} />
             </Stack.Navigator>
         </TeamProvider>
     );
