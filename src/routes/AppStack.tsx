@@ -5,23 +5,28 @@ import { TimeStack } from './TimeStack';
 import { MenuStack } from './MenuStack';
 import { MenuAddScreen } from '../screens/MenuAddScreen';
 import { PerfilStack } from './PerfilStack';
+import { useAuth } from '../contexts/Auth';
 
 const Tab = createBottomTabNavigator();
 
 export function AppStack() {
+  const { getTabBarVisibility } = useAuth();
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ navigation, route }) => ({
+
         tabBarStyle: {
           height: 60,
           backgroundColor: '#004AAD',
           padding: 10,
+          display: getTabBarVisibility ? 'flex' : 'none',
         },
         tabBarActiveTintColor: '#83e2f6',
         tabBarInactiveTintColor: '#fff',
+
         headerShown: false,
         tabBarHideOnKeyboard: true,
-      }}>
+      })}>
       <Tab.Screen
         name="TimeStack"
         component={TimeStack}
