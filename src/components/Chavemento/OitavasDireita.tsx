@@ -32,7 +32,7 @@ const OitavasDireita: React.FC<OitavasDireitaProps> = ({ oitavasDireita }) => {
                 <Box background={'#FFF'} width={'100%'} h={'2px'} />
                 <Box background={'#FFF'} width={'100%'} h={'2px'} />
             </Box>
-            <Box flexDirection="column" justifyContent="space-around" >
+            <Box flexDirection="column" justifyContent="space-around">
                 <TeamsContainer teams={oitavasDireita} />
             </Box>
         </Box>

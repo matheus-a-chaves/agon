@@ -23,7 +23,6 @@ export function TimeStack() {
                 <Stack.Screen name="AmistosoTime" component={JogadoresScreen} />
                 <Stack.Screen name="CampeonatosTime" component={JogadoresScreen} />
                 <Stack.Screen name="AgendaTime" component={AgendaScreen} />
-
             </Stack.Navigator>
         </TeamProvider>
     );
