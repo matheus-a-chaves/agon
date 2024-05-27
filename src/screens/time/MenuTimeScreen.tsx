@@ -32,7 +32,7 @@ export function MenuTimeScreen({ navigation }: any) {
                                 margin={'10px'}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate('Menu', { screen: 'CampeonatoStack' })
+                                    navigation.navigate('AmistosoTime');
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Amistoso</Text>
                             </Button>
@@ -42,7 +42,7 @@ export function MenuTimeScreen({ navigation }: any) {
                                 margin={'10px'}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate('Menu', { screen: 'CampeonatoStack' })
+                                    navigation.navigate('CampeonatosTime')
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Campeonato</Text>
                             </Button>
