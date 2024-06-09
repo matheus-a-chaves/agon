@@ -12,27 +12,37 @@ import { TeamService } from '../../services/time.service';
 export function HomeScreen() {
   const navigation = useNavigation();
   const [times, setTimes] = useState<any[]>([]);
+  const [timeSearch, setTimeSearch] = useState<any[]>([]);
 
   async function fetchTeams() {
     const idAtletica = '1';
     const team = await TeamService.buscarTimes(idAtletica);
     setTimes(team);
+    setTimeSearch(team)
   };
   useEffect(() => {
     fetchTeams();
   }, []);
 
-
+  function searchTeam(value: string) {
+    const teamSerch = timeSearch.filter((team) => {
+      const nome = team.nome.toLowerCase();
+      return nome.includes(value.toLowerCase())
+    });
+    setTimes(teamSerch);
+  }
   const handleTime = (id: string) => {
     navigation.navigate('JogadoresScreen' as never);
-    console.log(id);
   };
 
 
   return (
     <Container>
       <InputView>
-        <TextInput placeholder="Pesquisar time..." />
+        <TextInput placeholder="Pesquisar time..."
+          onChangeText={
+            (value) =>
+              searchTeam(value)} />
         {/* <Image source={require('../../../assets/icons/search.png')} /> */}
       </InputView>
       <Box h="88%">

@@ -6,7 +6,7 @@ type Props = IButtonProps & {
     url: any;
     size: number;
   };
-  descricao: string;
+  descricao?: string;
 };
 
 export function NovoCampeonato({ title, image, descricao, height }: Props) {

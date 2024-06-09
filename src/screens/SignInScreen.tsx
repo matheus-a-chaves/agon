@@ -1,31 +1,33 @@
-import {View, Image, Pressable, KeyboardAvoidingView, Text} from 'react-native';
+import { View, Image, Pressable, KeyboardAvoidingView } from 'react-native';
 import {
-  Container,
   Form,
   StyledTextInput,
   StyledButton,
   StyledText,
   Title,
-  OtherInputs,
-  InputOptions,
-  SubTitle,
-  PressableRegister,
-  ViewRedes,
 } from '../styles/SignInScreenCss';
-
-import React, {useState} from 'react';
-import {useAuth} from '../contexts/Auth';
+import React, { useState } from 'react';
+import { useAuth } from '../contexts/Auth';
+import { Text, HStack, VStack } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 
 export function SignInScreen() {
-  const {signIn} = useAuth();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
+
   return (
-    <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-      <Container>
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1, backgroundColor: '#fff' }}>
+      <VStack
+        px={5}
+        justifyContent={'center'}
+        alignItems={'center'}
+        h={'80%'}>
+
         <View>
           <Image
-            style={{width: 240, height: 120}}
+            style={{ width: 240, height: 120 }}
             source={require('../assets/logo_login.png')}
           />
         </View>
@@ -47,29 +49,18 @@ export function SignInScreen() {
           <StyledButton onPress={() => signIn(email, password)}>
             <StyledText>entrar</StyledText>
           </StyledButton>
-        </Form>
-        <ViewRedes>
-          <SubTitle>- Entre também com -</SubTitle>
-          <OtherInputs>
-            <InputOptions>
-              <Image source={require('../assets/icons/google.png')} />
-            </InputOptions>
-            <InputOptions>
-              <Image source={require('../assets/icons/facebook.png')} />
-            </InputOptions>
-            <InputOptions>
-              <Image source={require('../assets/icons/twitter.png')} />
-            </InputOptions>
-          </OtherInputs>
-          <PressableRegister>
-            <SubTitle>- Não possui cadastro? Clique</SubTitle>
-            <Pressable>
-              <Text style={{fontSize: 16, color: '#004aad'}}> aqui </Text>
+
+          <HStack py={5} justifyContent={'center'}>
+            <Text>- Não possui cadastro? Clique</Text>
+            <Pressable onPress={() => {
+              navigation.navigate('AutoCadastro' as never);
+            }}>
+              <Text style={{ fontSize: 16, color: '#004aad' }}> aqui </Text>
             </Pressable>
-            <SubTitle>-</SubTitle>
-          </PressableRegister>
-        </ViewRedes>
-      </Container>
+            <Text>-</Text>
+          </HStack>
+        </Form>
+      </VStack>
     </KeyboardAvoidingView>
   );
 }

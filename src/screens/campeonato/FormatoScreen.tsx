@@ -108,6 +108,7 @@ export function FormatoScreen() {
             render={({ field: { onChange } }) => (
               <DatePicker
                 title={'Previsão de início'}
+                size={'48%'}
                 defaultValue={new Date()}
                 onDateChange={(value: any) => {
                   onChange(value);
@@ -123,6 +124,7 @@ export function FormatoScreen() {
             render={({ field: { onChange } }) => (
               <DatePicker
                 title={'Previsão de fim'}
+                size={'48%'}
                 defaultValue={dataInicio || new Date()}
                 onDateChange={(value: any) => {
                   onChange(value);

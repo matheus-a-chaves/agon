@@ -32,7 +32,7 @@ export function MenuAddScreen({ navigation }: any) {
                                 margin={'10px'}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate('Menu', { screen: 'CampeonatoStack' })
+                                    navigation.navigate('Menu', { screen: 'AmistosoStack' })
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}> Novo Amistoso</Text>
                             </Button>

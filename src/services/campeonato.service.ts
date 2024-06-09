@@ -1,8 +1,8 @@
-import {Campeonato} from '../interfaces/campeonatoModel';
+import { Campeonato } from '../interfaces/campeonatoModel';
 import axios from 'axios';
-import {formatDate, upload} from '../screens/Utils';
-import {environment} from '../../environment';
-import {CampeonatoList} from '../contexts/Campeonato';
+import { formatDate, upload } from '../screens/Utils';
+import { environment } from '../../environment';
+import { CampeonatoList } from '../contexts/Campeonato';
 
 const URL = `${environment.URL}/campeonatos`;
 
@@ -32,10 +32,12 @@ async function cadastro(campeonato: Campeonato) {
 
 async function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
   try {
-    const idAtletica =1;
-    const idModalidade=2;
+    const idAtletica = 1;
+    const idModalidade = 1;
+    const urlteste = `${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`
+    console.log(urlteste)
     const response = await axios.get(`${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`);
-  
+
     const campeonatos: CampeonatoList[] = response.data.map((item: any) => {
       return {
         id: item.id,
@@ -53,7 +55,7 @@ async function buscarCampeonatosExternos(id: any): Promise<CampeonatoList[]> {
   try {
     //const response = await axios.get(URL);
     const response = {
-      data: [{id: 1, imagem: upload, nome: 'Campeonato 1', date: '20-12-2023'}],
+      data: [{ id: 1, imagem: upload, nome: 'Campeonato 1', date: '20-12-2023' }],
     };
     const campeonatos: CampeonatoList[] = response.data.map((item: any) => {
       return {

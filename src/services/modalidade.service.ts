@@ -8,10 +8,10 @@ const URL = `${environment.URL}/modalidades`;
 async function buscarModalidade(): Promise<Modalidade[]> {
     try {
         const response = await axios.get(URL);
-        const modalidades:Modalidade[] = response.data.map((item:any )=> {
+        const modalidades: Modalidade[] = response.data.map((item: any) => {
             return {
-                id: item.codigoModalidade,
-                nome: item.descricaoModalidade
+                id: item.id,
+                nome: item.nome
             }
         });
         return modalidades;
@@ -21,4 +21,4 @@ async function buscarModalidade(): Promise<Modalidade[]> {
 }
 
 
-export const ModalideService = {buscarModalidade}
+export const ModalideService = { buscarModalidade }

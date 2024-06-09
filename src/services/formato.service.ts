@@ -8,10 +8,10 @@ const URL = `${environment.URL}/formatos`;
 async function buscarFormatos(): Promise<Formato[]> {
     try {
         const response = await axios.get(URL);
-        const formatos:Formato[] = response.data.map((item:any )=> {
+        const formatos: Formato[] = response.data.map((item: any) => {
             return {
-                id: item.codigoFormato,
-                nome: item.descricaoFormato
+                id: item.id,
+                nome: item.nome
             }
         });
         return formatos;
@@ -21,4 +21,4 @@ async function buscarFormatos(): Promise<Formato[]> {
 }
 
 
-export const FormatoService = {buscarFormatos}
+export const FormatoService = { buscarFormatos }

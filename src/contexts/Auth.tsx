@@ -1,7 +1,7 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {authService} from '../services/authService';
-import {Alert} from 'react-native';
+import { authService } from '../services/authService';
+import { Alert } from 'react-native';
 
 export interface AuthData {
   token: string;
@@ -13,6 +13,8 @@ interface AuthContextData {
   authData?: AuthData;
   signIn: (email: string, password: string) => Promise<AuthData>;
   signOut: () => Promise<void>;
+  setTabBarVisibility: (visibility: boolean) => void;
+  getTabBarVisibility: boolean;
 }
 
 interface AuthProviderProps {
@@ -23,8 +25,9 @@ export const AuthContext = createContext<AuthContextData>(
   {} as AuthContextData,
 );
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authData, setAuth] = useState<AuthData>();
+  const [getTabBarVisibility, setVisibility] = useState(true);
 
   useEffect(() => {
     loadFromStorage();
@@ -55,8 +58,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     setAuth(undefined);
     AsyncStorage.removeItem('@AuthData');
   }
+
+  async function setTabBarVisibility(visibility: boolean) {
+    setVisibility(visibility);
+  }
+
   return (
-    <AuthContext.Provider value={{authData, signIn, signOut}}>
+    <AuthContext.Provider value={{ authData, signIn, signOut, getTabBarVisibility, setTabBarVisibility }}>
       {children}
     </AuthContext.Provider>
   );
