@@ -43,7 +43,9 @@ export function PerfilScreen() {
         <ButtonCustom onPress={signOut} title='Editar conta'
           children={<MaterialCommunityIcons name={'account-circle-outline'} size={36} color={'#FFF'} />}
         />
-        <ButtonCustom onPress={signOut} title='Alterar senha'
+        <ButtonCustom onPress={() => {
+          navigation.navigate('AlterarSenha' as never)
+        }} title='Alterar senha'
           children={<SimpleLineIcons name={'lock'} size={36} color={'#FFF'} />} />
 
         <ButtonCustom onPress={signOut} title='Sair'
