@@ -70,8 +70,8 @@ export function CampeonatoTimesScreen() {
                   </Pressable>
                 );
               }}>
-              <Menu.Item>Iniciar</Menu.Item>
-              <Menu.Item>Informações</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Iniciar</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('PontosCampeonato' as never)}>Informações</Menu.Item>
               <Menu.Item>Regulamento</Menu.Item>
               <Menu.Item>Sair do campeonato</Menu.Item>
             </Menu>

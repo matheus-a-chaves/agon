@@ -12,11 +12,11 @@ export function MenuTimeScreen({ navigation }: any) {
                 justifyContent="center"
                 bottom="16"
             >
-                <Modal.Content width={"100%"} height={"40%"}>
+                <Modal.Content width={"100%"} height={"35%"}>
                     <LinearGradient
                         colors={['#004AAD', '#7ED957']}
                         style={{ width: '100%', height: '100%' }}>
-                        <Modal.Body h={'300px'}>
+                        <Modal.Body h={'270px'}>
                             <Button flex="1"
                                 bgColor={'#FFF'}
                                 margin={'10px'}
@@ -32,7 +32,7 @@ export function MenuTimeScreen({ navigation }: any) {
                                 margin={'10px'}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate('Menu', { screen: 'CampeonatoStack' })
+                                    navigation.navigate('AmistosoTime');
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Amistoso</Text>
                             </Button>
@@ -42,11 +42,11 @@ export function MenuTimeScreen({ navigation }: any) {
                                 margin={'10px'}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate('Menu', { screen: 'CampeonatoStack' })
+                                    navigation.navigate('CampeonatosStakTime', { screen: 'Campeonatos' })
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Campeonato</Text>
                             </Button>
-                            <Button
+                            {/* <Button
                                 flex="1"
                                 bgColor={'#FFF'}
                                 margin={'10px'}
@@ -55,7 +55,7 @@ export function MenuTimeScreen({ navigation }: any) {
                                     navigation.navigate('Menu', { screen: 'CampeonatoStack' })
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Gerenciar time</Text>
-                            </Button>
+                            </Button> */}
                         </Modal.Body>
                     </LinearGradient>
                 </Modal.Content>
