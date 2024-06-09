@@ -23,7 +23,7 @@ async function cadastro(equipe: Equipe) {
 
 async function buscarTimes(id: any): Promise<Equipe[]> {
     try {
-        const response = await axios.get(URL);
+        const response = await axios.get(URL + `/atletica/${id}`);
         const equipes: Equipe[] = response.data.map((item: any) => {
             return {
                 id: item.id,
