@@ -1,6 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Box, Pressable, FormControl, Text, IBoxProps} from 'native-base';
-import {useState} from 'react';
+import { Box, Pressable, FormControl, Text, IBoxProps } from 'native-base';
+import { useState } from 'react';
 import styled from 'styled-components/native';
 
 export const DatePicker = (props: any) => {
@@ -9,14 +9,23 @@ export const DatePicker = (props: any) => {
   const [month, setMonth] = useState(adicionaZero(new Date().getMonth() + 1)); //Para obter o mês
   const [year, setYear] = useState(new Date().getFullYear()); //Para obter o ano
 
-  const {onDateChange, errorMessage, isInvalid, title, defaultValue, disable} =
+  const {
+    onDateChange,
+    errorMessage,
+    isInvalid,
+    title,
+    defaultValue,
+    disable,
+    size,
+    placeholder
+  } =
     props;
 
   const invalid = !!errorMessage || isInvalid;
 
   const [show, setShow] = useState(false);
   const [data, setData] = useState(new Date());
-
+  const [textoData, setTextoData] = useState(placeholder);
   const onChange = (event: any, selectedDate: any) => {
     setData(new Date(selectedDate));
     setShow(false);
@@ -26,6 +35,7 @@ export const DatePicker = (props: any) => {
     setDay(adicionaZero(selectDatedate.getDate()));
     setMonth(adicionaZero(selectDatedate.getMonth() + 1));
     setYear(selectDatedate.getFullYear());
+    setTextoData(day + '/' + month + '/' + year);
   };
 
   const renderDatePicker = () => {
@@ -41,11 +51,12 @@ export const DatePicker = (props: any) => {
   };
 
   return (
-    <FormControl isInvalid={invalid} w={'48%'} isDisabled={disable}>
+    <FormControl isInvalid={invalid} w={size} isDisabled={disable}>
       <Box>
-        <Text color={'#A3A3A3'} fontFamily={'RobotoCondensed400'} pl={'2px'}>
-          {title}
-        </Text>
+        {title ?
+          <Text color={'#A3A3A3'} fontFamily={'RobotoCondensed400'} pl={'2px'}>
+            {title}
+          </Text> : null}
         <Box
           bgColor={'#FFFFFF'}
           h={'50px'}
@@ -62,7 +73,7 @@ export const DatePicker = (props: any) => {
               color={'#A3A3A3'}
               fontFamily={'RobotoCondensed400'}
               fontSize={'16px'}>
-              {day + '/' + month + '/' + year}
+              {textoData}
             </Text>
           </Box>
           <Pressable

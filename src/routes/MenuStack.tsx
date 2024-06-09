@@ -1,12 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { CadastroScreen } from '../screens/campeonato/CadastroScreen';
-import { NomeModalidadeScreen } from '../screens/campeonato/NomeModalidadeScreen';
-import { MenuAddScreen } from '../screens/MenuAddScreen';
-import { CampeonatoScreen } from '../screens/campeonato/listar/CampeonatoScreen';
-import { CampeonatoProvider } from '../contexts/Campeonato';
 import { CampeonatoStack } from './CampeonatoStack';
 import { TimeStack } from './TimeStack';
+import { AmistosoStack } from './AmistosoStack';
 
 
 
@@ -24,7 +20,7 @@ export function MenuStack() {
                 component={CampeonatoStack}
                 initialParams={{ screen: 'Upload' }} />
             <Stack.Screen name="TimeStack" component={TimeStack} initialParams={{ screen: 'NovaEquipe' }} />
-            <Stack.Screen name="AmistosoStack" component={MenuAddScreen} />
+            <Stack.Screen name="AmistosoStack" component={AmistosoStack} initialParams={{ screen: 'NovoAmistosoScreen' }} />
         </Stack.Navigator>
     );
 }

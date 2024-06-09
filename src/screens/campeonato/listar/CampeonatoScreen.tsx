@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
 import { SafeAreaView } from 'react-native';
+import { CampeonatoService } from '../../../services/campeonato.service';
 
 export function CampeonatoScreen() {
   const navigation = useNavigation();
@@ -26,7 +27,7 @@ export function CampeonatoScreen() {
       const modalidadesData: CampeonatoList[] = await buscarCampeonatosExternos(0);
       setCampeonatos(modalidadesData);
     } catch (error) {
-      console.error('Erro ao buscar modalidades:', error);
+      console.error('Erro ao buscar campeonatos externos:', error);
     }
   };
 
@@ -34,12 +35,12 @@ export function CampeonatoScreen() {
     try {
       setActiveInterno('#051326');
       setActiveExterno('#004AAD');
-      const modalidadesData: CampeonatoList[] = await buscarCampeonatosInternos(
-        0,
+      const modalidadesData: CampeonatoList[] = await CampeonatoService.buscarCampeonatosInternos(
+        1
       );
       setCampeonatos(modalidadesData);
     } catch (error) {
-      console.error('Erro ao buscar modalidades:', error);
+      console.error('Erro ao buscar campeonatos internos:', error);
     }
   };
 

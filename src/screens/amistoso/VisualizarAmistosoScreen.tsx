@@ -5,8 +5,10 @@ import Back from '../../components/Back';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { EditarAmistosoPopUp } from './EditarAmistosoPopUp';
+import { PopUpConfirm } from '../../components/PopUpConfirm';
+import { close } from 'fs';
 
 
 const games = [
@@ -109,10 +111,20 @@ const VisualizarAmistosoScreen = () => {
                                         >INFORMAÇÕES</Text>
                                     </Box>
                                     <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
-                                        <MaterialCommunityIcons name="delete" size={18} color="#FFF" />
+                                        <PopUpConfirm
+                                            title={'Deseja cancelar o amistoso?'}
+                                            botaoSecondaryText='Cancelar'
+                                            botaoPrimaryText='Voltar'
+                                            navigation={navigation}
+                                            botaoPrimaryAction={() => null}
+                                            botaoSecondaryAction={() => null}
+                                            icon={
+                                                <MaterialCommunityIcons name="delete" size={18} color="#FFF" />
+                                            } />
                                     </Box>
                                     <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
-                                        <MaterialIcons name="mode-edit" size={18} color="#FFF" />
+                                        <EditarAmistosoPopUp navigation={navigation} />
+
                                     </Box>
                                 </HStack>
                                 <HStack space={2} px={6} py={2}>

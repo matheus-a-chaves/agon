@@ -13,6 +13,7 @@ import OitavasDireita from './Chavemento/OitavasDireita';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import Orientation from 'react-native-orientation-locker';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -59,7 +60,10 @@ const Bracket: React.FC<BracketProps> = ({
                         <HStack w={'full'} >
                             <IconButton
                                 icon={<Ionicons name="arrow-back" size={26} color="#fff" />}
-                                onPress={() => navigation.goBack()}
+                                onPress={() => {
+                                    Orientation.unlockAllOrientations();
+                                    navigation.goBack()
+                                }}
                             />
                             <Box flex={1} justifyContent={'center'} alignItems={'center'}>
                                 <Text color="white" fontSize="xl" >Chaveamento</Text>
