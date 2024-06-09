@@ -6,9 +6,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useState } from 'react';
-import { Input } from '../components/Input';
-import Button from '../components/Button';
-import { useAuth } from '../contexts/Auth';
+import { Input } from '../../components/Input';
+import Button from '../../components/Button';
+import { useAuth } from '../../contexts/Auth';
 
 
 type FormData = {
@@ -68,7 +68,7 @@ export const AlterarSenhaScreen = () => {
                     <View>
                         <Image
                             style={{ width: 240, height: 120 }}
-                            source={require('../assets/logo_login.png')}
+                            source={require('../../assets/logo_login.png')}
                             alt={'Logo'}
                         />
                     </View>
