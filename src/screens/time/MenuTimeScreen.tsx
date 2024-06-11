@@ -24,7 +24,7 @@ export function MenuTimeScreen({ navigation }: any) {
                                     setModalVisible(false);
                                     navigation.navigate('AgendaTime');
                                 }}>
-                                <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Agenda</Text>
+                                <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Visualizar Agenda</Text>
                             </Button>
                             <Button
                                 flex="1"
@@ -34,7 +34,7 @@ export function MenuTimeScreen({ navigation }: any) {
                                     setModalVisible(false);
                                     navigation.navigate('AmistosoTime');
                                 }}>
-                                <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Amistoso</Text>
+                                <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Visualizar Amistosos</Text>
                             </Button>
                             <Button
                                 flex="1"
@@ -44,18 +44,8 @@ export function MenuTimeScreen({ navigation }: any) {
                                     setModalVisible(false);
                                     navigation.navigate('CampeonatosStakTime', { screen: 'Campeonatos' })
                                 }}>
-                                <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Campeonato</Text>
+                                <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Visualizar Campeonatos</Text>
                             </Button>
-                            {/* <Button
-                                flex="1"
-                                bgColor={'#FFF'}
-                                margin={'10px'}
-                                onPress={() => {
-                                    setModalVisible(false);
-                                    navigation.navigate('Menu', { screen: 'CampeonatoStack' })
-                                }}>
-                                <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Gerenciar time</Text>
-                            </Button> */}
                         </Modal.Body>
                     </LinearGradient>
                 </Modal.Content>

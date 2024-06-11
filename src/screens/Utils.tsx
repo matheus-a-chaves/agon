@@ -119,3 +119,18 @@ export async function findByNameImage(name: any) {
 export function formatDate(date: any): string {
   return date.toISOString().split('T')[0];
 }
+
+
+export const applyMask = (value: string): string => {
+  value = value.replace(/\D/g, '');
+  if (value.length <= 11) {
+    return value.replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  } else {
+    return value.replace(/(\d{2})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2');
+  }
+};
