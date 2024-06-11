@@ -19,6 +19,20 @@ async function adicionarJogador(id: number, cpf: number) {
     }
 }
 
+async function removerJogador(idJogador: number, idTime: number) {
+    try {
+        const body = {
+            idAtletica: idJogador,
+            idTime: idTime,
+        };
+        const response = await axios.post(URL, body);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 async function buscarJogadores(id: any): Promise<Jogador[]> {
     try {
         const response: any[] = [
@@ -68,5 +82,6 @@ async function buscarJogadores(id: any): Promise<Jogador[]> {
 
 export const JogadoresService = {
     adicionarJogador,
-    buscarJogadores
+    buscarJogadores,
+    removerJogador
 };

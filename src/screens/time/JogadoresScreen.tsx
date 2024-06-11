@@ -6,12 +6,10 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
-import { Box, FlatList, Pressable, Text, HStack, Avatar, Divider, VStack } from 'native-base';
+import { Box, FlatList, Pressable, Text, HStack, Avatar, Divider, VStack, Menu } from 'native-base';
 import Header from '../../components/Header';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { JogadoresService } from '../../services/jogadores.service';
 import { AdicionarJogadorPopUp } from './AdicionarJogadorPopUp';
-
 
 export interface Jogador {
     id: string;
@@ -19,12 +17,11 @@ export interface Jogador {
     imagem: string;
 }
 
-
 export function JogadoresScreen() {
     const navigation = useNavigation();
     const [jogadores, setjogadores] = useState<Jogador[]>([]);
 
-    async function fetchModalidades() {
+    async function fetchJogadores() {
         try {
             const jogadores = await JogadoresService.buscarJogadores(1);
             setjogadores(jogadores);
@@ -33,13 +30,21 @@ export function JogadoresScreen() {
         }
     }
     useEffect(() => {
-        fetchModalidades();
+        fetchJogadores();
     }, []);
 
 
     const handleTime = (id: string) => {
         navigation.navigate('NovaEquipe' as never);
     };
+
+    async function onRemovePlayer(id: string) {
+        try {
+            await JogadoresService.removerJogador(parseInt(id), 1);
+        } catch (error) {
+            console.error('Erro ao remover jogador:', error);
+        }
+    }
 
     return (
         <Box flex={1} bg={'rgba(0, 74, 173, 1)'}>
@@ -57,17 +62,35 @@ export function JogadoresScreen() {
                     <FlatList
                         data={jogadores}
                         renderItem={({ item }) => (
-                            <Pressable
-                                marginBottom={'10px'}
-                                onPress={() => console.log('item ' + item.id)}>
-                                <Box key={item.id}>
-                                    <HStack space={3} alignItems="center">
-                                        <Avatar source={require('../../assets/img/campeonato/basketball.png')} />
-                                        <Text fontSize="md">{item.name}</Text>
-                                    </HStack>
-                                    <Divider mt={2} />
-                                </Box>
-                            </Pressable>
+
+                            <Menu
+                                w="200px"
+                                marginRight={'25px'}
+                                bg={'#004AAD'}
+                                trigger={triggerProps => {
+                                    return (
+                                        <Pressable
+                                            marginBottom={'10px'}
+                                            accessibilityLabel="More options menu"
+                                            {...triggerProps}
+                                        >
+                                            <Box key={item.id}>
+                                                <HStack space={3} alignItems="center">
+                                                    <Avatar source={require('../../assets/img/campeonato/basketball.png')} />
+                                                    <Text fontSize="md">{item.name}</Text>
+                                                </HStack>
+                                                <Divider mt={2} />
+                                            </Box>
+                                        </Pressable>
+                                    );
+                                }}>
+                                <Menu.Item onPress={() => onRemovePlayer(item.id)}>
+                                    <Text fontSize={'14px'} color={'#fff'}>
+                                        Remover jogador
+                                    </Text>
+                                </Menu.Item>
+                            </Menu>
+
                         )}
                         keyExtractor={item => item.id}
                     />
