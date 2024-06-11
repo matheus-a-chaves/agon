@@ -107,8 +107,8 @@ export function NovoAmistosoScreen() {
                         name="data"
                         render={({ field: { onChange, value } }) => (
                             <DatePicker
-                                size={'48%'}
-                                placeholder="Selecione a modalidade"
+                                size={'60%'}
+                                placeholder="Data do amistoso"
                                 lista={modalidades}
                                 errorMessage={errors.modalidade?.message}
                                 onValueChange={onChange}
@@ -123,7 +123,7 @@ export function NovoAmistosoScreen() {
                         render={({ field: { onChange, value } }) => (
 
                             <Input
-                                widthForm={'48%'}
+                                widthForm={'36%'}
                                 placeholder="horario"
                                 errorMessage={errors.modalidade?.message}
                                 onChangeText={onChange}
@@ -145,7 +145,7 @@ export function NovoAmistosoScreen() {
                 />
 
 
-                <Button title={'PROXIMO'} onPress={handleSubmit(handleConsole)} />
+                <Button title={'CRIAR'} onPress={handleSubmit(handleConsole)} />
             </Form>
         </Container>
     );

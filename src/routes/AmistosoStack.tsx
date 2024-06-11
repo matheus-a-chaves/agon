@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { PerfilScreen } from '../screens/PerfilScreen';
 import VisualizarAmistosoScreen from '../screens/amistoso/VisualizarAmistosoScreen';
 import { NovoAmistosoScreen } from '../screens/amistoso/NovoAmistosoScreen';
+import { PerfilScreen } from '../screens/perfil/PerfilScreen';
 
 const Stack = createNativeStackNavigator();
 

@@ -1,12 +1,11 @@
-import React, { Children } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../contexts/Auth';
 import { Box, Image, Pressable, Text, HStack, Center, VStack } from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import LinearGradient from 'react-native-linear-gradient';
+import { useAuth } from '../../contexts/Auth';
 
 export function PerfilScreen() {
   const navigation = useNavigation();
@@ -20,7 +19,7 @@ export function PerfilScreen() {
             Perfil
           </Text>
           <Image
-            source={require('../assets/icons/user.png')}
+            source={require('../../assets/icons/user.png')}
             alt="user"
             size={'xl'}
             borderRadius={'full'}
@@ -37,8 +36,10 @@ export function PerfilScreen() {
         </Center>
       </VStack>
       <VStack margin={'10px'} space={2}>
-        <ButtonCustom onPress={signOut} title='Notificações'
-          children={<Ionicons name={'notifications-outline'} size={36} color={'#FFF'} />}
+        <ButtonCustom onPress={() => {
+          navigation.navigate('Solicitacoes' as never)
+        }} title='Solicitações'
+          children={<Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />}
         />
         <ButtonCustom onPress={signOut} title='Editar conta'
           children={<MaterialCommunityIcons name={'account-circle-outline'} size={36} color={'#FFF'} />}
