@@ -36,8 +36,10 @@ export function PerfilScreen() {
         </Center>
       </VStack>
       <VStack margin={'10px'} space={2}>
-        <ButtonCustom onPress={signOut} title='Notificações'
-          children={<Ionicons name={'notifications-outline'} size={36} color={'#FFF'} />}
+        <ButtonCustom onPress={() => {
+          navigation.navigate('Solicitacoes' as never)
+        }} title='Solicitações'
+          children={<Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />}
         />
         <ButtonCustom onPress={signOut} title='Editar conta'
           children={<MaterialCommunityIcons name={'account-circle-outline'} size={36} color={'#FFF'} />}

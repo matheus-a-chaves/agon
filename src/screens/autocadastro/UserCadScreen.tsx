@@ -102,7 +102,7 @@ export const UserCadScreen = () => {
                                 name="nomeCompleto"
                                 render={({ field: { onChange, value } }) => (
                                     <Input
-                                        placeholder="Nome do Campeonato"
+                                        placeholder="Nome do completo"
                                         onChangeText={onChange}
                                         value={value}
                                         errorMessage={errors.nomeCompleto?.message}
