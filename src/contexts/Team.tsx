@@ -36,7 +36,7 @@ export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
 
   async function cadastrar(equipe: any) {
     try {
-      TeamService.cadastro(equipe);
+      await TeamService.cadastro(equipe, '1');
     } catch (error: any) {
       return error;
     }

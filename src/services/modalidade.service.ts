@@ -20,5 +20,6 @@ async function buscarModalidade(): Promise<Modalidade[]> {
     }
 }
 
-
-export const ModalideService = { buscarModalidade }
+export const ModalideService = {
+    buscarModalidade
+}

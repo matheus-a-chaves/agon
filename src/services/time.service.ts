@@ -4,8 +4,11 @@ import { Equipe } from "../interfaces/equipeInterface";
 
 const URL = `${environment.URL}/times`;
 
-async function cadastro(equipe: Equipe) {
+async function cadastro(equipe: Equipe, idAtletica: string) {
     try {
+        const item = `${URL}/${idAtletica}`;
+        console.log(item);
+
         const body = {
             nome: equipe.nome,
             imagem: equipe.imagem,
@@ -13,7 +16,7 @@ async function cadastro(equipe: Equipe) {
                 id: equipe.modalidade,
             },
         };
-        const response = await axios.post(URL, body);
+        const response = await axios.post(`${URL}/${idAtletica}`, body);
         return response.data;
     } catch (error) {
         console.log(error);

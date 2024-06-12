@@ -6,11 +6,12 @@ import { MenuStack } from './MenuStack';
 import { MenuAddScreen } from '../screens/MenuAddScreen';
 import { PerfilStack } from './PerfilStack';
 import { useAuth } from '../contexts/Auth';
+import { environment } from '../../environment';
 
 const Tab = createBottomTabNavigator();
 
 export function AppStack() {
-  const { getTabBarVisibility } = useAuth();
+  const { getTabBarVisibility, authData } = useAuth();
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -37,21 +38,22 @@ export function AppStack() {
           ),
         }}
       />
-      <Tab.Screen
-        name="Menu"
-        component={MenuStack}
-        listeners={{
-          tabPress: (e) => {
-            e.preventDefault();
-          },
-        }}
-        options={({ navigation }) => ({
-          tabBarLabel: '',
-          tabBarIcon: ({ color }) => (
-            <MenuAddScreen navigation={navigation} />
-          ),
-        })}
-      />
+      {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+        <Tab.Screen
+          name="Menu"
+          component={MenuStack}
+          listeners={{
+            tabPress: (e) => {
+              e.preventDefault();
+            },
+          }}
+          options={({ navigation }) => ({
+            tabBarLabel: '',
+            tabBarIcon: ({ color }) => (
+              <MenuAddScreen navigation={navigation} />
+            ),
+          })}
+        />)}
       <Tab.Screen
         name="PerfilStack"
         component={PerfilStack}

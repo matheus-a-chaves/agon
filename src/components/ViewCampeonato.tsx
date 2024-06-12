@@ -19,9 +19,10 @@ export function ViewCampeonato(props: ViewCampeonatoProps) {
       borderRadius={'5px'}
       padding={'5px'}
       flexDirection={'row'}
-      borderWidth={2}
+      borderWidth={1}
       borderColor={'#A3A3A3'}
-      bgColor={'#FFF'}>
+      bgColor={'#FFF'}
+    >
       <Box w="54px" h="54px">
         <Box
           w="100%"
@@ -48,7 +49,7 @@ export function ViewCampeonato(props: ViewCampeonatoProps) {
             <Text color={'#A3A3A3'}>Data de inicio: {props.dataInicio}</Text>
           </>
         ) : (
-          <Text color={'#A3A3A3'}>Data de criação: {props.dataCriacao}</Text>
+          <Text color={'#A3A3A3'}>Modalidade - {props.dataCriacao}</Text>
         )}
       </Box>
       <Box>

@@ -33,7 +33,7 @@ export function UploadComponent({ nome, onPress, ...rest }: Props) {
                 borderRadius={5}
 
             >
-                <Image source={icon} />
+                <Image source={icon} alt={'icone de adicionar'} />
             </ButtonNativeBase>
         </HStack>
     );

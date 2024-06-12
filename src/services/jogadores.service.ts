@@ -60,6 +60,21 @@ async function buscarJogadores(id: any): Promise<Jogador[]> {
                 id: '5',
                 name: 'José Alencar',
                 avatarUrl: 'https://example.com/matheus.jpg',
+            },
+            {
+                id: '6',
+                name: 'José Alencar',
+                avatarUrl: 'https://example.com/matheus.jpg',
+            },
+            {
+                id: '7',
+                name: 'José Alencar',
+                avatarUrl: 'https://example.com/matheus.jpg',
+            },
+            {
+                id: '8',
+                name: 'ABC Alencar',
+                avatarUrl: 'https://example.com/matheus.jpg',
             }
         ];
 
