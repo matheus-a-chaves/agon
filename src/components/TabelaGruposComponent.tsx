@@ -1,66 +1,15 @@
 import React from 'react';
 import { Box, VStack, Text, HStack, extendTheme, NativeBaseProvider, Image, FlatList } from 'native-base';
-import { upload } from '../screens/Utils';
-
-
-const data = [
-  {
-    "id": '1',
-    "imagem": "caminho/para/imagem1.png",
-    "nome": "Equipe 1",
-    "pontos": "10",
-    "jogos": "5",
-    "vitorias": "3",
-    "empates": "1",
-    "derrotas": "1",
-    "saldoDeGols": "+5"
-  },
-  {
-    "id": '2',
-    "imagem": "caminho/para/imagem2.png",
-    "nome": "Equipe 2",
-    "pontos": "8",
-    "jogos": "5",
-    "vitorias": "2",
-    "empates": "2",
-    "derrotas": "1",
-    "saldoDeGols": "+3"
-  },
-  {
-    "id": '3',
-    "imagem": "caminho/para/imagem2.png",
-    "nome": "Equipe 2",
-    "pontos": "8",
-    "jogos": "5",
-    "vitorias": "2",
-    "empates": "2",
-    "derrotas": "1",
-    "saldoDeGols": "+3"
-  },
-  {
-    "id": '4',
-    "imagem": "caminho/para/imagem2.png",
-    "nome": "Equipe 2",
-    "pontos": "8",
-    "jogos": "5",
-    "vitorias": "2",
-    "empates": "2",
-    "derrotas": "1",
-    "saldoDeGols": "+3"
-  }
-];
-
+import { upload, equipe } from '../screens/Utils';
 
 interface FaseDeGrupos {
   nomeTime: string;
-  pontos: number;
-  colocacao: number;
-  saldoGols: number;
-  empates: number;
   grupo: string;
+  equipes: Equipes[];
 }
 
 interface Equipes {
+  id: string
   imagem: string,
   nome: string;
   pontos: string,
@@ -113,9 +62,9 @@ export function TabelaGruposComponent(props: FaseDeGrupos) {
         fontSize={'16px'}
         py={'10px'}
         fontFamily={'RobotoCondensed700'}>
-        Grupo {props.grupo}
+        Grupo  {props.grupo}
       </Text>
-      <VStack bgColor={'#FFF'} w={'340px'} h={'210px'} borderRadius={'5px'} paddingLeft={4} >
+      <VStack bgColor={'#FFF'} w={'340px'} h={'100%'} borderRadius={'5px'} paddingLeft={4}>
         <HStack paddingTop={4}>
           <Box w={'50%'}>
             <Text fontWeight={'bold'}>Equipes</Text>
@@ -137,11 +86,13 @@ export function TabelaGruposComponent(props: FaseDeGrupos) {
 
         <FlatList
           w={'100%'}
-          data={data}
+
+          data={props.equipes}
           renderItem={({ item, index }) => {
             return (
               <HStack w={'100%'} marginTop={'5px'}>
                 <Equipes
+                  id={item.id}
                   nome={item.nome}
                   imagem={upload}
                   pontos={item.pontos}
@@ -156,9 +107,6 @@ export function TabelaGruposComponent(props: FaseDeGrupos) {
           }}
           keyExtractor={item => item.id}
         />
-
-
-
       </VStack>
     </Box>
 

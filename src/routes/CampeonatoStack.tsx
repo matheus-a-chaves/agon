@@ -8,6 +8,7 @@ import { CampeonatoTimesScreen } from '../screens/campeonato/listar/CampeonatoTi
 import { CampeonatoScreen } from '../screens/campeonato/listar/CampeonatoScreen';
 import ChaveamentoScreen from '../screens/campeonato/ChaveamentoScreen';
 import { FaseDeGrupoScreen } from '../screens/campeonato/listar/FaseDeGrupoScreen';
+import { PontosCorridosScreen } from '../screens/campeonato/listar/PontosCorridosScreen';
 
 const Stack = createNativeStackNavigator();
 export function CampeonatoStack() {
@@ -23,7 +24,8 @@ export function CampeonatoStack() {
         <Stack.Screen name="Formato" component={FormatoScreen} />
         <Stack.Screen name="CampeonatosTimes" component={CampeonatoTimesScreen} />
         <Stack.Screen name="ChaveamentoCampeonato" component={ChaveamentoScreen} />
-        <Stack.Screen name="PontosCampeonato" component={FaseDeGrupoScreen} />
+        <Stack.Screen name="PontosCorridos" component={FaseDeGrupoScreen} />
+        <Stack.Screen name="FaseDeGrupos" component={PontosCorridosScreen} />
       </Stack.Navigator>
     </CampeonatoProvider>
   );

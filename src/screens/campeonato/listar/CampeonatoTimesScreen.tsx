@@ -71,9 +71,9 @@ export function CampeonatoTimesScreen() {
                 );
               }}>
               <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Iniciar</Menu.Item>
-              <Menu.Item onPress={() => navigation.navigate('PontosCampeonato' as never)}>Informações</Menu.Item>
-              <Menu.Item>Regulamento</Menu.Item>
-              <Menu.Item>Sair do campeonato</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('FaseDeGrupos' as never)}>Fase de grupos</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
             </Menu>
           </Box>
         </HStack>

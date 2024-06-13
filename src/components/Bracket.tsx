@@ -63,6 +63,7 @@ const Bracket: React.FC<BracketProps> = ({
                                 onPress={() => {
                                     Orientation.unlockAllOrientations();
                                     navigation.goBack()
+                                    setTabBarVisibility(true);
                                 }}
                             />
                             <Box flex={1} justifyContent={'center'} alignItems={'center'}>

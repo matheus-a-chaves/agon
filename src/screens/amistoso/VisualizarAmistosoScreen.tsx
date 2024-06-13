@@ -9,6 +9,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { EditarAmistosoPopUp } from './EditarAmistosoPopUp';
 import { PopUpConfirm } from '../../components/PopUpConfirm';
 import { close } from 'fs';
+import { useAuth } from '../../contexts/Auth';
+import { environment } from '../../../environment';
 
 
 const games = [
@@ -65,7 +67,7 @@ const games = [
 
 const VisualizarAmistosoScreen = () => {
     const navigation = useNavigation();
-
+    const { authData } = useAuth()
 
     const [openGameId, setOpenGameId] = useState(null);
 
@@ -110,22 +112,26 @@ const VisualizarAmistosoScreen = () => {
                                             color={'#333'}
                                         >INFORMAÇÕES</Text>
                                     </Box>
-                                    <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
-                                        <PopUpConfirm
-                                            title={'Deseja cancelar o amistoso?'}
-                                            botaoSecondaryText='Cancelar'
-                                            botaoPrimaryText='Voltar'
-                                            navigation={navigation}
-                                            botaoPrimaryAction={() => null}
-                                            botaoSecondaryAction={() => null}
-                                            icon={
-                                                <MaterialCommunityIcons name="delete" size={18} color="#FFF" />
-                                            } />
-                                    </Box>
-                                    <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
-                                        <EditarAmistosoPopUp navigation={navigation} />
+                                    {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+                                        <>
+                                            <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
+                                                <PopUpConfirm
+                                                    title={'Deseja cancelar o amistoso?'}
+                                                    botaoSecondaryText='Cancelar'
+                                                    botaoPrimaryText='Voltar'
+                                                    navigation={navigation}
+                                                    botaoPrimaryAction={() => null}
+                                                    botaoSecondaryAction={() => null}
+                                                    icon={
+                                                        <MaterialCommunityIcons name="delete" size={18} color="#FFF" />
+                                                    } />
+                                            </Box>
 
-                                    </Box>
+                                            <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
+                                                <EditarAmistosoPopUp navigation={navigation} />
+                                            </Box>
+                                        </>
+                                    )}
                                 </HStack>
                                 <HStack space={2} px={6} py={2}>
                                     <VStack space={2} alignItems={'center'}>

@@ -66,7 +66,7 @@ export function CampeonatoScreen() {
           <Text color={'#fff'} fontWeight={'medium'} fontSize={18}>
             Campeonatos
           </Text>
-          <Entypo name="plus" size={30} color={'#fff'} />
+          <Box w={30} />
         </HStack>
         <HStack justifyContent={'center'}>
           <Pressable

@@ -6,10 +6,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { useAuth } from '../../contexts/Auth';
+import { environment } from '../../../environment';
 
 export function PerfilScreen() {
   const navigation = useNavigation();
-  const { signOut } = useAuth();
+  const { signOut, authData } = useAuth();
 
   return (
     <Box>
@@ -36,11 +37,13 @@ export function PerfilScreen() {
         </Center>
       </VStack>
       <VStack margin={'10px'} space={2}>
-        <ButtonCustom onPress={() => {
-          navigation.navigate('Solicitacoes' as never)
-        }} title='Solicitações'
-          children={<Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />}
-        />
+        {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+          <ButtonCustom onPress={() => {
+            navigation.navigate('Solicitacoes' as never)
+          }} title='Solicitações'
+            children={<Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />}
+          />
+        )}
         <ButtonCustom onPress={signOut} title='Editar conta'
           children={<MaterialCommunityIcons name={'account-circle-outline'} size={36} color={'#FFF'} />}
         />

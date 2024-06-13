@@ -13,6 +13,7 @@ import { Select } from '../../components/Select';
 import { ModalideService } from '../../services/modalidade.service';
 import { HStack } from 'native-base';
 import { DatePicker } from '../../components/DatePicker';
+import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet } from 'react-native';
 
 type FormData = {
     nomeCampeonato: string;
@@ -68,85 +69,103 @@ export function NovoAmistosoScreen() {
     }
 
     return (
-        <Container>
-            <NovoCampeonato
-                title="Novo Amistoso"
-                image={{ url: bascket, size: 100 }}
-
-                height={200}
-            />
-            <Form>
-                <Controller
-                    control={control}
-                    name="nomeCampeonato"
-                    render={({ field: { onChange } }) => (
-                        <Input
-                            placeholder="Buscar time..."
-                            onChangeText={onChange}
-                            errorMessage={errors.nomeCampeonato?.message}
-                        />
-                    )}
-                />
-
-                <Controller
-                    control={control}
-                    name="modalidade"
-                    render={({ field: { onChange, value } }) => (
-                        <Select
-                            placeholder="Selecione a modalidade"
-                            lista={modalidades}
-                            errorMessage={errors.modalidade?.message}
-                            onValueChange={onChange}
-                            selectedValue={value}
-                        />
-                    )}
-                />
-                <HStack space={3}>
-                    <Controller
-                        control={control}
-                        name="data"
-                        render={({ field: { onChange, value } }) => (
-                            <DatePicker
-                                size={'60%'}
-                                placeholder="Data do amistoso"
-                                lista={modalidades}
-                                errorMessage={errors.modalidade?.message}
-                                onValueChange={onChange}
-                                selectedValue={value}
-                            />
-                        )}
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.keyboardAvoidingView}
+            >
+                <Container>
+                    <NovoCampeonato
+                        title="Novo Amistoso"
+                        image={{ url: bascket, size: 270 }}
+                        height={370}
                     />
-
-                    <Controller
-                        control={control}
-                        name="hora"
-                        render={({ field: { onChange, value } }) => (
-
-                            <Input
-                                widthForm={'36%'}
-                                placeholder="horario"
-                                errorMessage={errors.modalidade?.message}
-                                onChangeText={onChange}
-                            />
-                        )}
-                    />
-                </HStack>
-                <Controller
-                    control={control}
-                    name="local"
-                    render={({ field: { onChange, value } }) => (
-
-                        <Input
-                            placeholder="Local do amistoso"
-                            errorMessage={errors.modalidade?.message}
-                            onChangeText={onChange}
+                    <Form>
+                        <Controller
+                            control={control}
+                            name="nomeCampeonato"
+                            render={({ field: { onChange } }) => (
+                                <Input
+                                    placeholder="Buscar time..."
+                                    onChangeText={onChange}
+                                    errorMessage={errors.nomeCampeonato?.message}
+                                />
+                            )}
                         />
-                    )}
-                />
+                        <Controller
+                            control={control}
+                            name="local"
+                            render={({ field: { onChange, value } }) => (
+
+                                <Input
+                                    placeholder="Local do amistoso"
+                                    errorMessage={errors.modalidade?.message}
+                                    onChangeText={onChange}
+                                />
+                            )}
+                        />
+                        <Controller
+                            control={control}
+                            name="modalidade"
+                            render={({ field: { onChange, value } }) => (
+                                <Select
+                                    placeholder="Selecione a modalidade"
+                                    lista={modalidades}
+                                    errorMessage={errors.modalidade?.message}
+                                    onValueChange={onChange}
+                                    selectedValue={value}
+                                />
+                            )}
+                        />
+                        <HStack space={3}>
+                            <Controller
+                                control={control}
+                                name="data"
+                                render={({ field: { onChange, value } }) => (
+                                    <DatePicker
+                                        size={'60%'}
+                                        placeholder="Data do amistoso"
+                                        lista={modalidades}
+                                        errorMessage={errors.modalidade?.message}
+                                        onValueChange={onChange}
+                                        selectedValue={value}
+                                    />
+                                )}
+                            />
+
+                            <Controller
+                                control={control}
+                                name="hora"
+                                render={({ field: { onChange, value } }) => (
+
+                                    <Input
+                                        widthForm={'36%'}
+                                        placeholder="horario"
+                                        errorMessage={errors.modalidade?.message}
+                                        onChangeText={onChange}
+                                    />
+                                )}
+                            />
+                        </HStack>
 
 
-                <Button title={'CRIAR'} onPress={handleSubmit(handleConsole)} />
-            </Form>
-        </Container>
+
+                        <Button title={'CRIAR'} onPress={handleSubmit(handleConsole)} />
+                    </Form>
+                </Container>
+            </KeyboardAvoidingView >
+        </SafeAreaView>
     );
+
+
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    keyboardAvoidingView: {
+        flex: 1,
+        justifyContent: 'center', // Center the input in the middle of the screen
+    },
+});
