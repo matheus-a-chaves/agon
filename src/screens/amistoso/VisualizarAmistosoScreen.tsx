@@ -126,10 +126,10 @@ const VisualizarAmistosoScreen = () => {
                                                         <MaterialCommunityIcons name="delete" size={18} color="#FFF" />
                                                     } />
                                             </Box>
-
+                                            {/* 
                                             <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
                                                 <EditarAmistosoPopUp navigation={navigation} />
-                                            </Box>
+                                            </Box> */}
                                         </>
                                     )}
                                 </HStack>

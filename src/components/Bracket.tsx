@@ -26,6 +26,7 @@ export interface Team {
 }
 
 interface BracketProps {
+    oitavasDireita: Team[];
     oitavasEsquerda: Team[];
     quartasEsquerda: Team[];
     quartasDireita: Team[];
@@ -37,6 +38,7 @@ interface BracketProps {
 }
 
 const Bracket: React.FC<BracketProps> = ({
+    oitavasDireita,
     oitavasEsquerda,
     quartasEsquerda,
     quartasDireita,
@@ -90,7 +92,8 @@ const Bracket: React.FC<BracketProps> = ({
                                 </Box>
                                 <SemiDireita semiDireita={semiDireita} />
                                 <QuartasDireita quartasDireita={quartasDireita} />
-                                <OitavasDireita oitavasDireita={oitavasEsquerda} />
+
+                                <OitavasDireita oitavasDireita={[]} />
                             </Box>
                         </Box>
                     </Center >
