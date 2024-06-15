@@ -44,7 +44,9 @@ export function PerfilScreen() {
             children={<Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />}
           />
         )}
-        <ButtonCustom onPress={signOut} title='Editar conta'
+        <ButtonCustom onPress={() => {
+          navigation.navigate('EditarContaScreen' as never)
+        }} title='Editar conta'
           children={<MaterialCommunityIcons name={'account-circle-outline'} size={36} color={'#FFF'} />}
         />
         <ButtonCustom onPress={() => {

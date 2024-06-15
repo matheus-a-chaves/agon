@@ -28,7 +28,7 @@ export function CampeonatoTimesScreen() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  //  const {id}: any = route.params;
+  const id: any = route.params;
 
   const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
   const { buscarCampeonatosInternos, buscarCampeonatosExternos } =
@@ -36,7 +36,7 @@ export function CampeonatoTimesScreen() {
 
   useEffect(() => {
     campeonatoInterno();
-    //  console.log(id);
+    console.log(id);
   }, []);
 
   const campeonatoInterno = async () => {

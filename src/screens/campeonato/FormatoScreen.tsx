@@ -74,7 +74,7 @@ export function FormatoScreen() {
       regulamento: campeonatoData?.regulamento,
     };
     cadastrar(campeonato);
-    navigation.navigate('CampeonatosTimes' as never);
+    navigation.navigate('Campeonatos' as never);
   }
   return (
     <Container>

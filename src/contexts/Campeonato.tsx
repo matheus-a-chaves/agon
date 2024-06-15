@@ -20,12 +20,22 @@ export interface CampeonatoList {
   dataInicio: string;
 }
 
+export interface PartidasEndereco {
+  cep?: string;
+  cidade?: string;
+  estado?: string;
+  rua?: string;
+  numero?: number;
+  bairro?: string;
+}
+
 interface CampeonatoContextData {
   campeonatoData?: CampeonatoBody;
   cadastrar(campeonato: any): void;
   setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>): void;
   buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]>;
   buscarCampeonatosExternos(id: any): Promise<CampeonatoList[]>;
+  cadastrarEndereco(endereco: any): void;
 }
 
 interface CampeonatoProviderProps {
@@ -59,6 +69,15 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
     }
   }
 
+  function cadastrarEndereco(endereco: any) {
+    try {
+      CampeonatoService.cadastrarEndereco(endereco);
+    } catch (error: any) {
+      Alert.alert('404');
+      return error;
+    }
+  }
+
   function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
     try {
       return CampeonatoService.buscarCampeonatosInternos(id);
@@ -85,6 +104,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
         cadastrar,
         buscarCampeonatosInternos,
         buscarCampeonatosExternos,
+        cadastrarEndereco,
       }}>
       {children}
     </CampeonatoContext.Provider>
