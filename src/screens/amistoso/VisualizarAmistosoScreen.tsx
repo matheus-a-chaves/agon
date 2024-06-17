@@ -112,7 +112,7 @@ const VisualizarAmistosoScreen = () => {
                                             color={'#333'}
                                         >INFORMAÇÕES</Text>
                                     </Box>
-                                    {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+                                    {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
                                         <>
                                             <Box bgColor={'#004AAD'} borderRadius={20} w='25px' h={'25px'} alignItems={'center'} justifyContent={'center'}>
                                                 <PopUpConfirm

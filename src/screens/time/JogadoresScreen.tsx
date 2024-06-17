@@ -50,7 +50,7 @@ export function JogadoresScreen() {
     }
 
     const porcentagem = (): string => {
-        if (authData?.tipoPerfil === environment.PERFIL_ATLETICA) {
+        if (authData?.tipoUsuario === environment.PERFIL_ATLETICA) {
             return '80%'
         }
         return '88%'
@@ -64,7 +64,7 @@ export function JogadoresScreen() {
                     style={{ width: '100%', height: 170 }}>
                     <View style={{ ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0, 0, 0, 0.2)' }} />
                 </ImageBackground>
-                {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+                {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
                     <Box alignItems={'flex-start'}>
                         <AdicionarJogadorPopUp />
                     </Box>
@@ -74,7 +74,7 @@ export function JogadoresScreen() {
                     <FlatList
                         data={jogadores}
                         renderItem={({ item }) => (
-                            authData?.tipoPerfil === environment.PERFIL_ATLETICA ?
+                            authData?.tipoUsuario === environment.PERFIL_ATLETICA ?
                                 <ListaAtletica item={item} /> : <ListaJogador item={item} />
                         )}
                         keyExtractor={item => item.id}

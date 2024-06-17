@@ -2,20 +2,16 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  uploadString,
-  uploadBytes,
-  getStorage,
 } from 'firebase/storage';
-import { Alert, Platform } from 'react-native';
+import { Alert } from 'react-native';
 import {
   ImageLibraryOptions,
   launchImageLibrary,
 } from 'react-native-image-picker';
 import { storage } from '../services/firebaseConfig';
 import DocumentPicker from 'react-native-document-picker';
-import RNFS, { copyFile } from 'react-native-fs';
+import RNFS from 'react-native-fs';
 import { decode } from 'base-64';
-import { useState } from 'react';
 import RNFetchBlob from 'rn-fetch-blob';
 
 if (typeof atob === 'undefined') {
@@ -120,7 +116,6 @@ export function formatDate(date: any): string {
   return date.toISOString().split('T')[0];
 }
 
-
 export const applyMask = (value: string): string => {
   value = value.replace(/\D/g, '');
   if (value.length <= 11) {
@@ -134,3 +129,23 @@ export const applyMask = (value: string): string => {
       .replace(/(\d{4})(\d)/, '$1-$2');
   }
 };
+
+export const imageConverter = (image: string | undefined | null, padrao: any) => {
+  try {
+    console.log("Imagem: ", image)
+    if (image !== null && image !== undefined) {
+      console.log("Imagem: ")
+      return { uri: `data:image/*;base64,${image}` }
+    }
+    return padrao;
+  } catch (error) {
+    console.error("Erro ao converter a imagem: ", error);
+    return null;
+  }
+}
+
+
+export function dateFormat(inputDate: any) {
+  const [year, month, day] = inputDate.split('-');
+  return `${day}/${month}/${year}`;
+}

@@ -12,8 +12,8 @@ import { Modalidade } from '../../interfaces/modalidadesInterface';
 import { Select } from '../../components/Select';
 import { ModalideService } from '../../services/modalidade.service';
 import { HStack } from 'native-base';
-import { DatePicker } from '../../components/DatePicker';
 import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet } from 'react-native';
+import { PopUpAgenda } from './PopUpAgenda';
 
 type FormData = {
     nomeCampeonato: string;
@@ -36,15 +36,16 @@ const CadastroSchema = yup.object().shape({
 
 export function NovoAmistosoScreen() {
     const bascket = require('../../assets/img/amistoso/novo_amistoso.png');
-
+    const navigation = useNavigation();
     const {
         control,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<FormData>({ resolver: yupResolver(CadastroSchema) });
     const { setCampeonatoBody } = useCampeonato();
     const [modalidades, setModalidades] = useState<Modalidade[]>([]);
-    const navigation = useNavigation();
+    const [modalidadeSelecionada, setModalidadeSelecionada] = useState<number>(0);
 
     useEffect(() => {
         // Função para buscar as modalidades quando o componente for montado
@@ -68,6 +69,12 @@ export function NovoAmistosoScreen() {
         navigation.navigate('Formato' as never);
     }
 
+    const handleItemSelect = (id: number, data: any) => {
+        console.log('Selected item ID:', id);
+        console.log('Selected item data:', data);
+    };
+
+
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
@@ -83,29 +90,6 @@ export function NovoAmistosoScreen() {
                     <Form>
                         <Controller
                             control={control}
-                            name="nomeCampeonato"
-                            render={({ field: { onChange } }) => (
-                                <Input
-                                    placeholder="Buscar time..."
-                                    onChangeText={onChange}
-                                    errorMessage={errors.nomeCampeonato?.message}
-                                />
-                            )}
-                        />
-                        <Controller
-                            control={control}
-                            name="local"
-                            render={({ field: { onChange, value } }) => (
-
-                                <Input
-                                    placeholder="Local do amistoso"
-                                    errorMessage={errors.modalidade?.message}
-                                    onChangeText={onChange}
-                                />
-                            )}
-                        />
-                        <Controller
-                            control={control}
                             name="modalidade"
                             render={({ field: { onChange, value } }) => (
                                 <Select
@@ -117,21 +101,9 @@ export function NovoAmistosoScreen() {
                                 />
                             )}
                         />
-                        <HStack space={3}>
-                            <Controller
-                                control={control}
-                                name="data"
-                                render={({ field: { onChange, value } }) => (
-                                    <DatePicker
-                                        size={'60%'}
-                                        placeholder="Data do amistoso"
-                                        lista={modalidades}
-                                        errorMessage={errors.modalidade?.message}
-                                        onValueChange={onChange}
-                                        selectedValue={value}
-                                    />
-                                )}
-                            />
+                        <PopUpAgenda flex={1} onItemSelect={handleItemSelect} modalidade={watch('modalidade')} />
+
+                        <HStack space={1}>
 
                             <Controller
                                 control={control}
@@ -139,7 +111,7 @@ export function NovoAmistosoScreen() {
                                 render={({ field: { onChange, value } }) => (
 
                                     <Input
-                                        widthForm={'36%'}
+                                        widthForm={'100%'}
                                         placeholder="horario"
                                         errorMessage={errors.modalidade?.message}
                                         onChangeText={onChange}
@@ -147,10 +119,7 @@ export function NovoAmistosoScreen() {
                                 )}
                             />
                         </HStack>
-
-
-
-                        <Button title={'CRIAR'} onPress={handleSubmit(handleConsole)} />
+                        <Button title={'AGENDAR'} onPress={handleSubmit(handleConsole)} />
                     </Form>
                 </Container>
             </KeyboardAvoidingView >

@@ -7,11 +7,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { useAuth } from '../../contexts/Auth';
 import { environment } from '../../../environment';
+import { imageConverter } from '../Utils';
 
 export function PerfilScreen() {
   const navigation = useNavigation();
   const { signOut, authData } = useAuth();
-
+  const imagem = imageConverter(authData?.imagemPerfil, require('../../assets/icons/user.png'));
+  console.log(authData?.imagemPerfil)
   return (
     <Box>
       <VStack bgColor={'#0A1423'} margin={'10px'} paddingBottom={'20px'} borderRadius={'5px'}>
@@ -20,7 +22,7 @@ export function PerfilScreen() {
             Perfil
           </Text>
           <Image
-            source={require('../../assets/icons/user.png')}
+            source={imagem}
             alt="user"
             size={'xl'}
             borderRadius={'full'}
@@ -29,15 +31,15 @@ export function PerfilScreen() {
             borderColor={'#FFFFFF'}
           />
           <Text color={'#FFFFFF'} fontSize={'xl'} fontWeight={500} mt={5}>
-            Matheus Alves Chaves
+            {authData?.nome}
           </Text>
           <Text color={'#FFFFFF'} fontSize={'sm'} fontWeight={300}>
-            matheuschaves@gmail.com
+            {authData?.email}
           </Text>
         </Center>
       </VStack>
       <VStack margin={'10px'} space={2}>
-        {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+        {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
           <ButtonCustom onPress={() => {
             navigation.navigate('Solicitacoes' as never)
           }} title='Solicitações'

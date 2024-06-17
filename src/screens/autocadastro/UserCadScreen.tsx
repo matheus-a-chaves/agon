@@ -58,7 +58,7 @@ export const UserCadScreen = () => {
             nomeCompleto: data.nomeCompleto,
             email: data.email,
             cpfCnpj: data.cpfCnpj,
-            dataNascimento: data.dataNascimento
+            dataNascimento: data.dataNascimento,
         });
         navigation.navigate('EnderecoCadScreen' as never)
     }

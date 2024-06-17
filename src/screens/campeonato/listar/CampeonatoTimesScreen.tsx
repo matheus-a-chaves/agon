@@ -109,7 +109,7 @@ export function CampeonatoTimesScreen() {
               alt="imagem do time"
             />
           </Box>
-          {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
             <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
               <AdicionarTimePopUp />
             </Box>
@@ -125,7 +125,7 @@ export function CampeonatoTimesScreen() {
           data={campeonatos}
           renderItem={({ item, index }) => {
             return (
-              authData?.tipoPerfil === environment.PERFIL_ATLETICA ?
+              authData?.tipoUsuario === environment.PERFIL_ATLETICA ?
                 <ListaAtletica
                   nome={item.nome}
                   index={index}

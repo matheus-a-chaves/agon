@@ -1,22 +1,21 @@
 import axios from "axios";
 import { environment } from "../../environment";
 import { Equipe } from "../interfaces/equipeInterface";
+import { ModalideService } from "./modalidade.service";
 
 const URL = `${environment.URL}/times`;
 
-async function cadastro(equipe: Equipe, idAtletica: string) {
+async function cadastro(equipe: Equipe, idAtletica: any) {
     try {
-        const item = `${URL}/${idAtletica}`;
-        console.log(item);
+        const url = `${URL}/atletica/${idAtletica}`;
 
         const body = {
             nome: equipe.nome,
             imagem: equipe.imagem,
-            modalidade: {
-                id: equipe.modalidade,
-            },
+            modalidade: equipe.modalidade,
         };
-        const response = await axios.post(`${URL}/${idAtletica}`, body);
+        console.log(body);
+        const response = await axios.post(url, body);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -27,12 +26,17 @@ async function cadastro(equipe: Equipe, idAtletica: string) {
 async function buscarTimes(id: any): Promise<Equipe[]> {
     try {
         const response = await axios.get(URL + `/atletica/${id}`);
+        const modalidades = await ModalideService.buscarModalidade();
         const equipes: Equipe[] = response.data.map((item: any) => {
+            const modalidade = modalidades.find((mod) => mod.id === item.modalidade);
             return {
                 id: item.id,
                 imagem: item.imagem,
                 nome: item.nome,
-                modalidade: item.modalidade,
+                modalidade: {
+                    id: item.modalidade,
+                    nome: modalidade?.nome
+                }
             }
         });
         return equipes;

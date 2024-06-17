@@ -38,7 +38,7 @@ export function AppStack() {
           ),
         }}
       />
-      {authData?.tipoPerfil === environment.PERFIL_ATLETICA && (
+      {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
         <Tab.Screen
           name="Menu"
           component={MenuStack}

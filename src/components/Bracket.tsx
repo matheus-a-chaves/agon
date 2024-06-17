@@ -92,8 +92,7 @@ const Bracket: React.FC<BracketProps> = ({
                                 </Box>
                                 <SemiDireita semiDireita={semiDireita} />
                                 <QuartasDireita quartasDireita={quartasDireita} />
-
-                                <OitavasDireita oitavasDireita={[]} />
+                                <OitavasDireita oitavasDireita={oitavasEsquerda} />
                             </Box>
                         </Box>
                     </Center >

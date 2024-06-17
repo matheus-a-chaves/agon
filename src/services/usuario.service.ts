@@ -1,31 +1,31 @@
 import axios from 'axios';
 import { environment } from '../../environment';
 import { IFormAuto } from '../contexts/FormProvider';
+import { formatDate } from '../screens/Utils';
+import { AuthData } from '../contexts/Auth';
+import { Alert } from 'react-native';
 
-const URL = `${environment.URL}/campeonatos`;
+const URL = `${environment.URL}/usuarios`;
 
 async function cadastro(usuario: IFormAuto) {
   try {
     let tipoUsuario: number = 0;
-    let cpf = null
-    let cnpj = null
     let cpfCnpj = usuario.cpfCnpj?.replace(/[^\d]+/g, '');
 
-    if (usuario.cpfCnpj?.length === 11) {
+    if (cpfCnpj?.length === 11) {
       console.log('CPF')
       tipoUsuario = environment.PERFIL_JOGADOR;
-      cpf = cpfCnpj
-    } else if (usuario.cpfCnpj?.length === 14) {
+    } else if (cpfCnpj?.length === 14) {
       console.log('CNPJ')
       tipoUsuario = environment.PERFIL_ATLETICA;
-      cnpj = cpfCnpj
     }
 
     const body = {
+      login: usuario.email,
+      password: usuario.senha,
       nome: usuario.nomeCompleto,
-      cpf: cpf,
-      cnpj: cnpj,
-      imagemPerfil: usuario.email,
+      docIdentificacao: cpfCnpj,
+      dataNascimento: formatDate(usuario.dataNascimento),
       bairro: usuario.bairro,
       cep: usuario.cep,
       cidade: usuario.cidade,
@@ -43,6 +43,64 @@ async function cadastro(usuario: IFormAuto) {
   }
 }
 
+async function update(usuario: AuthData, id: any): Promise<void> {
+  try {
+
+    const body = {
+      nome: usuario.nome,
+      dataNascimento: usuario.dataNascimento,
+      bairro: usuario.bairro,
+      cep: usuario.cep,
+      cidade: usuario.cidade,
+      estado: usuario.estado,
+      numero: usuario.numero,
+      rua: usuario.rua,
+      imagemPerfil: usuario.imagemPerfil,
+    };
+    await axios.put(URL + `/${id}`, body);
+
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+async function findById(id: number): Promise<AuthData> {
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      const response = await axios.get(URL + `/${id}`);
+      const data: AuthData = response.data;
+      if (!response.data) {
+        reject(Alert.alert('Erro', 'Usuário ou senha incorretos'));
+      } else {
+        const usuario: AuthData = {
+          nome: data.nome,
+          dataNascimento: data.dataNascimento ? new Date(data.dataNascimento) : new Date(),
+          imagemPerfil: data.imagemPerfil,
+          bairro: data.bairro,
+          cep: data.cep,
+          cidade: data.cidade,
+          estado: data.estado,
+          numero: data.numero,
+          rua: data.rua,
+        };
+        resolve(usuario);
+      }
+    } catch (error: Error | any) {
+      reject(Alert.alert('Erro ao atualizar'));
+    }
+  });
+}
+
+
+
+
+
+
+
 export const UsuarioService = {
   cadastro,
+  update,
+  findById
 };

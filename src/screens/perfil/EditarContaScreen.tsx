@@ -11,6 +11,11 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Input } from '../../components/Input';
 import Button from '../../components/Button';
+import { useAutoCadastro } from '../../contexts/FormProvider';
+import { handleImage } from '../Utils';
+import { ButtonAdd, Icon } from '../../styles/campeonato/CadastroCss';
+import { useAuth } from '../../contexts/Auth';
+import { environment } from '../../../environment';
 
 
 
@@ -36,6 +41,25 @@ const CadastroSchema = yup.object().shape({
 
 
 export const EditarContaScreen = () => {
+    const icon = require('../../assets/icons/add.png');
+    const { update, authData } = useAuth();
+    const [uri, setURL] = useState(null);
+    const [nomeImage, setNomeImage] = useState('Imagem de perfil');
+
+    const handleImageCampeonato = async () => {
+        const { uri, fileName } = await handleImage();
+        setNomeImage(fileName);
+        setURL(uri);
+    };
+
+    const setValues = () => {
+        if (authData && authData.cep && authData?.nome && authData?.numero) {
+            setValue('zipCode', authData.cep);
+            setValue('name', authData?.nome);
+            setValue('number', authData?.numero.toString());
+        }
+    };
+
 
     const {
         control,
@@ -71,65 +95,81 @@ export const EditarContaScreen = () => {
         handleSetData(data);
     }, []);
 
-    const campeonatoOrAmistoso = (screen: string) => {
 
-    }
 
     useEffect(() => {
         setValue('zipCode', zipCodeMask(zipCode));
         if (zipCode?.length === 9) {
             handleFetchAddress(zipCode);
         }
-
     }, [handleFetchAddress, zipCode]);
+
+    useEffect(() => {
+        setValues();
+    }, []);
+
 
     const navigation = useNavigation();
 
     function onData(data: any) {
+        if (authData && authData.id) {
+            const editarCadastro = {
+                nome: data.name,
+                cep: data.zipCode,
+                cidade: data.city,
+                estado: data.state,
+                rua: data.street,
+                numero: data.number,
+                bairro: data.district,
+                imagemPerfil: uri || authData.imagemPerfil,
+                dataNascimento: authData.dataNascimento,
+            };
 
-        // setCampeonatoBody({
-        //     cep: data.zipCode,
-        //     cidade: data.city,
-        //     estado: data.state,
-        //     rua: data.street,
-        //     numero: data.number,
-        //     bairro: data.district
-        // });
-        navigation.navigate('Perfil' as never)
+            update(editarCadastro, authData.id)
+            navigation.navigate('Perfil' as never)
 
+        } else {
+            console.error('authData or authData.id is undefined');
+        }
     }
 
     return (
-        <SafeAreaView style={{ height: '100%', display: 'flex', justifyContent: 'center' }} >
-            <Box w="100%" h={'100%'} bg={'#fff'} >
-                <HStack justifyContent={'space-between'} padding={'5px'} bgColor={'#004AAD'}>
-                    <Ionicons
-                        name="arrow-back"
-                        size={25}
-                        color={'#fff'}
-                        onPress={() => navigation.goBack()}
-                    />
-                    <Text color={'#fff'} fontWeight={'medium'} fontSize={16}>
-                        Editar conta
-                    </Text>
-                    <Box size={25} />
-                </HStack>
-                <VStack justifyContent={'center'} alignItems={'center'} py={5} bg={'#fff'}
-                    px={5} space={3}>
-                    <Box w={'100%'}>
-                        <HStack>
-                            <VStack flex={1} >
-                                <Text color="#A3A3A3" fontSize={16} fontWeight={500}>CNPJ</Text>
-                                <Text color="#A3A3A3">75.095.679/0001-49</Text>
-                            </VStack>
-                            <VStack flex={1}>
-                                <Text color="#A3A3A3" fontSize={16} fontWeight={500}>Email</Text>
-                                <Text color="#A3A3A3">Kraken@ufpr</Text>
-                            </VStack>
 
-                        </HStack>
-                        <Text color="#A3A3A3" fontSize={24} fontWeight={200}>---------------------------------------------------</Text>
-                    </Box>
+        <Box w="100%" h={'100%'} bg={'#fff'} >
+            <HStack justifyContent={'space-between'} padding={'5px'} bgColor={'#004AAD'} position={'fixed'}>
+                <Ionicons
+                    name="arrow-back"
+                    size={25}
+                    color={'#fff'}
+                    onPress={() => navigation.goBack()}
+                />
+                <Text color={'#fff'} fontWeight={'medium'} fontSize={16}>
+                    Editar conta
+                </Text>
+                <Box size={25} />
+
+            </HStack>
+            <Box w={'100%'} px={5} py={5}>
+                <HStack space={5}>
+                    <VStack>
+                        <Text color="#A3A3A3" fontSize={16} fontWeight={500}>
+                            {environment.PERFIL_ATLETICA === authData?.tipoUsuario ?
+                                `CNPJ` : `CPF`}
+                        </Text>
+                        <Text color="#A3A3A3">{environment.PERFIL_ATLETICA === authData?.tipoUsuario ?
+                            authData?.cnpj : authData?.cpf}</Text>
+                    </VStack>
+                    <VStack flex={1}>
+                        <Text color="#A3A3A3" fontSize={16} fontWeight={500}>Email</Text>
+                        <Text color="#A3A3A3">{authData?.email}</Text>
+                    </VStack>
+
+                </HStack>
+                <Text color="#A3A3A3" fontSize={24} fontWeight={200}>---------------------------------------------------</Text>
+            </Box>
+            <SafeAreaView style={{ height: '100%', display: 'flex', justifyContent: 'flex-start' }} >
+                <VStack justifyContent={'center'} alignItems={'center'} bg={'#fff'}
+                    px={5} space={3}>
                     <VStack w={'100%'} justifyContent={'space-between'}>
                         <VStack justifyContent={'center'} py={1}
                             space={3} w={"100%"} >
@@ -238,14 +278,34 @@ export const EditarContaScreen = () => {
                                 />
                             </HStack>
                         </VStack>
+                        <VStack>
+                            <Text color="#A3A3A3" fontSize={16} fontWeight={500} mt={2} mb={1}>Imagem</Text>
+                            <Box
+                                flexDirection={'row'}
+                                alignItems={'center'}
+                                w={'100%'}
+                                h={50}
+                                bgColor={'#fff'}
+                                borderRadius={5}
+                                justifyContent={'space-between'}
+                                shadow={2}
+                                px={'4px'}
+                                pl={'20px'}
+                            >
+                                <Text color={'#A3A3A3'} fontSize={16}>{nomeImage}</Text>
+                                <ButtonAdd onPress={() => handleImageCampeonato()}>
+                                    <Icon source={icon} />
+                                </ButtonAdd>
+                            </Box>
+                        </VStack>
 
                     </VStack>
                     <Button title={'ATUALIZAR'} size={'full'} onPress={handleSubmit(onData)} />
                 </VStack>
+            </SafeAreaView>
+        </Box>
 
-            </Box>
 
-        </SafeAreaView>
     );
 }
 

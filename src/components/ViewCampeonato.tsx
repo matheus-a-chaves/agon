@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Image, Text } from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { imageConverter } from '../screens/Utils';
 
 interface ViewCampeonatoProps {
   nome: string;
@@ -10,6 +11,7 @@ interface ViewCampeonatoProps {
 }
 
 export function ViewCampeonato(props: ViewCampeonatoProps) {
+
   return (
     <Box
       w={'330px'}
@@ -34,12 +36,12 @@ export function ViewCampeonato(props: ViewCampeonatoProps) {
             h="100%"
             w="100%"
             borderRadius={100}
-            source={{ uri: props.imagem }}
+            source={imageConverter(props.imagem, require('../assets/icons/splash.png'))}
             alt="imagem do time"
           />
         </Box>
       </Box>
-      <Box>
+      <Box w={'160px'}>
         <Text fontSize={'14px'} fontWeight={'bold'} color={'#A3A3A3'}>
           {props.nome}
         </Text>
