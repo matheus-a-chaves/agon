@@ -5,11 +5,8 @@ import { AmistosoSolicitacao } from '../screens/perfil/SolicitacoesScreen';
 
 export interface AmistosoBody {
     equipe?: string;
-    quantidadeEquipes?: number;
     formato?: number;
     modalidade?: number;
-    imagem?: string;
-    regulamento?: string;
     cep?: string;
     cidade?: string;
     estado?: string;
@@ -17,12 +14,11 @@ export interface AmistosoBody {
     numero?: number;
     bairro?: string;
     data?: Date;
-    dataFim?: Date;
 }
 
 interface AmistosoContextData {
     amistosoData?: AmistosoBody;
-    cadastrar(campeonato: any): void;
+    cadastrar(amistoso: any): void;
     setAmistosoBody(novaPropriedade: Partial<AmistosoBody>): void;
     buscarSolicitacao(id: any): Promise<AmistosoSolicitacao[]>;
 }
@@ -47,11 +43,12 @@ export const AmistosoProvider: React.FC<AmistosoProviderProps> = ({
             ...prevAmistosoData,
             ...novaPropriedade,
         }));
+        console.log(amistosoData)
     }
 
-    function cadastrar(campeonato: any) {
+    function cadastrar(amistoso: any) {
         try {
-            AmistosoService.cadastro(campeonato);
+            AmistosoService.cadastro(amistoso);
         } catch (error: any) {
             Alert.alert('404');
             return error;

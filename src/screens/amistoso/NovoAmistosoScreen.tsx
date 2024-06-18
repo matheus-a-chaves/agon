@@ -5,33 +5,33 @@ import * as yup from 'yup';
 import { Container, Form } from '../../styles/campeonato/CadastroCss';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import NovoCampeonato from '../../components/NovoCampeonato';
 import { useCampeonato } from '../../contexts/Campeonato';
 import { Modalidade } from '../../interfaces/modalidadesInterface';
 import { Select } from '../../components/Select';
 import { ModalideService } from '../../services/modalidade.service';
 import { HStack } from 'native-base';
-import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, SafeAreaView, StyleSheet } from 'react-native';
 import { PopUpAgenda } from './PopUpAgenda';
+import { TimePicker } from '../../components/TimePicker';
+import { equipe } from '../Utils';
+import { useAmistoso } from '../../contexts/Amistoso';
 
 type FormData = {
-    nomeCampeonato: string;
+    equpeId: string;
     modalidade: string;
     data: string;
     hora: string;
-    local: string;
 };
 
 const CadastroSchema = yup.object().shape({
-    nomeCampeonato: yup
+    equpeId: yup
         .string()
-        .required('Nome do campeonato é obrigatório')
-        .min(3, 'Nome do campeonato deve ter no mínimo 3 caracteres'),
+        .required('Escolher um time é obrigatório'),
     modalidade: yup.string().required('Modalidade é obrigatória'),
     data: yup.string().required('Modalidade é obrigatória'),
     hora: yup.string().required('Modalidade é obrigatória'),
-    local: yup.string().required('Modalidade é obrigatória'),
 });
 
 export function NovoAmistosoScreen() {
@@ -41,14 +41,13 @@ export function NovoAmistosoScreen() {
         control,
         handleSubmit,
         watch,
+        setValue,
         formState: { errors },
     } = useForm<FormData>({ resolver: yupResolver(CadastroSchema) });
-    const { setCampeonatoBody } = useCampeonato();
+    const { amistosoData } = useAmistoso();
     const [modalidades, setModalidades] = useState<Modalidade[]>([]);
-    const [modalidadeSelecionada, setModalidadeSelecionada] = useState<number>(0);
 
     useEffect(() => {
-        // Função para buscar as modalidades quando o componente for montado
         async function fetchModalidades() {
             try {
                 const modalidadesData = await ModalideService.buscarModalidade();
@@ -61,20 +60,31 @@ export function NovoAmistosoScreen() {
     }, []);
 
     function handleConsole(data: FormData) {
-        setCampeonatoBody({
-            nome: data.nomeCampeonato,
+
+        const body = {
+            equipe: data.equpeId,
             modalidade: parseInt(data.modalidade),
-        });
-        console.log('formatos')
-        navigation.navigate('Formato' as never);
+            data: data.data,
+            hora: data.hora,
+            cep: amistosoData?.cep,
+            rua: amistosoData?.rua,
+            numero: amistosoData?.numero,
+            bairro: amistosoData?.bairro,
+            cidade: amistosoData?.cidade,
+            estado: amistosoData?.estado,
+        }
+        console.log(body);
+        // navigation.navigate('Time' as never);
     }
 
-    const handleItemSelect = (id: number, data: any) => {
-        console.log('Selected item ID:', id);
-        console.log('Selected item data:', data);
+    const handleItemSelect = (id: any, data: any) => {
+        setValue('data', data);
+        setValue('equpeId', id);
     };
 
-
+    const changeValue = (value: any) => {
+        setValue('hora', value);
+    }
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
@@ -104,20 +114,16 @@ export function NovoAmistosoScreen() {
                         <PopUpAgenda flex={1} onItemSelect={handleItemSelect} modalidade={watch('modalidade')} />
 
                         <HStack space={1}>
-
                             <Controller
                                 control={control}
                                 name="hora"
-                                render={({ field: { onChange, value } }) => (
-
-                                    <Input
-                                        widthForm={'100%'}
-                                        placeholder="horario"
-                                        errorMessage={errors.modalidade?.message}
-                                        onChangeText={onChange}
-                                    />
+                                render={({ field: { onChange } }) => (
+                                    <Pressable>
+                                        <TimePicker changeValue={onChange} />
+                                    </Pressable>
                                 )}
                             />
+
                         </HStack>
                         <Button title={'AGENDAR'} onPress={handleSubmit(handleConsole)} />
                     </Form>
@@ -135,6 +141,6 @@ const styles = StyleSheet.create({
     },
     keyboardAvoidingView: {
         flex: 1,
-        justifyContent: 'center', // Center the input in the middle of the screen
+        justifyContent: 'flex-start',
     },
 });

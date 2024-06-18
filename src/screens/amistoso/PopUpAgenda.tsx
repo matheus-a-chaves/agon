@@ -180,9 +180,9 @@ export function PopUpAgenda({ onItemSelect, modalidade }: any) {
                     justifyContent={'space-between'}
                     shadow={2}
                     px={'4px'}
-                    pl={'20px'}
+                    pl={3}
                 >
-                    <Text color={'#A3A3A3'} fontSize={16}>{nomeTimeData}</Text>
+                    <Text color={'#A3A3A3'} fontSize={18}>{nomeTimeData}</Text>
                     <ButtonAdd onPress={() => setModalVisible(!modalVisible)}>
                         <Icon source={icon} />
                     </ButtonAdd>

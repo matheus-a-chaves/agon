@@ -1,5 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Box, Pressable, FormControl, Text, IBoxProps } from 'native-base';
+import { Box, Pressable, FormControl, Text } from 'native-base';
 import { useState } from 'react';
 import styled from 'styled-components/native';
 
