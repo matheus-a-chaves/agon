@@ -14,7 +14,6 @@ async function cadastro(equipe: Equipe, idAtletica: any) {
             imagem: equipe.imagem,
             modalidade: equipe.modalidade,
         };
-        console.log(body);
         const response = await axios.post(url, body);
         return response.data;
     } catch (error) {
@@ -23,9 +22,13 @@ async function cadastro(equipe: Equipe, idAtletica: any) {
     }
 }
 
-async function buscarTimes(id: any): Promise<Equipe[]> {
+async function buscarTimes(id: any, tipoUsuario: any): Promise<Equipe[]> {
     try {
-        const response = await axios.get(URL + `/atletica/${id}`);
+        let URL_CASE: string = `/jogador/${id}`;
+        if (tipoUsuario === environment.PERFIL_ATLETICA) {
+            URL_CASE = `/atletica/${id}`
+        }
+        const response = await axios.get(URL + URL_CASE);
         const modalidades = await ModalideService.buscarModalidade();
         const equipes: Equipe[] = response.data.map((item: any) => {
             const modalidade = modalidades.find((mod) => mod.id === item.modalidade);
@@ -44,7 +47,6 @@ async function buscarTimes(id: any): Promise<Equipe[]> {
         throw new Error('Erro ao buscar formato: ' + erro.message);
     }
 }
-
 
 
 export const TeamService = { buscarTimes, cadastro }

@@ -4,7 +4,7 @@ import { TextInput, ActivityIndicator } from 'react-native';
 import { InputView } from '../../styles/HomeScreenCss';
 import { Box, FlatList, Pressable, Text, VStack, Image } from 'native-base';
 import { ViewCampeonato } from '../../components/ViewCampeonato';
-import { upload } from '../Utils';
+import { upload, equipe } from '../Utils';
 import Button from '../../components/Button';
 import { useAuth } from '../../contexts/Auth';
 import { environment } from '../../../environment';
@@ -44,8 +44,9 @@ export function HomeScreen() {
     setTimes(teamSearch);
   }
 
-  const handleTime = (id: string) => {
-    navigation.navigate('JogadoresScreen' as never);
+  const handleTime = (timeModalidade: any, item: any) => {
+    const equipe = { idEquipe: item, modalidade: timeModalidade }
+    navigation.navigate('JogadoresScreen', { equipe });
   };
 
   return (
@@ -71,7 +72,7 @@ export function HomeScreen() {
               renderItem={({ item }) => (
                 <Pressable
                   marginBottom={'10px'}
-                  onPress={() => handleTime(item.id)}
+                  onPress={() => handleTime(item.modalidade, item.id)}
                   shadow={2}
                 >
                   <ViewCampeonato

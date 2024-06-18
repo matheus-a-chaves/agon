@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
     ImageBackground,
     SafeAreaView,
@@ -12,22 +12,36 @@ import { JogadoresService } from '../../services/jogadores.service';
 import { AdicionarJogadorPopUp } from './AdicionarJogadorPopUp';
 import { environment } from '../../../environment';
 import { useAuth } from '../../contexts/Auth';
+import { imageConverter } from '../Utils';
 
 export interface Jogador {
     id: string;
-    name: string;
-    imagem: string;
+    nome: string;
+    dataNascimento: Date,
+    cpf?: string | null,
+    cnpj?: string | null,
+    imagemPerfil: string | null,
+    bairro: string,
+    cep: string,
+    cidade: string,
+    estado: string,
+    numero: number,
+    rua: string,
+    tipoUsuario: number
 }
 
 export function JogadoresScreen() {
+    const route = useRoute();
+    const { equipe } = route.params as any;
     const { authData } = useAuth()
     const navigation = useNavigation();
-    const [jogadores, setjogadores] = useState<Jogador[]>([]);
+    const [jogadores, setJogadores] = useState<Jogador[]>([]);
 
     async function fetchJogadores() {
         try {
-            const jogadores = await JogadoresService.buscarJogadores(1);
-            setjogadores(jogadores);
+            console.log(equipe)
+            const jogadores = await JogadoresService.buscarJogadores(equipe.idEquipe);
+            setJogadores(jogadores);
         } catch (error) {
             console.error('Erro ao buscar modalidades:', error);
         }
@@ -36,17 +50,17 @@ export function JogadoresScreen() {
         fetchJogadores();
     }, []);
 
-
-    const handleTime = (id: string) => {
-        navigation.navigate('NovaEquipe' as never);
-    };
-
     async function onRemovePlayer(id: string) {
         try {
-            await JogadoresService.removerJogador(parseInt(id), 1);
+            await JogadoresService.removerJogador(parseInt(id), equipe.idEquipe, authData?.id as number);
+            fetchJogadores();
         } catch (error) {
             console.error('Erro ao remover jogador:', error);
         }
+    }
+
+    const onAdicionarJogador = () => {
+        fetchJogadores();
     }
 
     const porcentagem = (): string => {
@@ -58,7 +72,7 @@ export function JogadoresScreen() {
     return (
         <Box flex={1} bg={'rgba(0, 74, 173, 1)'}>
             <SafeAreaView style={{ height: '80%' }} >
-                <Header titulo="Jogadores" />
+                <Header titulo="Jogadores" equipe={equipe} />
                 <ImageBackground
                     source={require('../../assets/img/campeonato/basketball.png')}
                     style={{ width: '100%', height: 170 }}>
@@ -66,7 +80,7 @@ export function JogadoresScreen() {
                 </ImageBackground>
                 {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
                     <Box alignItems={'flex-start'}>
-                        <AdicionarJogadorPopUp />
+                        <AdicionarJogadorPopUp id={equipe.idEquipe} onChangeSalvar={onAdicionarJogador} />
                     </Box>
                 )}
 
@@ -86,7 +100,6 @@ export function JogadoresScreen() {
     );
 
     function ListaAtletica({ item }: any) {
-        console.log(item)
         return (
             <Menu
                 w="200px"
@@ -101,8 +114,8 @@ export function JogadoresScreen() {
                         >
                             <Box key={item.id}>
                                 <HStack space={3} alignItems="center">
-                                    <Avatar source={require('../../assets/img/campeonato/basketball.png')} />
-                                    <Text fontSize="md">{item.name}</Text>
+                                    <Avatar source={imageConverter(item.imagemPerfil, require('../../assets/img/campeonato/basketball.png'))} />
+                                    <Text fontSize="md">{item.nome}</Text>
                                 </HStack>
                                 <Divider mt={2} />
                             </Box>
@@ -124,7 +137,7 @@ export function JogadoresScreen() {
             <Box key={item.id} marginBottom={'10px'}>
                 <HStack space={3} alignItems="center">
                     <Avatar source={require('../../assets/img/campeonato/basketball.png')} />
-                    <Text fontSize="md">{item.name}</Text>
+                    <Text fontSize="md">{item.nome}</Text>
                 </HStack>
                 <Divider mt={2} />
             </Box>

@@ -13,10 +13,8 @@ async function cadastro(usuario: IFormAuto) {
     let cpfCnpj = usuario.cpfCnpj?.replace(/[^\d]+/g, '');
 
     if (cpfCnpj?.length === 11) {
-      console.log('CPF')
       tipoUsuario = environment.PERFIL_JOGADOR;
     } else if (cpfCnpj?.length === 14) {
-      console.log('CNPJ')
       tipoUsuario = environment.PERFIL_ATLETICA;
     }
 
@@ -34,7 +32,6 @@ async function cadastro(usuario: IFormAuto) {
       rua: usuario.rua,
       tipoUsuario: tipoUsuario,
     };
-    console.log(body)
     const response = await axios.post(URL, body);
     return response;
   } catch (error) {

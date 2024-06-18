@@ -16,10 +16,10 @@ async function cadastro(campeonato: Campeonato) {
       regulamento: campeonato.regulamento,
       imagemCampeonato: campeonato.imagem,
       formato: {
-        codigoFormato: campeonato.formato,
+        id: campeonato.formato,
       },
       modalidade: {
-        codigoModalidade: campeonato.modalidade,
+        id: campeonato.modalidade,
       },
     };
     const response = await axios.post(URL, body);
@@ -30,10 +30,8 @@ async function cadastro(campeonato: Campeonato) {
   }
 }
 
-async function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
+async function buscarCampeonatosInternos(idAtletica: any, idModalidade: any): Promise<CampeonatoList[]> {
   try {
-    const idAtletica = 1;
-    const idModalidade = 1;
     const urlteste = `${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`
     console.log(urlteste)
     const response = await axios.get(`${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`);
@@ -42,10 +40,11 @@ async function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
       return {
         id: item.id,
         nome: item.nome,
-        imagem: item.imagem,
+        imagem: item.imagemCampeonato,
         dataInicio: item.dataInicio,
       };
     });
+    console.log(campeonatos)
     return campeonatos;
   } catch (erro: Error | any) {
     throw new Error('Erro ao buscar campeonato: ' + erro.message);

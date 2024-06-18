@@ -17,7 +17,7 @@ const Header = (props: any) => {
                 <Text color="white" fontWeight="medium" fontSize={18} >{props.titulo}</Text>
             </HStack>
             <Box justifyContent={'center'}>
-                <MenuTimeScreen navigation={navigation} />
+                <MenuTimeScreen navigation={navigation} equipe={props.equipe} />
             </Box>
         </HStack>
     );

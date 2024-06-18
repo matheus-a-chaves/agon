@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { Box, VStack, Text, HStack, Pressable, FlatList } from 'native-base';
-import { upload } from '../../Utils';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Box, VStack, Text, HStack, Pressable, FlatList, Image } from 'native-base';
 import { ViewCampeonato } from '../../../components/ViewCampeonato';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
 import { SafeAreaView } from 'react-native';
 import { CampeonatoService } from '../../../services/campeonato.service';
+import { useAuth } from '../../../contexts/Auth';
+
 
 export function CampeonatoScreen() {
   const navigation = useNavigation();
@@ -15,7 +15,9 @@ export function CampeonatoScreen() {
   const [activeExterno, setActiveExterno] = useState('');
   const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
   const { buscarCampeonatosInternos, buscarCampeonatosExternos } = useCampeonato();
-
+  const { authData } = useAuth()
+  const route = useRoute()
+  const { equipe } = route.params as any
   useEffect(() => {
     campeonatoInterno();
   }, []);
@@ -35,10 +37,11 @@ export function CampeonatoScreen() {
     try {
       setActiveInterno('#051326');
       setActiveExterno('#004AAD');
-      const modalidadesData: CampeonatoList[] = await CampeonatoService.buscarCampeonatosInternos(
-        1
+
+      const campeonatos: CampeonatoList[] = await CampeonatoService.buscarCampeonatosInternos(
+        authData?.id, equipe.modalidade.id
       );
-      setCampeonatos(modalidadesData);
+      setCampeonatos(campeonatos);
     } catch (error) {
       console.error('Erro ao buscar campeonatos internos:', error);
     }
@@ -100,11 +103,21 @@ export function CampeonatoScreen() {
               onPress={() => handleCampeonato(item.id)}>
               <ViewCampeonato
                 nome={item.nome}
-                imagem={upload}
+                imagem={item.imagem}
                 dataInicio={item.dataInicio}
               />
             </Pressable>
           )}
+          ListEmptyComponent={
+            <Box alignItems={'center'} justifyContent={'space-between'} my={5} h={'450px'}>
+              <Text color={'#A3A3A3'} fontSize={'18px'} fontWeight={'500'} mb={2}>
+                Não há campeonatos  no momento
+              </Text>
+              <VStack my={10}>
+                <Image source={require('../../../assets/img/campeonato/podium.png')} alt={'sem campeonato'} />
+              </VStack>
+            </Box>
+          }
           keyExtractor={item => item.id}
         />
       </VStack>

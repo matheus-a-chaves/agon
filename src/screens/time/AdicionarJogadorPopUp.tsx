@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { applyMask } from '../Utils';
 import { JogadoresService } from '../../services/jogadores.service';
+import { useAuth } from '../../contexts/Auth';
 
 type FormData = {
     cpfCnpj: string;
@@ -23,7 +24,8 @@ function ValidEmail(email: any) {
     return regex.test(email);
 }
 
-export function AdicionarJogadorPopUp({ navigation }: any) {
+export function AdicionarJogadorPopUp({ navigation, id, onChangeSalvar }: any) {
+    const { authData } = useAuth();
     const [modalVisible, setModalVisible] = React.useState(false);
     const {
         control,
@@ -40,6 +42,7 @@ export function AdicionarJogadorPopUp({ navigation }: any) {
     const cpfCnpj = watch('cpfCnpj');
 
     useEffect(() => {
+        console.log(id);
         if (cpfCnpj) {
             setValue('cpfCnpj', applyMask(cpfCnpj));
         }
@@ -49,13 +52,16 @@ export function AdicionarJogadorPopUp({ navigation }: any) {
     async function hundleForm(data: any) {
         try {
             const cpf = data.cpfCnpj.replace(/[^\d]+/g, '');
-            await JogadoresService.adicionarJogador(1, cpf);
-            setModalVisible(false);
-            setValue('cpfCnpj', '');
+            if (authData?.id) {
+                await JogadoresService.adicionarJogador(authData?.id, cpf, id);
+                setModalVisible(false);
+                setValue('cpfCnpj', '');
+                onChangeSalvar();
+            }
         } catch (error) {
             setValue('cpfCnpj', '');
             setModalVisible(false);
-            console.error('Erro ao adicionar jogador:', error);
+            console.error('Jogador não encontrado', error);
         }
     }
 

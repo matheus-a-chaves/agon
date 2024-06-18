@@ -132,9 +132,8 @@ export const applyMask = (value: string): string => {
 
 export const imageConverter = (image: string | undefined | null, padrao: any) => {
   try {
-    console.log("Imagem: ", image)
-    if (image !== null && image !== undefined) {
-      console.log("Imagem: ")
+
+    if (image !== null && image !== undefined && image !== "") {
       return { uri: `data:image/*;base64,${image}` }
     }
     return padrao;

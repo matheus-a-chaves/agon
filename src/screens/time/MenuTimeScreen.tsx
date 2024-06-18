@@ -3,7 +3,7 @@ import { Box, Button, Modal, Pressable, Text, VStack } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export function MenuTimeScreen({ navigation }: any) {
+export function MenuTimeScreen({ navigation, equipe }: any) {
     const [modalVisible, setModalVisible] = React.useState(false);
     return (
         <Box>
@@ -42,7 +42,10 @@ export function MenuTimeScreen({ navigation }: any) {
                                 margin={'10px'}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate('CampeonatosStakTime', { screen: 'Campeonatos' })
+                                    navigation.navigate('CampeonatosStakTime', {
+                                        screen: 'Campeonatos',
+                                        params: { equipe }
+                                    })
                                 }}>
                                 <Text color={'#333'} fontWeight={500} fontSize={'15px'}>Visualizar Campeonatos</Text>
                             </Button>
