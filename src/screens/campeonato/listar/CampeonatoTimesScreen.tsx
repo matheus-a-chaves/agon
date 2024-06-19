@@ -12,7 +12,7 @@ import {
   Avatar,
   Divider,
 } from 'native-base';
-import { upload } from '../../Utils';
+import { upload, equipe } from '../../Utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
@@ -22,29 +22,28 @@ import { environment } from '../../../../environment';
 import { useAuth } from '../../../contexts/Auth';
 import { AdicionarJogadorPopUp } from '../../time/AdicionarJogadorPopUp';
 import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
+import { Equipe } from '../../../interfaces/equipeInterface';
+import { TeamService } from '../../../services/time.service';
 
 export function CampeonatoTimesScreen() {
   const { authData } = useAuth()
   const navigation = useNavigation();
   const route = useRoute();
 
-  const id: any = route.params;
+  const { id }: any = route.params;
 
-  const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
-  const { buscarCampeonatosInternos, buscarCampeonatosExternos } =
-    useCampeonato();
+  const [equipes, setEquipes] = useState<Equipe[]>([]);
+
 
   useEffect(() => {
-    campeonatoInterno();
+    fetchEquipes();
     console.log(id);
   }, []);
 
-  const campeonatoInterno = async () => {
+  const fetchEquipes = async () => {
     try {
-      const modalidadesData: CampeonatoList[] = await buscarCampeonatosInternos(
-        0,
-      );
-      setCampeonatos(modalidadesData);
+      const equipesData: Equipe[] = await TeamService.buscarTimesCampeonato(id);
+      setEquipes(equipesData);
     } catch (error) {
       console.error('Erro ao buscar modalidades:', error);
     }
@@ -122,7 +121,7 @@ export function CampeonatoTimesScreen() {
         </Text>
         <FlatList
           w={'100%'}
-          data={campeonatos}
+          data={equipes}
           renderItem={({ item, index }) => {
             return (
               authData?.tipoUsuario === environment.PERFIL_ATLETICA ?

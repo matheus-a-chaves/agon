@@ -56,7 +56,6 @@ async function buscarJogadores(id: any): Promise<Jogador[]> {
                         tipoUsuario: item.tipoUsuario
                     }
                 });
-                console.log(jogadores)
                 resolve(jogadores);
             }
         } catch (error: Error | any) {

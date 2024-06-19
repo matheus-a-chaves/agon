@@ -32,8 +32,6 @@ async function cadastro(campeonato: Campeonato) {
 
 async function buscarCampeonatosInternos(idAtletica: any, idModalidade: any): Promise<CampeonatoList[]> {
   try {
-    const urlteste = `${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`
-    console.log(urlteste)
     const response = await axios.get(`${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`);
 
     const campeonatos: CampeonatoList[] = response.data.map((item: any) => {
@@ -44,7 +42,6 @@ async function buscarCampeonatosInternos(idAtletica: any, idModalidade: any): Pr
         dataInicio: item.dataInicio,
       };
     });
-    console.log(campeonatos)
     return campeonatos;
   } catch (erro: Error | any) {
     throw new Error('Erro ao buscar campeonato: ' + erro.message);

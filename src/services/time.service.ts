@@ -48,5 +48,25 @@ async function buscarTimes(id: any, tipoUsuario: any): Promise<Equipe[]> {
     }
 }
 
+async function buscarTimesCampeonato(idCampeonato: any): Promise<Equipe[]> {
+    try {
+        console.log(URL + `/campeonato/${idCampeonato}`);
+        const response = await axios.get(URL + `/campeonato/${idCampeonato}`);
 
-export const TeamService = { buscarTimes, cadastro }
+        const equipes: Equipe[] = response.data.map((item: any) => {
+            return {
+                id: item.id,
+                imagem: item.imagem,
+                nome: item.nome,
+                modalidade: item.modalidade
+            }
+        });
+        console.log(equipes);
+        return equipes;
+    } catch (erro: Error | any) {
+        throw new Error('Erro ao buscar formato: ' + erro.message);
+    }
+}
+
+
+export const TeamService = { buscarTimes, cadastro, buscarTimesCampeonato }

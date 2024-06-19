@@ -43,7 +43,6 @@ export const AmistosoProvider: React.FC<AmistosoProviderProps> = ({
             ...prevAmistosoData,
             ...novaPropriedade,
         }));
-        console.log(amistosoData)
     }
 
     function cadastrar(amistoso: any) {

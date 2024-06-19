@@ -13,7 +13,6 @@ export function PerfilScreen() {
   const navigation = useNavigation();
   const { signOut, authData } = useAuth();
   const imagem = imageConverter(authData?.imagemPerfil, require('../../assets/icons/user.png'));
-  console.log(authData?.imagemPerfil)
   return (
     <Box>
       <VStack bgColor={'#0A1423'} margin={'10px'} paddingBottom={'20px'} borderRadius={'5px'}>

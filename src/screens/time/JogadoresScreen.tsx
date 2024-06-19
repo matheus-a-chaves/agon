@@ -39,7 +39,6 @@ export function JogadoresScreen() {
 
     async function fetchJogadores() {
         try {
-            console.log(equipe)
             const jogadores = await JogadoresService.buscarJogadores(equipe.idEquipe);
             setJogadores(jogadores);
         } catch (error) {

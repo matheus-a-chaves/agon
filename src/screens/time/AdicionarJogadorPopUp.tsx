@@ -42,7 +42,6 @@ export function AdicionarJogadorPopUp({ navigation, id, onChangeSalvar }: any) {
     const cpfCnpj = watch('cpfCnpj');
 
     useEffect(() => {
-        console.log(id);
         if (cpfCnpj) {
             setValue('cpfCnpj', applyMask(cpfCnpj));
         }

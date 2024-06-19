@@ -80,7 +80,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 
   function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
     try {
-      return CampeonatoService.buscarCampeonatosInternos(id);
+      return CampeonatoService.buscarCampeonatosInternos(id, 1);
     } catch (error: any) {
       Alert.alert('404');
       return error;

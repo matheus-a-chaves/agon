@@ -29,12 +29,10 @@ export const TeamContext = createContext<TeamContextData>(
 export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
   const [teamData, setTeamData] = useState<Equipe[]>([]);
   const [idModalidade, setIdModalidade] = useState<number>(0);
-  const [jogadores, setJogadores] = useState<Jogador[]>([]);
   const { authData } = useAuth();
 
   async function findAllTeam(): Promise<void> {
     try {
-      console.log('authData:', authData);
       const team = await TeamService.buscarTimes(authData?.id, authData?.tipoUsuario);
       setTeamData(team)
     } catch (error: any) {
