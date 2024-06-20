@@ -81,7 +81,8 @@ export function FormatoScreen() {
       <NovoCampeonato
         title="Novo Campeonato"
         image={{ url: faq, size: 200 }}
-        descricao="Escolha um nome para o campeonato e selecione a modalidade"
+        descricao="Escolha um formato, datas e quantidade de equipes."
+        width={100}
         height={383}
       />
       <Form>

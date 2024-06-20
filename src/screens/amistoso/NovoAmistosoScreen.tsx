@@ -73,7 +73,6 @@ export function NovoAmistosoScreen() {
             cidade: amistosoData?.cidade,
             estado: amistosoData?.estado,
         }
-        console.log(body);
         // navigation.navigate('Time' as never);
     }
 

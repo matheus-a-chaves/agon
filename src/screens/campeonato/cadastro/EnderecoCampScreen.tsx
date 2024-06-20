@@ -1,19 +1,15 @@
-import { Box, HStack, Image, View, VStack, Text } from 'native-base';
+import { Box, HStack, VStack } from 'native-base';
 import { SafeAreaView } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation, useRoute } from '@react-navigation/native';
-
-import { Controller, set, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Input } from './Input';
-import Button from './Button';
-import { useAutoCadastro } from '../contexts/FormProvider';
-import NovoCampeonato from './NovoCampeonato';
-import { useCampeonato } from '../contexts/Campeonato';
+import { useCampeonato } from '../../../contexts/Campeonato';
+import NovoCampeonato from '../../../components/NovoCampeonato';
+import { Input } from '../../../components/Input';
+import Button from '../../../components/Button';
 
 
 type FormData = {
@@ -35,11 +31,11 @@ const CadastroSchema = yup.object().shape({
 });
 
 
-export const EnderecoComponent = () => {
+export const EnderecoCampScreen = () => {
     const { setCampeonatoBody } = useCampeonato();
     const [title, setTitle] = useState('');
 
-    const bascket = require('../assets/img/campeonato/basketball.png');
+    const bascket = require('../../../assets/img/campeonato/basketball.png');
     const route = useRoute();
     const { screen }: any = route.params;
     const {
@@ -96,27 +92,7 @@ export const EnderecoComponent = () => {
     const navigation = useNavigation();
 
     function onData(data: any) {
-        if (screen === 'campeonato') {
-            setCampeonatoBody({
-                cep: data.zipCode,
-                cidade: data.city,
-                estado: data.state,
-                rua: data.street,
-                numero: data.number,
-                bairro: data.district
-            });
-            navigation.navigate('Formato' as never)
-        } else {
-            setCampeonatoBody({
-                cep: data.zipCode,
-                cidade: data.city,
-                estado: data.state,
-                rua: data.street,
-                numero: data.number,
-                bairro: data.district
-            });
-            navigation.navigate('PasswordCadScreen' as never)
-        }
+        navigation.goBack();
     }
 
     return (
@@ -126,10 +102,10 @@ export const EnderecoComponent = () => {
                 <VStack justifyContent={'center'} alignItems={'center'} py={5} bg={'#fff'}
                     px={5} space={3}>
                     <NovoCampeonato
-                        title={title}
-                        image={{ url: bascket, size: 150 }}
+                        title={"Endereço Campeonato"}
+                        image={{ url: bascket, size: 190 }}
                         descricao="Preencha o endereço onde ocorrerá o evento."
-                        height={300}
+                        height={380}
                     />
                     <VStack w={'100%'} justifyContent={'space-between'}>
                         <VStack justifyContent={'center'} alignItems={'center'} py={1}
@@ -222,7 +198,7 @@ export const EnderecoComponent = () => {
                         </VStack>
 
                     </VStack>
-                    <Button title={'PROXIMO'} size={'full'} onPress={handleSubmit(onData)} />
+                    <Button title={'INICIAR CAMPEONATO'} size={'full'} onPress={handleSubmit(onData)} />
                 </VStack>
 
             </Box>

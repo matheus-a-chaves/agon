@@ -9,7 +9,7 @@ import { CampeonatoScreen } from '../screens/campeonato/listar/CampeonatoScreen'
 import ChaveamentoScreen from '../screens/campeonato/ChaveamentoScreen';
 import { FaseDeGrupoScreen } from '../screens/campeonato/listar/FaseDeGrupoScreen';
 import { PontosCorridosScreen } from '../screens/campeonato/listar/PontosCorridosScreen';
-import { EnderecoComponent } from '../components/EnderecoComponent';
+import { EnderecoCampScreen } from '../screens/campeonato/cadastro/EnderecoCampScreen';
 
 const Stack = createNativeStackNavigator();
 export function CampeonatoStack() {
@@ -27,7 +27,7 @@ export function CampeonatoStack() {
         <Stack.Screen name="ChaveamentoCampeonato" component={ChaveamentoScreen} />
         <Stack.Screen name="PontosCorridos" component={FaseDeGrupoScreen} />
         <Stack.Screen name="FaseDeGrupos" component={PontosCorridosScreen} />
-        <Stack.Screen name="EnderecoCampeonato" component={EnderecoComponent} />
+        <Stack.Screen name="EnderecoCampScreen" component={EnderecoCampScreen} />
       </Stack.Navigator>
     </CampeonatoProvider>
   );

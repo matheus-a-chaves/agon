@@ -9,18 +9,14 @@ import {
   Image,
   Menu,
   Pressable,
-  Avatar,
-  Divider,
 } from 'native-base';
-import { upload, equipe } from '../../Utils';
+import { upload } from '../../Utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
 import { ViewTimesCamp } from '../../../components/ViewTimesCamp';
 import { SafeAreaView } from 'react-native';
 import { environment } from '../../../../environment';
 import { useAuth } from '../../../contexts/Auth';
-import { AdicionarJogadorPopUp } from '../../time/AdicionarJogadorPopUp';
 import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
 import { Equipe } from '../../../interfaces/equipeInterface';
 import { TeamService } from '../../../services/time.service';
@@ -85,7 +81,7 @@ export function CampeonatoTimesScreen() {
                   </Pressable>
                 );
               }}>
-              <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Iniciar</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('EnderecoCampScreen' as never, { id })}>Iniciar</Menu.Item>
               <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
               <Menu.Item onPress={() => navigation.navigate('FaseDeGrupos' as never)}>Fase de grupos</Menu.Item>
               <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
@@ -117,7 +113,7 @@ export function CampeonatoTimesScreen() {
       </Box>
       <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
         <Text px={10} py={5} fontSize={'18px'}>
-          Times inscritos
+          Equipes inscritas
         </Text>
         <FlatList
           w={'100%'}

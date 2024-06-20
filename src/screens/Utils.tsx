@@ -107,7 +107,6 @@ export async function findByNameImage(name: any) {
   let url: string = '';
   getDownloadURL(ref(storage, name)).then(async downloadURL => {
     url = downloadURL;
-    console.log(url);
   });
   return url;
 }
