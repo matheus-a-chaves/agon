@@ -122,7 +122,7 @@ const AgendaScreen: React.FC = () => {
                     <Box size={25} />
                 </HStack>
                 <Calendar
-                    onDayPress={(day) => setSelectedDate(day.dateString)}
+                    onDayPress={(day: any) => setSelectedDate(day.dateString)}
                     markedDates={{ [selectedDate]: { selected: true } }}
                     monthFormat={'MMMM yyyy'}
                     locale={'pt-br'}

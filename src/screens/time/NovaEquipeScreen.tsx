@@ -6,8 +6,7 @@ import {
 } from '../../styles/campeonato/CadastroCss';
 import NovaEquipe from '../../components/NovoCampeonato';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { equipe, handleImage } from '../Utils';
-import { useCampeonato } from '../../contexts/Campeonato';
+import { handleImage } from '../Utils';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../components/Button';
 import * as yup from 'yup';
@@ -16,9 +15,7 @@ import { Select } from '../../components/Select';
 import { Modalidade } from '../../interfaces/modalidadesInterface';
 import UploadComponent from '../../components/UploadComponent';
 import { ModalideService } from '../../services/modalidade.service';
-import { TeamData, useTeam } from '../../contexts/Team';
-import { Equipe } from '../../interfaces/equipeInterface';
-
+import { useTeam } from '../../contexts/Team';
 
 interface EquipeBody {
     nome: string;
@@ -78,7 +75,6 @@ export function NovaEquipeScreen() {
             modalidade: parseInt(data.modalidade),
             imagem: uri,
         }
-        console.log(equipeBody);
         cadastrar(equipeBody);
 
         navigation.navigate('Time' as never);

@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { DatePicker } from '../../components/DatePicker';
 import { useEffect } from 'react';
 import { useAutoCadastro } from '../../contexts/FormProvider';
+import { applyMask } from '../Utils';
 
 type FormData = {
     nomeCompleto: string;
@@ -57,7 +58,7 @@ export const UserCadScreen = () => {
             nomeCompleto: data.nomeCompleto,
             email: data.email,
             cpfCnpj: data.cpfCnpj,
-            dataNascimento: data.dataNascimento
+            dataNascimento: data.dataNascimento,
         });
         navigation.navigate('EnderecoCadScreen' as never)
     }
@@ -157,17 +158,3 @@ export const UserCadScreen = () => {
         </SafeAreaView>
     );
 }
-
-const applyMask = (value: string): string => {
-    value = value.replace(/\D/g, '');
-    if (value.length <= 11) {
-        return value.replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    } else {
-        return value.replace(/(\d{2})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1/$2')
-            .replace(/(\d{4})(\d)/, '$1-$2');
-    }
-};

@@ -20,7 +20,7 @@ export function MenuStack() {
                 component={CampeonatoStack}
                 initialParams={{ screen: 'Upload' }} />
             <Stack.Screen name="TimeStack" component={TimeStack} initialParams={{ screen: 'NovaEquipe' }} />
-            <Stack.Screen name="AmistosoStack" component={AmistosoStack} initialParams={{ screen: 'NovoAmistosoScreen' }} />
+            <Stack.Screen name="AmistosoStack" component={AmistosoStack} initialParams={{ screen: 'EnderecoAmistoso' }} />
         </Stack.Navigator>
     );
 }

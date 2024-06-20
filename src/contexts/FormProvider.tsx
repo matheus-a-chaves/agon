@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { UsuarioService } from '../services/usuario.service';
 
 export interface IFormAuto {
     nomeCompleto?: string;
@@ -46,8 +47,7 @@ export const AutoCadastroProvider: React.FC<AutoCadastroProviderProps> = ({
 
     function cadastrar(autocadastro: any) {
         try {
-            //   CampeonatoService.cadastro(campeonato);
-            console.log(autocadastro);
+            UsuarioService.cadastro(autocadastro);
         } catch (error: any) {
             console.log('404');
             return error;

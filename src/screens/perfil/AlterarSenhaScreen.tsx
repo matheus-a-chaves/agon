@@ -30,8 +30,6 @@ export const AlterarSenhaScreen = () => {
 
     async function onData(data: any) {
         try {
-            console.log(authData?.email)
-            console.log(data)
             await Alert.alert('Senha alterada com sucesso!')
             navigation.goBack();
         } catch (error) {

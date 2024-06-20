@@ -64,7 +64,6 @@ export function SolicitacoesScreen() {
                     <Text color={'#333'} fontSize={'16px'} fontWeight={'500'}>
                         Pedido de amistoso
                     </Text>
-                    <Image source={require('../../assets/icons/edit.png')} alt={'editar'} />
                 </HStack>
                 <HStack >
                     <Box

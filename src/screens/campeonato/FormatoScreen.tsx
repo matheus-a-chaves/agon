@@ -74,14 +74,15 @@ export function FormatoScreen() {
       regulamento: campeonatoData?.regulamento,
     };
     cadastrar(campeonato);
-    navigation.navigate('CampeonatosTimes' as never);
+    navigation.navigate('Campeonatos' as never);
   }
   return (
     <Container>
       <NovoCampeonato
         title="Novo Campeonato"
         image={{ url: faq, size: 200 }}
-        descricao="Escolha um nome para o campeonato e selecione a modalidade"
+        descricao="Escolha um formato, datas e quantidade de equipes."
+        width={100}
         height={383}
       />
       <Form>

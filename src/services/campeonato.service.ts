@@ -16,10 +16,10 @@ async function cadastro(campeonato: Campeonato) {
       regulamento: campeonato.regulamento,
       imagemCampeonato: campeonato.imagem,
       formato: {
-        codigoFormato: campeonato.formato,
+        id: campeonato.formato,
       },
       modalidade: {
-        codigoModalidade: campeonato.modalidade,
+        id: campeonato.modalidade,
       },
     };
     const response = await axios.post(URL, body);
@@ -30,19 +30,15 @@ async function cadastro(campeonato: Campeonato) {
   }
 }
 
-async function buscarCampeonatosInternos(id: any): Promise<CampeonatoList[]> {
+async function buscarCampeonatosInternos(idAtletica: any, idModalidade: any): Promise<CampeonatoList[]> {
   try {
-    const idAtletica = 1;
-    const idModalidade = 1;
-    const urlteste = `${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`
-    console.log(urlteste)
     const response = await axios.get(`${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`);
 
     const campeonatos: CampeonatoList[] = response.data.map((item: any) => {
       return {
         id: item.id,
         nome: item.nome,
-        imagem: item.imagem,
+        imagem: item.imagemCampeonato,
         dataInicio: item.dataInicio,
       };
     });
@@ -71,8 +67,37 @@ async function buscarCampeonatosExternos(id: any): Promise<CampeonatoList[]> {
   }
 }
 
+async function cadastrarEndereco(campeonato: Campeonato) {
+  try {
+    const body = {
+      nome: campeonato.nome,
+      quantidadeEquipes: campeonato.quantidadeEquipes,
+      dataInicio: formatDate(campeonato.dataInicio),
+      dataFim: formatDate(campeonato.dataFim),
+      regulamento: campeonato.regulamento,
+      imagemCampeonato: campeonato.imagem,
+      formato: {
+        codigoFormato: campeonato.formato,
+      },
+      modalidade: {
+        codigoModalidade: campeonato.modalidade,
+      },
+    };
+    const response = await axios.post(URL, body);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+
+
+
+
 export const CampeonatoService = {
   cadastro,
   buscarCampeonatosInternos,
   buscarCampeonatosExternos,
+  cadastrarEndereco
 };

@@ -5,48 +5,49 @@ import * as yup from 'yup';
 import { Container, Form } from '../../styles/campeonato/CadastroCss';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import NovoCampeonato from '../../components/NovoCampeonato';
 import { useCampeonato } from '../../contexts/Campeonato';
 import { Modalidade } from '../../interfaces/modalidadesInterface';
 import { Select } from '../../components/Select';
 import { ModalideService } from '../../services/modalidade.service';
 import { HStack } from 'native-base';
-import { DatePicker } from '../../components/DatePicker';
+import { KeyboardAvoidingView, Platform, Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import { PopUpAgenda } from './PopUpAgenda';
+import { TimePicker } from '../../components/TimePicker';
+import { equipe } from '../Utils';
+import { useAmistoso } from '../../contexts/Amistoso';
 
 type FormData = {
-    nomeCampeonato: string;
+    equpeId: string;
     modalidade: string;
     data: string;
     hora: string;
-    local: string;
 };
 
 const CadastroSchema = yup.object().shape({
-    nomeCampeonato: yup
+    equpeId: yup
         .string()
-        .required('Nome do campeonato é obrigatório')
-        .min(3, 'Nome do campeonato deve ter no mínimo 3 caracteres'),
+        .required('Escolher um time é obrigatório'),
     modalidade: yup.string().required('Modalidade é obrigatória'),
     data: yup.string().required('Modalidade é obrigatória'),
     hora: yup.string().required('Modalidade é obrigatória'),
-    local: yup.string().required('Modalidade é obrigatória'),
 });
 
 export function NovoAmistosoScreen() {
     const bascket = require('../../assets/img/amistoso/novo_amistoso.png');
-
+    const navigation = useNavigation();
     const {
         control,
         handleSubmit,
+        watch,
+        setValue,
         formState: { errors },
     } = useForm<FormData>({ resolver: yupResolver(CadastroSchema) });
-    const { setCampeonatoBody } = useCampeonato();
+    const { amistosoData } = useAmistoso();
     const [modalidades, setModalidades] = useState<Modalidade[]>([]);
-    const navigation = useNavigation();
 
     useEffect(() => {
-        // Função para buscar as modalidades quando o componente for montado
         async function fetchModalidades() {
             try {
                 const modalidadesData = await ModalideService.buscarModalidade();
@@ -59,94 +60,86 @@ export function NovoAmistosoScreen() {
     }, []);
 
     function handleConsole(data: FormData) {
-        setCampeonatoBody({
-            nome: data.nomeCampeonato,
+
+        const body = {
+            equipe: data.equpeId,
             modalidade: parseInt(data.modalidade),
-        });
-        console.log('formatos')
-        navigation.navigate('Formato' as never);
+            data: data.data,
+            hora: data.hora,
+            cep: amistosoData?.cep,
+            rua: amistosoData?.rua,
+            numero: amistosoData?.numero,
+            bairro: amistosoData?.bairro,
+            cidade: amistosoData?.cidade,
+            estado: amistosoData?.estado,
+        }
+        // navigation.navigate('Time' as never);
     }
 
+    const handleItemSelect = (id: any, data: any) => {
+        setValue('data', data);
+        setValue('equpeId', id);
+    };
+
+    const changeValue = (value: any) => {
+        setValue('hora', value);
+    }
     return (
-        <Container>
-            <NovoCampeonato
-                title="Novo Amistoso"
-                image={{ url: bascket, size: 100 }}
-
-                height={200}
-            />
-            <Form>
-                <Controller
-                    control={control}
-                    name="nomeCampeonato"
-                    render={({ field: { onChange } }) => (
-                        <Input
-                            placeholder="Buscar time..."
-                            onChangeText={onChange}
-                            errorMessage={errors.nomeCampeonato?.message}
-                        />
-                    )}
-                />
-
-                <Controller
-                    control={control}
-                    name="modalidade"
-                    render={({ field: { onChange, value } }) => (
-                        <Select
-                            placeholder="Selecione a modalidade"
-                            lista={modalidades}
-                            errorMessage={errors.modalidade?.message}
-                            onValueChange={onChange}
-                            selectedValue={value}
-                        />
-                    )}
-                />
-                <HStack space={3}>
-                    <Controller
-                        control={control}
-                        name="data"
-                        render={({ field: { onChange, value } }) => (
-                            <DatePicker
-                                size={'60%'}
-                                placeholder="Data do amistoso"
-                                lista={modalidades}
-                                errorMessage={errors.modalidade?.message}
-                                onValueChange={onChange}
-                                selectedValue={value}
-                            />
-                        )}
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.keyboardAvoidingView}
+            >
+                <Container>
+                    <NovoCampeonato
+                        title="Novo Amistoso"
+                        image={{ url: bascket, size: 270 }}
+                        height={370}
                     />
-
-                    <Controller
-                        control={control}
-                        name="hora"
-                        render={({ field: { onChange, value } }) => (
-
-                            <Input
-                                widthForm={'36%'}
-                                placeholder="horario"
-                                errorMessage={errors.modalidade?.message}
-                                onChangeText={onChange}
-                            />
-                        )}
-                    />
-                </HStack>
-                <Controller
-                    control={control}
-                    name="local"
-                    render={({ field: { onChange, value } }) => (
-
-                        <Input
-                            placeholder="Local do amistoso"
-                            errorMessage={errors.modalidade?.message}
-                            onChangeText={onChange}
+                    <Form>
+                        <Controller
+                            control={control}
+                            name="modalidade"
+                            render={({ field: { onChange, value } }) => (
+                                <Select
+                                    placeholder="Selecione a modalidade"
+                                    lista={modalidades}
+                                    errorMessage={errors.modalidade?.message}
+                                    onValueChange={onChange}
+                                    selectedValue={value}
+                                />
+                            )}
                         />
-                    )}
-                />
+                        <PopUpAgenda flex={1} onItemSelect={handleItemSelect} modalidade={watch('modalidade')} />
 
+                        <HStack space={1}>
+                            <Controller
+                                control={control}
+                                name="hora"
+                                render={({ field: { onChange } }) => (
+                                    <Pressable>
+                                        <TimePicker changeValue={onChange} />
+                                    </Pressable>
+                                )}
+                            />
 
-                <Button title={'CRIAR'} onPress={handleSubmit(handleConsole)} />
-            </Form>
-        </Container>
+                        </HStack>
+                        <Button title={'AGENDAR'} onPress={handleSubmit(handleConsole)} />
+                    </Form>
+                </Container>
+            </KeyboardAvoidingView >
+        </SafeAreaView>
     );
+
+
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    keyboardAvoidingView: {
+        flex: 1,
+        justifyContent: 'flex-start',
+    },
+});
