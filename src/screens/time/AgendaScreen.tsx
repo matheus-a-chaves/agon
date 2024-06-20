@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
-import { NativeBaseProvider, Box, VStack, Text, Image, HStack, Center, Spinner, Avatar } from 'native-base';
+import { NativeBaseProvider, Box, VStack, Text, HStack, Center, Spinner, Avatar } from 'native-base';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 // Configuração de idioma para o calendário
 LocaleConfig.locales['pt-br'] = {
@@ -54,6 +56,7 @@ const mockGames: GamesData = {
 };
 
 const AgendaScreen: React.FC = () => {
+    const navigation = useNavigation();
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [games, setGames] = useState<Game[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -105,9 +108,21 @@ const AgendaScreen: React.FC = () => {
 
     return (
         <NativeBaseProvider>
-            <Box flex={1} background={"#004AAD"}>
+            <Box flex={1} background={"#fff"}>
+                <HStack justifyContent={'space-between'} padding={'5px'} bgColor={'#004AAD'} mb={1}>
+                    <Ionicons
+                        name="arrow-back"
+                        size={25}
+                        color={'#fff'}
+                        onPress={() => navigation.goBack()}
+                    />
+                    <Text color={'#fff'} fontWeight={'medium'} fontSize={16}>
+                        Agenda
+                    </Text>
+                    <Box size={25} />
+                </HStack>
                 <Calendar
-                    onDayPress={(day) => setSelectedDate(day.dateString)}
+                    onDayPress={(day: any) => setSelectedDate(day.dateString)}
                     markedDates={{ [selectedDate]: { selected: true } }}
                     monthFormat={'MMMM yyyy'}
                     locale={'pt-br'}

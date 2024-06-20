@@ -58,6 +58,7 @@ const ChaveamentoScreen: React.FC = () => {
     return (
         <NativeBaseProvider>
             <Bracket
+                oitavasDireita={oitavasEsquerda}
                 oitavasEsquerda={oitavasEsquerda}
                 quartasEsquerda={quartasEsquerda}
                 quartasDireita={quartasDireita}

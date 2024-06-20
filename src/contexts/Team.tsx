@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import { TeamService } from '../services/time.service';
 import { Equipe } from '../interfaces/equipeInterface';
+import { useAuth } from './Auth';
+import { Jogador } from '../screens/time/JogadoresScreen';
 
 export interface TeamData {
   id: string;
@@ -14,8 +16,10 @@ interface TeamProviderProps {
 
 interface TeamContextData {
   teamData?: Equipe[];
-  findAllTeam: (idAtletica: string) => void;
+  findAllTeam: () => void;
   cadastrar(equipe: any): void;
+  idModalidade: number,
+  setIdModalidadeEquipe(id: number): void;
 }
 
 export const TeamContext = createContext<TeamContextData>(
@@ -24,10 +28,12 @@ export const TeamContext = createContext<TeamContextData>(
 
 export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
   const [teamData, setTeamData] = useState<Equipe[]>([]);
+  const [idModalidade, setIdModalidade] = useState<number>(0);
+  const { authData } = useAuth();
 
-  async function findAllTeam(idAtletica: string): Promise<void> {
+  async function findAllTeam(): Promise<void> {
     try {
-      const team = await TeamService.buscarTimes(idAtletica);
+      const team = await TeamService.buscarTimes(authData?.id, authData?.tipoUsuario);
       setTeamData(team)
     } catch (error: any) {
       return error;
@@ -36,14 +42,19 @@ export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
 
   async function cadastrar(equipe: any) {
     try {
-      TeamService.cadastro(equipe);
+      await TeamService.cadastro(equipe, authData?.id);
+      await findAllTeam();
     } catch (error: any) {
       return error;
     }
   }
 
+  function setIdModalidadeEquipe(id: number) {
+    setIdModalidade(id)
+  }
+
   return (
-    <TeamContext.Provider value={{ teamData, findAllTeam, cadastrar }}>
+    <TeamContext.Provider value={{ teamData, findAllTeam, cadastrar, setIdModalidadeEquipe, idModalidade }}>
       {children}
     </TeamContext.Provider>
   );

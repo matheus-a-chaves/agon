@@ -55,7 +55,6 @@ export function NomeModalidadeScreen() {
       nome: data.nomeCampeonato,
       modalidade: parseInt(data.modalidade),
     });
-    console.log('formatos')
     navigation.navigate('Formato' as never);
   }
 

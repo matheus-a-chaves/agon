@@ -13,35 +13,46 @@ import {
 import { upload } from '../../Utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
 import { ViewTimesCamp } from '../../../components/ViewTimesCamp';
 import { SafeAreaView } from 'react-native';
+import { environment } from '../../../../environment';
+import { useAuth } from '../../../contexts/Auth';
+import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
+import { Equipe } from '../../../interfaces/equipeInterface';
+import { TeamService } from '../../../services/time.service';
 
 export function CampeonatoTimesScreen() {
+  const { authData } = useAuth()
   const navigation = useNavigation();
   const route = useRoute();
 
-  //  const {id}: any = route.params;
+  const { id }: any = route.params;
 
-  const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
-  const { buscarCampeonatosInternos, buscarCampeonatosExternos } =
-    useCampeonato();
+  const [equipes, setEquipes] = useState<Equipe[]>([]);
+
 
   useEffect(() => {
-    campeonatoInterno();
-    //  console.log(id);
+    fetchEquipes();
+    console.log(id);
   }, []);
 
-  const campeonatoInterno = async () => {
+  const fetchEquipes = async () => {
     try {
-      const modalidadesData: CampeonatoList[] = await buscarCampeonatosInternos(
-        0,
-      );
-      setCampeonatos(modalidadesData);
+      const equipesData: Equipe[] = await TeamService.buscarTimesCampeonato(id);
+      setEquipes(equipesData);
     } catch (error) {
       console.error('Erro ao buscar modalidades:', error);
     }
   };
+
+  async function onRemoveEquipe(id: string) {
+    try {
+      // await JogadoresService.removerJogador(parseInt(id), 1);
+    } catch (error) {
+      console.error('Erro ao remover jogador:', error);
+    }
+  }
+
 
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: '#004AAD' }}>
@@ -70,10 +81,10 @@ export function CampeonatoTimesScreen() {
                   </Pressable>
                 );
               }}>
-              <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Iniciar</Menu.Item>
-              <Menu.Item onPress={() => navigation.navigate('PontosCampeonato' as never)}>Informações</Menu.Item>
-              <Menu.Item>Regulamento</Menu.Item>
-              <Menu.Item>Sair do campeonato</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('EnderecoCampScreen' as never, { id })}>Iniciar</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('FaseDeGrupos' as never)}>Fase de grupos</Menu.Item>
+              <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
             </Menu>
           </Box>
         </HStack>
@@ -93,28 +104,35 @@ export function CampeonatoTimesScreen() {
               alt="imagem do time"
             />
           </Box>
+          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
+            <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
+              <AdicionarTimePopUp />
+            </Box>
+          )}
         </VStack>
       </Box>
       <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
         <Text px={10} py={5} fontSize={'18px'}>
-          Times inscritos
+          Equipes inscritas
         </Text>
         <FlatList
           w={'100%'}
-          data={campeonatos}
+          data={equipes}
           renderItem={({ item, index }) => {
             return (
-              <Box
-                marginBottom={'10px'}
-                alignItems={'center'}
-                borderTopWidth={1}
-                borderColor={'#A3A3A3'}>
-                <ViewTimesCamp
+              authData?.tipoUsuario === environment.PERFIL_ATLETICA ?
+                <ListaAtletica
                   nome={item.nome}
-                  imagem={upload}
-                  numero={index + 1}
+                  index={index}
+                  id={item.id}
+                  upload={upload} /> :
+                <ListaJogador
+                  nome={item.nome}
+                  index={index}
+                  id={item.id}
+                  upload={upload}
                 />
-              </Box>
+
             );
           }}
           keyExtractor={item => item.id}
@@ -122,4 +140,60 @@ export function CampeonatoTimesScreen() {
       </VStack>
     </SafeAreaView>
   );
+
+
+  function ListaAtletica({ nome, upload, index, id }: any) {
+    return (
+      <Menu
+        w="200px"
+        marginLeft={'40px'}
+        marginTop={'-18px'}
+        bg={'#004AAD'}
+        trigger={triggerProps => {
+          return (
+            <Pressable
+              accessibilityLabel="More options menu"
+              {...triggerProps}
+            >
+              <Box
+                marginBottom={'10px'}
+                alignItems={'center'}
+                borderTopWidth={1}
+                borderColor={'#A3A3A3'}>
+                <ViewTimesCamp
+                  nome={nome}
+                  imagem={upload}
+                  numero={index + 1}
+                />
+              </Box>
+            </Pressable>
+          );
+        }}>
+
+        <Menu.Item onPress={() => onRemoveEquipe(id)}>
+          <Text fontSize={'14px'} color={'#fff'}>
+            Remover jogador
+          </Text>
+        </Menu.Item>
+      </Menu>
+    )
+  }
+
+  function ListaJogador({ nome, upload, index }: any) {
+    return (
+      <Box
+        marginBottom={'10px'}
+        alignItems={'center'}
+        borderTopWidth={1}
+        borderColor={'#A3A3A3'}>
+        <ViewTimesCamp
+          nome={nome}
+          imagem={upload}
+          numero={index + 1}
+        />
+      </Box>
+    )
+  }
+
+
 }

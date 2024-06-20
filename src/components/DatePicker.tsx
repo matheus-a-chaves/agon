@@ -1,5 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Box, Pressable, FormControl, Text, IBoxProps } from 'native-base';
+import { Box, Pressable, FormControl, Text } from 'native-base';
 import { useState } from 'react';
 import styled from 'styled-components/native';
 
@@ -32,10 +32,15 @@ export const DatePicker = (props: any) => {
     onDateChange(selectedDate);
 
     let selectDatedate = new Date(selectedDate);
-    setDay(adicionaZero(selectDatedate.getDate()));
-    setMonth(adicionaZero(selectDatedate.getMonth() + 1));
-    setYear(selectDatedate.getFullYear());
-    setTextoData(day + '/' + month + '/' + year);
+    const dia = adicionaZero(selectDatedate.getDate())
+    const mes = adicionaZero(selectDatedate.getMonth() + 1)
+    const ano = selectDatedate.getFullYear()
+
+    setDay(dia);
+    setMonth(mes);
+    setYear(ano);
+    setTextoData(dia + '/' + mes + '/' + ano);
+
   };
 
   const renderDatePicker = () => {

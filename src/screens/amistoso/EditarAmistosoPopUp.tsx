@@ -101,8 +101,6 @@ export function EditarAmistosoPopUp({ navigation }: any) {
                                     </Button>
                                 </HStack>
                             </VStack>
-
-
                         </Modal.Body>
                     </LinearGradient>
                 </Modal.Content>

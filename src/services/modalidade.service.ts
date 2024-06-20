@@ -20,5 +20,24 @@ async function buscarModalidade(): Promise<Modalidade[]> {
     }
 }
 
+async function buscarModalidadeId(id: any): Promise<Modalidade[]> {
+    try {
+        const response = await axios.get(URL, id);
+        const modalidades: Modalidade[] = response.data.map((item: any) => {
+            return {
+                id: item.id,
+                nome: item.nome
+            }
+        });
+        return modalidades;
+    } catch (erro: Error | any) {
+        throw new Error('Erro ao buscar modalidade: ' + erro.message);
+    }
+}
 
-export const ModalideService = { buscarModalidade }
+
+
+export const ModalideService = {
+    buscarModalidade,
+    buscarModalidadeId
+}

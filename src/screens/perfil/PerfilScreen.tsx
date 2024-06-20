@@ -1,17 +1,18 @@
-import React, { Children } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../contexts/Auth';
 import { Box, Image, Pressable, Text, HStack, Center, VStack } from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import LinearGradient from 'react-native-linear-gradient';
+import { useAuth } from '../../contexts/Auth';
+import { environment } from '../../../environment';
+import { imageConverter } from '../Utils';
 
 export function PerfilScreen() {
   const navigation = useNavigation();
-  const { signOut } = useAuth();
-
+  const { signOut, authData } = useAuth();
+  const imagem = imageConverter(authData?.imagemPerfil, require('../../assets/icons/user.png'));
   return (
     <Box>
       <VStack bgColor={'#0A1423'} margin={'10px'} paddingBottom={'20px'} borderRadius={'5px'}>
@@ -20,7 +21,7 @@ export function PerfilScreen() {
             Perfil
           </Text>
           <Image
-            source={require('../assets/icons/user.png')}
+            source={imagem}
             alt="user"
             size={'xl'}
             borderRadius={'full'}
@@ -29,21 +30,29 @@ export function PerfilScreen() {
             borderColor={'#FFFFFF'}
           />
           <Text color={'#FFFFFF'} fontSize={'xl'} fontWeight={500} mt={5}>
-            Matheus Alves Chaves
+            {authData?.nome}
           </Text>
           <Text color={'#FFFFFF'} fontSize={'sm'} fontWeight={300}>
-            matheuschaves@gmail.com
+            {authData?.email}
           </Text>
         </Center>
       </VStack>
       <VStack margin={'10px'} space={2}>
-        <ButtonCustom onPress={signOut} title='Notificações'
-          children={<Ionicons name={'notifications-outline'} size={36} color={'#FFF'} />}
-        />
-        <ButtonCustom onPress={signOut} title='Editar conta'
+        {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
+          <ButtonCustom onPress={() => {
+            navigation.navigate('Solicitacoes' as never)
+          }} title='Solicitações'
+            children={<Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />}
+          />
+        )}
+        <ButtonCustom onPress={() => {
+          navigation.navigate('EditarContaScreen' as never)
+        }} title='Editar conta'
           children={<MaterialCommunityIcons name={'account-circle-outline'} size={36} color={'#FFF'} />}
         />
-        <ButtonCustom onPress={signOut} title='Alterar senha'
+        <ButtonCustom onPress={() => {
+          navigation.navigate('AlterarSenha' as never)
+        }} title='Alterar senha'
           children={<SimpleLineIcons name={'lock'} size={36} color={'#FFF'} />} />
 
         <ButtonCustom onPress={signOut} title='Sair'

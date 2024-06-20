@@ -30,7 +30,7 @@ export function NovoCampeonato({ title, image, descricao, height }: Props) {
         w={'full'}
         h={image.size}
         source={image.url}
-        alt="Descrição da imagem"
+        alt={"Descrição da imagem"}
       />
       <Text
         color={'#FFFFFF'}

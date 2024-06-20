@@ -26,6 +26,7 @@ export interface Team {
 }
 
 interface BracketProps {
+    oitavasDireita: Team[];
     oitavasEsquerda: Team[];
     quartasEsquerda: Team[];
     quartasDireita: Team[];
@@ -37,6 +38,7 @@ interface BracketProps {
 }
 
 const Bracket: React.FC<BracketProps> = ({
+    oitavasDireita,
     oitavasEsquerda,
     quartasEsquerda,
     quartasDireita,
@@ -63,6 +65,7 @@ const Bracket: React.FC<BracketProps> = ({
                                 onPress={() => {
                                     Orientation.unlockAllOrientations();
                                     navigation.goBack()
+                                    setTabBarVisibility(true);
                                 }}
                             />
                             <Box flex={1} justifyContent={'center'} alignItems={'center'}>
