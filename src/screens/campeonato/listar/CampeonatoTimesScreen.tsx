@@ -10,7 +10,7 @@ import {
   Menu,
   Pressable,
 } from 'native-base';
-import { upload } from '../../Utils';
+import { imageConverter, upload } from '../../Utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ViewTimesCamp } from '../../../components/ViewTimesCamp';
@@ -20,8 +20,6 @@ import { useAuth } from '../../../contexts/Auth';
 import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
 import { Equipe } from '../../../interfaces/equipeInterface';
 import { TeamService } from '../../../services/time.service';
-import PartidasComponent from './PartidasComponent';
-import { Campeonato } from '../../../interfaces/campeonatoModel';
 
 export function CampeonatoTimesScreen() {
   const { authData } = useAuth()
@@ -82,7 +80,9 @@ export function CampeonatoTimesScreen() {
                   </Pressable>
                 );
               }}>
-              <Menu.Item onPress={() => navigation.navigate('EnderecoCampScreen' as never, { id })}>Iniciar</Menu.Item>
+              {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && (
+                <Menu.Item onPress={() => navigation.navigate('EnderecoCampScreen' as never, { id })}>Iniciar</Menu.Item>
+              )}
               <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
               <Menu.Item onPress={() => navigation.navigate('FaseDeGrupos' as never)}>Fase de grupos</Menu.Item>
               <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
@@ -93,7 +93,7 @@ export function CampeonatoTimesScreen() {
           <Box
             h="150px"
             w="150px"
-            borderWidth={'3px'}
+            borderWidth={'2px'}
             borderRadius={100}
             alignItems={'center'}
             justifyContent={'center'}>
@@ -101,11 +101,11 @@ export function CampeonatoTimesScreen() {
               h="100%"
               w="100%"
               borderRadius={100}
-              source={require('../../../assets/logo_login.png')}
+              source={imageConverter(campeonato.imagem, require('../../../assets/logo_login.png'))}
               alt="imagem do time"
             />
           </Box>
-          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
+          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && (
             <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
               <AdicionarTimePopUp campeonato={campeonato} />
             </Box>
@@ -186,7 +186,7 @@ export function CampeonatoTimesScreen() {
           data={equipes}
           renderItem={({ item, index }) => {
             return (
-              authData?.tipoUsuario === environment.PERFIL_ATLETICA ?
+              authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 ?
                 <ListaAtletica
                   nome={item.nome}
                   index={index}

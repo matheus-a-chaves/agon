@@ -52,6 +52,7 @@ async function buscarTimes(id: any, tipoUsuario: any): Promise<Equipe[]> {
 
 async function buscarTimesCampeonato(idCampeonato: any): Promise<Equipe[]> {
     try {
+        console.log(URL + `/campeonato/${idCampeonato}`)
         const response = await axios.get(URL + `/campeonato/${idCampeonato}`);
 
         const equipes: Equipe[] = response.data.map((item: any) => {

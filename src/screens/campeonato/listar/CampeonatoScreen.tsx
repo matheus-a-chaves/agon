@@ -25,7 +25,6 @@ export function CampeonatoScreen() {
     try {
       setActiveExterno('#051326');
       setActiveInterno('#004AAD');
-      console.log(equipe)
       const modalidadesData: CampeonatoList[] = await CampeonatoService.buscarCampeonatosExternos(equipe.idEquipe, equipe.modalidade.id);
       setCampeonatos(modalidadesData);
     } catch (error) {

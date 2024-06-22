@@ -20,10 +20,6 @@ const AdicionarSchema = yup.object().shape({
     cpfCnpj: yup.string().required('CNPJ é obrigatório'),
 });
 
-function ValidEmail(email: any) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
 
 export function AdicionarTimePopUp({ navigation, campeonato }: any) {
     const { authData } = useAuth();
@@ -52,10 +48,8 @@ export function AdicionarTimePopUp({ navigation, campeonato }: any) {
 
     async function hundleForm(data: any) {
         try {
-            console.log('cnpj', data.cpfCnpj)
             const cnpj = data.cpfCnpj.replace(/[^\d]+/g, '');
-
-            await CampeonatoService.adicionarEquipe(campeonato.id, cnpj, campeonato.modalidade);
+            await CampeonatoService.adicionarEquipe(campeonato.modalidade, cnpj, campeonato.id);
             setModalVisible(false);
             setValue('cpfCnpj', '');
 
@@ -116,7 +110,7 @@ export function AdicionarTimePopUp({ navigation, campeonato }: any) {
                                                 name="cpfCnpj"
                                                 render={({ field: { onChange, value } }) => (
                                                     <Input
-
+                                                        maxLength={18}
                                                         onChangeText={onChange}
                                                         value={value}
                                                         errorMessage={errors.cpfCnpj?.message}
