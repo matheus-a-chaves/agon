@@ -6,7 +6,7 @@ import { CampeonatoList } from '../contexts/Campeonato';
 
 const URL = `${environment.URL}/campeonatos`;
 
-async function cadastro(campeonato: Campeonato) {
+async function cadastro(campeonato: Campeonato, idAtletica: any) {
   try {
     const body = {
       nome: campeonato.nome,
@@ -22,7 +22,7 @@ async function cadastro(campeonato: Campeonato) {
         id: campeonato.modalidade,
       },
     };
-    const response = await axios.post(URL, body);
+    const response = await axios.post(URL + `/create/usuario/${idAtletica}`, body);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -30,16 +30,16 @@ async function cadastro(campeonato: Campeonato) {
   }
 }
 
-async function buscarCampeonatosInternos(idAtletica: any, idModalidade: any): Promise<CampeonatoList[]> {
+async function buscarCampeonatosInternos(idEquipe: any, idModalidade: any): Promise<CampeonatoList[]> {
   try {
-    const response = await axios.get(`${URL}/atletica/${idAtletica}/modalidade/${idModalidade}`);
-
+    const response = await axios.get(`${URL}/interno/atletica/${idEquipe}/modalidade/${idModalidade}`);
     const campeonatos: CampeonatoList[] = response.data.map((item: any) => {
       return {
         id: item.id,
         nome: item.nome,
         imagem: item.imagemCampeonato,
         dataInicio: item.dataInicio,
+        modalidade: item.modalidade.id,
       };
     });
     return campeonatos;
@@ -47,18 +47,16 @@ async function buscarCampeonatosInternos(idAtletica: any, idModalidade: any): Pr
     throw new Error('Erro ao buscar campeonato: ' + erro.message);
   }
 }
-async function buscarCampeonatosExternos(id: any): Promise<CampeonatoList[]> {
+async function buscarCampeonatosExternos(idEquipe: any, idModalidade: any): Promise<CampeonatoList[]> {
   try {
-    //const response = await axios.get(URL);
-    const response = {
-      data: [{ id: 1, imagem: upload, nome: 'Campeonato 1', date: '20-12-2023' }],
-    };
+    const response = await axios.get(`${URL}/externo/atletica/${idEquipe}/modalidade/${idModalidade}`);
+
     const campeonatos: CampeonatoList[] = response.data.map((item: any) => {
       return {
         id: item.id,
         nome: item.nome,
-        imagem: item.imagem,
-        dataInicio: item.date,
+        imagem: item.imagemCampeonato,
+        dataInicio: item.dataInicio,
       };
     });
     return campeonatos;
@@ -91,13 +89,25 @@ async function cadastrarEndereco(campeonato: Campeonato) {
   }
 }
 
-
-
+async function adicionarEquipe(idModalidade: number, cnpj: number, idCampeonato: number) {
+  try {
+    const url = URL + `/${idCampeonato}/modalidade/${idModalidade}/adicionar`
+    console.log(url)
+    const body = { cnpj: cnpj }
+    console.log(body)
+    const response = await axios.post(url, body);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 
 export const CampeonatoService = {
   cadastro,
   buscarCampeonatosInternos,
   buscarCampeonatosExternos,
-  cadastrarEndereco
+  cadastrarEndereco,
+  adicionarEquipe
 };

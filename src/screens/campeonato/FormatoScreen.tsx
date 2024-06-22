@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Container, Form } from '../../styles/campeonato/CadastroCss';
 import { Button } from '../../components/Button';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import NovoCampeonato from '../../components/NovoCampeonato';
 import { useCampeonato } from '../../contexts/Campeonato';
 import { Select } from '../../components/Select';
@@ -40,13 +40,18 @@ export function FormatoScreen() {
   const {
     control,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({ resolver: yupResolver(CadastroSchema) });
-
+  const formatoSelecionado = watch('formato');
   const { cadastrar, campeonatoData } = useCampeonato();
   const [formatos, setFormatos] = useState<Formato[]>([]);
   const [dataInicio, setDataInicio] = useState('');
   const [quantidade, setQuantidade] = useState(0);
+  const [maximo, setMaximo] = useState(0);
+  const [minimo, setMinimo] = useState(0);
+  const [somar, setSomar] = useState(0);
 
   const navigation = useNavigation();
 
@@ -62,6 +67,26 @@ export function FormatoScreen() {
     fetchFormatos();
   }, []);
 
+  useEffect(() => {
+
+    if (parseInt(formatoSelecionado) === 1) {
+      quantidadePontosCorridos()
+    }
+  }, [formatoSelecionado]);
+
+  function quantidadePontosCorridos(): void {
+    setMinimo(4);
+    setQuantidade(4);
+    setMaximo(20);
+    setSomar(1);
+    setValue('quantidade', 4)
+  }
+
+
+
+
+
+
   function salvar(data: FormData) {
     const campeonato = {
       nome: campeonatoData?.nome,
@@ -74,7 +99,7 @@ export function FormatoScreen() {
       regulamento: campeonatoData?.regulamento,
     };
     cadastrar(campeonato);
-    navigation.navigate('Campeonatos' as never);
+    navigation.navigate('Time' as never);
   }
   return (
     <Container>
@@ -141,6 +166,9 @@ export function FormatoScreen() {
           render={({ field: { onChange } }) => (
             <Contador
               quantidade={quantidade}
+              min={minimo}
+              max={maximo}
+              somar={somar}
               onChangeContador={(quantidade: number) => {
                 onChange(quantidade);
                 setQuantidade(quantidade);

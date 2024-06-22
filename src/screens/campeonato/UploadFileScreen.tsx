@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Text } from 'react-native';
 import { Button } from '../../styles/SharedStyles';
 import {
@@ -22,8 +22,12 @@ export function UploadFileScreen() {
   const [nomeImage, setNomeImage] = useState('Imagem de perfil');
   const [nomeDocumento, setNomeDocumento] = useState('Regulamento pdf');
 
-  useEffect(() => { }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      setNomeImage('Imagem de perfil');
+      setNomeDocumento('Regulamento pdf');
+    }, [])
+  );
   const handleImageCampeonato = async () => {
     const { uri, fileName } = await handleImage();
     setNomeImage(fileName);

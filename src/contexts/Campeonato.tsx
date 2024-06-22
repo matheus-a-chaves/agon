@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { CampeonatoService } from '../services/campeonato.service';
+import { useAuth } from './Auth';
 
 export interface CampeonatoBody {
   nome?: string;
@@ -18,6 +19,7 @@ export interface CampeonatoList {
   nome: string;
   imagem: string;
   dataInicio: string;
+  modalidade?: number;
 }
 
 export interface PartidasEndereco {
@@ -50,7 +52,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
   children,
 }) => {
   const [campeonatoData, setCampeonato] = useState<Partial<CampeonatoBody>>();
-
+  const { authData } = useAuth();
   useEffect(() => { }, [campeonatoData]);
 
   function setCampeonatoBody(novaPropriedade: Partial<CampeonatoBody>) {
@@ -62,7 +64,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 
   function cadastrar(campeonato: any) {
     try {
-      CampeonatoService.cadastro(campeonato);
+      CampeonatoService.cadastro(campeonato, authData?.id);
     } catch (error: any) {
       Alert.alert('404');
       return error;
@@ -89,7 +91,7 @@ export const CampeonatoProvider: React.FC<CampeonatoProviderProps> = ({
 
   function buscarCampeonatosExternos(id: any): Promise<CampeonatoList[]> {
     try {
-      return CampeonatoService.buscarCampeonatosExternos(id);
+      return CampeonatoService.buscarCampeonatosExternos(id, 1);
     } catch (error: any) {
       Alert.alert('404');
       return error;

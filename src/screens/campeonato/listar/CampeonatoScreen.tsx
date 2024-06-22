@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Box, VStack, Text, HStack, Pressable, FlatList, Image } from 'native-base';
 import { ViewCampeonato } from '../../../components/ViewCampeonato';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { CampeonatoList, useCampeonato } from '../../../contexts/Campeonato';
+import { CampeonatoList } from '../../../contexts/Campeonato';
 import { SafeAreaView } from 'react-native';
 import { CampeonatoService } from '../../../services/campeonato.service';
 import { useAuth } from '../../../contexts/Auth';
@@ -14,7 +14,6 @@ export function CampeonatoScreen() {
   const [activeInterno, setActiveInterno] = useState('#051326');
   const [activeExterno, setActiveExterno] = useState('');
   const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
-  const { buscarCampeonatosInternos, buscarCampeonatosExternos } = useCampeonato();
   const { authData } = useAuth()
   const route = useRoute()
   const { equipe } = route.params as any
@@ -26,7 +25,8 @@ export function CampeonatoScreen() {
     try {
       setActiveExterno('#051326');
       setActiveInterno('#004AAD');
-      const modalidadesData: CampeonatoList[] = await buscarCampeonatosExternos(0);
+      console.log(equipe)
+      const modalidadesData: CampeonatoList[] = await CampeonatoService.buscarCampeonatosExternos(equipe.idEquipe, equipe.modalidade.id);
       setCampeonatos(modalidadesData);
     } catch (error) {
       console.error('Erro ao buscar campeonatos externos:', error);
@@ -38,17 +38,15 @@ export function CampeonatoScreen() {
       setActiveInterno('#051326');
       setActiveExterno('#004AAD');
 
-      const campeonatos: CampeonatoList[] = await CampeonatoService.buscarCampeonatosInternos(
-        authData?.id, equipe.modalidade.id
-      );
+      const campeonatos: CampeonatoList[] = await CampeonatoService.buscarCampeonatosInternos(equipe.idEquipe, equipe.modalidade.id);
       setCampeonatos(campeonatos);
     } catch (error) {
       console.error('Erro ao buscar campeonatos internos:', error);
     }
   };
 
-  const handleCampeonato = (id: any) => {
-    navigation.navigate('CampeonatosTimes', { id });
+  const handleCampeonato = (campeonato: any) => {
+    navigation.navigate('CampeonatosTimes', { campeonato });
   };
 
   return (
@@ -100,7 +98,7 @@ export function CampeonatoScreen() {
           renderItem={({ item }) => (
             <Pressable
               marginBottom={'10px'}
-              onPress={() => handleCampeonato(item.id)}>
+              onPress={() => handleCampeonato(item)}>
               <ViewCampeonato
                 nome={item.nome}
                 imagem={item.imagem}

@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-export const TimePicker = ({ changeValue }: any) => {
+export const TimePicker = ({ changeValue, size }: any) => {
     const [time, setTime] = useState(new Date());
     const [show, setShow] = useState(false);
 
@@ -18,7 +18,7 @@ export const TimePicker = ({ changeValue }: any) => {
     const showTimepicker = () => {
         setShow(true);
     };
-
+    size = size || '150px';
     return (
         <SafeAreaView>
             <Box flexDirection={'row'}
@@ -26,7 +26,7 @@ export const TimePicker = ({ changeValue }: any) => {
                 bg={'#FFF'}
                 borderRadius={5}
                 h={'50px'}
-                w={'150px'}
+                w={size}
                 alignItems={'center'}
                 justifyContent={'space-between'}
                 pl={2}

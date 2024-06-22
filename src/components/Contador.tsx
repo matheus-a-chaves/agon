@@ -1,28 +1,34 @@
-import {Text, Box, Button, HStack, FormControl} from 'native-base';
-import {Image} from 'react-native';
+import { Text, Box, Button, HStack, FormControl } from 'native-base';
+import { Image } from 'react-native';
 
 type Props = {
   errorMessage?: string | null;
   quantidade: number;
   onChangeContador?: (quantidade: number) => void; // Função para atualizar a quantidade
+  min: number;
+  max: number;
+  somar: number;
 };
 
 export function Contador({
   errorMessage = null,
   quantidade,
   onChangeContador,
+  min,
+  max,
+  somar,
   ...rest
 }: Props) {
   const invalid = !!errorMessage;
 
   function add() {
-    if (quantidade >= 16) return onChangeContador && onChangeContador(16);
-    onChangeContador && onChangeContador(quantidade + 1);
+    if (quantidade >= max) return onChangeContador && onChangeContador(max);
+    onChangeContador && onChangeContador(quantidade + somar);
   }
 
   function subtract() {
-    if (quantidade <= 0) return onChangeContador && onChangeContador(0);
-    onChangeContador && onChangeContador(quantidade - 1);
+    if (quantidade <= min) return onChangeContador && onChangeContador(min);
+    onChangeContador && onChangeContador(quantidade - somar);
   }
   function funcQuantidade(): string {
     if (quantidade < 10) return '0' + quantidade;

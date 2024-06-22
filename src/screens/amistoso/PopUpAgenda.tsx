@@ -50,7 +50,7 @@ const AgendaScreen: React.FC<AgendaScreenProps> = ({ onItemSelect, setModalVisib
 
     const fetchGames = async (date: string) => {
         setLoading(true);
-        const timesDisponiveis = await TeamService.buscarTimes(1);
+        const timesDisponiveis = await TeamService.buscarTimes(1, 1);
         setTimes(timesDisponiveis)
         setLoading(false);
     };

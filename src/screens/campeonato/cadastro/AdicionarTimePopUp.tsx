@@ -7,8 +7,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { applyMask } from '../../Utils';
-import { JogadoresService } from '../../../services/jogadores.service';
 import { Input } from '../../../components/Input';
+import { CampeonatoService } from '../../../services/campeonato.service';
+import { useAuth } from '../../../contexts/Auth';
 
 
 type FormData = {
@@ -16,7 +17,7 @@ type FormData = {
 };
 
 const AdicionarSchema = yup.object().shape({
-    cpfCnpj: yup.string().required('Cpf é obrigatório'),
+    cpfCnpj: yup.string().required('CNPJ é obrigatório'),
 });
 
 function ValidEmail(email: any) {
@@ -24,8 +25,10 @@ function ValidEmail(email: any) {
     return regex.test(email);
 }
 
-export function AdicionarTimePopUp({ navigation }: any) {
+export function AdicionarTimePopUp({ navigation, campeonato }: any) {
+    const { authData } = useAuth();
     const [modalVisible, setModalVisible] = React.useState(false);
+
     const {
         control,
         handleSubmit,
@@ -49,10 +52,13 @@ export function AdicionarTimePopUp({ navigation }: any) {
 
     async function hundleForm(data: any) {
         try {
-            const cpf = data.cpfCnpj.replace(/[^\d]+/g, '');
-            await JogadoresService.adicionarJogador(1, cpf);
+            console.log('cnpj', data.cpfCnpj)
+            const cnpj = data.cpfCnpj.replace(/[^\d]+/g, '');
+
+            await CampeonatoService.adicionarEquipe(campeonato.id, cnpj, campeonato.modalidade);
             setModalVisible(false);
             setValue('cpfCnpj', '');
+
         } catch (error) {
             setValue('cpfCnpj', '');
             setModalVisible(false);
@@ -110,7 +116,7 @@ export function AdicionarTimePopUp({ navigation }: any) {
                                                 name="cpfCnpj"
                                                 render={({ field: { onChange, value } }) => (
                                                     <Input
-                                                        maxLength={14}
+
                                                         onChangeText={onChange}
                                                         value={value}
                                                         errorMessage={errors.cpfCnpj?.message}

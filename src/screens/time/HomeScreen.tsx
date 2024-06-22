@@ -4,7 +4,6 @@ import { TextInput, ActivityIndicator } from 'react-native';
 import { InputView } from '../../styles/HomeScreenCss';
 import { Box, FlatList, Pressable, Text, VStack, Image } from 'native-base';
 import { ViewCampeonato } from '../../components/ViewCampeonato';
-import { upload, equipe } from '../Utils';
 import Button from '../../components/Button';
 import { useAuth } from '../../contexts/Auth';
 import { environment } from '../../../environment';

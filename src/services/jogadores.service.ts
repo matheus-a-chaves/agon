@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 
 
 const URL = `${environment.URL}/amistoso`;
-const URL_JOGADORES = `${environment.URL}/times`;
+const URL_JOGADORES = `${environment.URL}/equipes`;
 
 async function adicionarJogador(idAtletica: number, cpf: number, idEquipe: number) {
     try {

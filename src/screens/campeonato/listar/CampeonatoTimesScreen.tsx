@@ -20,6 +20,8 @@ import { useAuth } from '../../../contexts/Auth';
 import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
 import { Equipe } from '../../../interfaces/equipeInterface';
 import { TeamService } from '../../../services/time.service';
+import PartidasComponent from './PartidasComponent';
+import { Campeonato } from '../../../interfaces/campeonatoModel';
 
 export function CampeonatoTimesScreen() {
   const { authData } = useAuth()
@@ -27,18 +29,17 @@ export function CampeonatoTimesScreen() {
   const route = useRoute();
 
   const { id }: any = route.params;
-
+  const { campeonato }: any = route.params;
   const [equipes, setEquipes] = useState<Equipe[]>([]);
 
 
   useEffect(() => {
     fetchEquipes();
-    console.log(id);
   }, []);
 
   const fetchEquipes = async () => {
     try {
-      const equipesData: Equipe[] = await TeamService.buscarTimesCampeonato(id);
+      const equipesData: Equipe[] = await TeamService.buscarTimesCampeonato(campeonato.id);
       setEquipes(equipesData);
     } catch (error) {
       console.error('Erro ao buscar modalidades:', error);
@@ -106,37 +107,15 @@ export function CampeonatoTimesScreen() {
           </Box>
           {authData?.tipoUsuario === environment.PERFIL_ATLETICA && (
             <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
-              <AdicionarTimePopUp />
+              <AdicionarTimePopUp campeonato={campeonato} />
             </Box>
           )}
         </VStack>
       </Box>
-      <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
-        <Text px={10} py={5} fontSize={'18px'}>
-          Equipes inscritas
-        </Text>
-        <FlatList
-          w={'100%'}
-          data={equipes}
-          renderItem={({ item, index }) => {
-            return (
-              authData?.tipoUsuario === environment.PERFIL_ATLETICA ?
-                <ListaAtletica
-                  nome={item.nome}
-                  index={index}
-                  id={item.id}
-                  upload={upload} /> :
-                <ListaJogador
-                  nome={item.nome}
-                  index={index}
-                  id={item.id}
-                  upload={upload}
-                />
 
-            );
-          }}
-          keyExtractor={item => item.id}
-        />
+      <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
+        <ListaEquipes />
+        {/* <PartidasComponent /> */}
       </VStack>
     </SafeAreaView>
   );
@@ -195,5 +174,37 @@ export function CampeonatoTimesScreen() {
     )
   }
 
+  function ListaEquipes() {
+
+    return (
+      <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
+        <Text px={10} py={5} fontSize={'18px'}>
+          Equipes inscritas
+        </Text>
+        <FlatList
+          w={'100%'}
+          data={equipes}
+          renderItem={({ item, index }) => {
+            return (
+              authData?.tipoUsuario === environment.PERFIL_ATLETICA ?
+                <ListaAtletica
+                  nome={item.nome}
+                  index={index}
+                  id={item.id}
+                  upload={upload} /> :
+                <ListaJogador
+                  nome={item.nome}
+                  index={index}
+                  id={item.id}
+                  upload={upload}
+                />
+
+            );
+          }}
+          keyExtractor={item => item.id}
+        />
+      </VStack>
+    )
+  }
 
 }

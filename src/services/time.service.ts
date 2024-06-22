@@ -3,7 +3,7 @@ import { environment } from "../../environment";
 import { Equipe } from "../interfaces/equipeInterface";
 import { ModalideService } from "./modalidade.service";
 
-const URL = `${environment.URL}/times`;
+const URL = `${environment.URL}/equipes`;
 
 async function cadastro(equipe: Equipe, idAtletica: any) {
     try {
@@ -14,6 +14,7 @@ async function cadastro(equipe: Equipe, idAtletica: any) {
             imagem: equipe.imagem,
             modalidade: equipe.modalidade,
         };
+        console.log(body)
         const response = await axios.post(url, body);
         return response.data;
     } catch (error) {
@@ -42,15 +43,15 @@ async function buscarTimes(id: any, tipoUsuario: any): Promise<Equipe[]> {
                 }
             }
         });
+
         return equipes;
     } catch (erro: Error | any) {
-        throw new Error('Erro ao buscar formato: ' + erro.message);
+        throw new Error('Erro ao buscar times: ' + erro.message);
     }
 }
 
 async function buscarTimesCampeonato(idCampeonato: any): Promise<Equipe[]> {
     try {
-        console.log(URL + `/campeonato/${idCampeonato}`);
         const response = await axios.get(URL + `/campeonato/${idCampeonato}`);
 
         const equipes: Equipe[] = response.data.map((item: any) => {
@@ -61,7 +62,6 @@ async function buscarTimesCampeonato(idCampeonato: any): Promise<Equipe[]> {
                 modalidade: item.modalidade
             }
         });
-        console.log(equipes);
         return equipes;
     } catch (erro: Error | any) {
         throw new Error('Erro ao buscar formato: ' + erro.message);
