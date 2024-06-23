@@ -20,6 +20,7 @@ import { useAuth } from '../../../contexts/Auth';
 import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
 import { Equipe } from '../../../interfaces/equipeInterface';
 import { TeamService } from '../../../services/time.service';
+import { CampeonatoService } from '../../../services/campeonato.service';
 
 export function CampeonatoTimesScreen() {
   const { authData } = useAuth()
@@ -46,12 +47,20 @@ export function CampeonatoTimesScreen() {
 
   async function onRemoveEquipe(id: string) {
     try {
-      // await JogadoresService.removerJogador(parseInt(id), 1);
+      await CampeonatoService.removerEquipe(parseInt(id), campeonato.id);
+      fetchEquipes();
     } catch (error) {
-      console.error('Erro ao remover jogador:', error);
+      console.error('Erro ao remover uma equipe:', error);
     }
   }
 
+  async function onAdicionarEquipe() {
+    try {
+      fetchEquipes();
+    } catch (error) {
+      console.error('Erro ao adicionar uma equipe:', error);
+    }
+  }
 
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: '#004AAD' }}>
@@ -63,7 +72,6 @@ export function CampeonatoTimesScreen() {
             color={'#fff'}
             onPress={() => navigation.goBack()}
           />
-
           <Text color={'#fff'} fontWeight={'medium'} fontSize={18}>
             Campeonatos
           </Text>
@@ -107,7 +115,7 @@ export function CampeonatoTimesScreen() {
           </Box>
           {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && (
             <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
-              <AdicionarTimePopUp campeonato={campeonato} />
+              <AdicionarTimePopUp campeonato={campeonato} onChangeSalvar={onAdicionarEquipe} />
             </Box>
           )}
         </VStack>
@@ -121,7 +129,7 @@ export function CampeonatoTimesScreen() {
   );
 
 
-  function ListaAtletica({ nome, upload, index, id }: any) {
+  function ListaAtletica({ nome, imagem, index, id }: any) {
     return (
       <Menu
         w="200px"
@@ -141,7 +149,7 @@ export function CampeonatoTimesScreen() {
                 borderColor={'#A3A3A3'}>
                 <ViewTimesCamp
                   nome={nome}
-                  imagem={upload}
+                  imagem={imagem}
                   numero={index + 1}
                 />
               </Box>
@@ -151,14 +159,14 @@ export function CampeonatoTimesScreen() {
 
         <Menu.Item onPress={() => onRemoveEquipe(id)}>
           <Text fontSize={'14px'} color={'#fff'}>
-            Remover jogador
+            Remover equipe
           </Text>
         </Menu.Item>
       </Menu>
     )
   }
 
-  function ListaJogador({ nome, upload, index }: any) {
+  function ListaJogador({ nome, imagem, index }: any) {
     return (
       <Box
         marginBottom={'10px'}
@@ -167,7 +175,7 @@ export function CampeonatoTimesScreen() {
         borderColor={'#A3A3A3'}>
         <ViewTimesCamp
           nome={nome}
-          imagem={upload}
+          imagem={imagem}
           numero={index + 1}
         />
       </Box>
@@ -191,12 +199,12 @@ export function CampeonatoTimesScreen() {
                   nome={item.nome}
                   index={index}
                   id={item.id}
-                  upload={upload} /> :
+                  imagem={item.imagem} /> :
                 <ListaJogador
                   nome={item.nome}
                   index={index}
                   id={item.id}
-                  upload={upload}
+                  imagem={item.imagem}
                 />
 
             );

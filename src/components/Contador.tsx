@@ -23,11 +23,19 @@ export function Contador({
 
   function add() {
     if (quantidade >= max) return onChangeContador && onChangeContador(max);
+    if (somar === 0 || somar === 3) {
+      if (quantidade === 12) return onChangeContador && onChangeContador(quantidade + 4);
+      return onChangeContador && onChangeContador(quantidade * 2);
+    }
     onChangeContador && onChangeContador(quantidade + somar);
   }
 
   function subtract() {
     if (quantidade <= min) return onChangeContador && onChangeContador(min);
+    if (somar === 0 || somar === 3) {
+      if (somar === 3 && quantidade === 16) return onChangeContador && onChangeContador(quantidade - 4);
+      return onChangeContador && onChangeContador(quantidade / 2);
+    }
     onChangeContador && onChangeContador(quantidade - somar);
   }
   function funcQuantidade(): string {

@@ -52,6 +52,7 @@ export function FormatoScreen() {
   const [maximo, setMaximo] = useState(0);
   const [minimo, setMinimo] = useState(0);
   const [somar, setSomar] = useState(0);
+  const [x, setX] = useState(2);
 
   const navigation = useNavigation();
 
@@ -71,6 +72,12 @@ export function FormatoScreen() {
 
     if (parseInt(formatoSelecionado) === 1) {
       quantidadePontosCorridos()
+    } else if (parseInt(formatoSelecionado) === 2) {
+      quantidadeEliminatoriaSimples()
+    } else if (parseInt(formatoSelecionado) === 3) {
+      quantidadeFaseDeGrupos()
+    } else if (parseInt(formatoSelecionado) === 4) {
+      quantidadePontosEliminatoria()
     }
   }, [formatoSelecionado]);
 
@@ -78,14 +85,33 @@ export function FormatoScreen() {
     setMinimo(4);
     setQuantidade(4);
     setMaximo(20);
-    setSomar(1);
     setValue('quantidade', 4)
+    setSomar(1);
   }
 
+  function quantidadeEliminatoriaSimples(): void {
+    setMinimo(4);
+    setQuantidade(4);
+    setMaximo(16);
+    setValue('quantidade', 4)
+    setSomar(0);
+  }
 
+  function quantidadeFaseDeGrupos(): void {
+    setMinimo(12);
+    setQuantidade(12);
+    setMaximo(32);
+    setValue('quantidade', 12)
+    setSomar(3);
+  }
 
-
-
+  function quantidadePontosEliminatoria(): void {
+    setMinimo(8);
+    setQuantidade(8);
+    setMaximo(32);
+    setValue('quantidade', 8)
+    setSomar(1);
+  }
 
   function salvar(data: FormData) {
     const campeonato = {

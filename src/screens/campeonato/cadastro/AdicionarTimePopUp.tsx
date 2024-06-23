@@ -20,8 +20,7 @@ const AdicionarSchema = yup.object().shape({
     cpfCnpj: yup.string().required('CNPJ é obrigatório'),
 });
 
-
-export function AdicionarTimePopUp({ navigation, campeonato }: any) {
+export function AdicionarTimePopUp({ campeonato, onChangeSalvar }: any) {
     const { authData } = useAuth();
     const [modalVisible, setModalVisible] = React.useState(false);
 
@@ -52,11 +51,11 @@ export function AdicionarTimePopUp({ navigation, campeonato }: any) {
             await CampeonatoService.adicionarEquipe(campeonato.modalidade, cnpj, campeonato.id);
             setModalVisible(false);
             setValue('cpfCnpj', '');
-
+            onChangeSalvar();
         } catch (error) {
             setValue('cpfCnpj', '');
             setModalVisible(false);
-            console.error('Erro ao adicionar jogador:', error);
+            console.error('Erro ao adicionar uma equipe:', error);
         }
     }
 

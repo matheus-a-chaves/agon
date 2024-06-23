@@ -48,6 +48,7 @@ async function buscarCampeonatosInternos(idEquipe: any, idModalidade: any): Prom
     throw new Error('Erro ao buscar campeonato: ' + erro.message);
   }
 }
+
 async function buscarCampeonatosExternos(idEquipe: any, idModalidade: any): Promise<CampeonatoList[]> {
   try {
     const response = await axios.get(`${URL}/externo/atletica/${idEquipe}/modalidade/${idModalidade}`);
@@ -94,10 +95,19 @@ async function cadastrarEndereco(campeonato: Campeonato) {
 async function adicionarEquipe(idModalidade: number, cnpj: number, idCampeonato: number) {
   try {
     const url = URL + `/${idCampeonato}/modalidade/${idModalidade}/adicionar`
-    console.log(url)
     const body = { cnpj: cnpj }
-    console.log(body)
     const response = await axios.post(url, body);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+async function removerEquipe(idEquipe: number, idCampeonato: number) {
+  try {
+    console.log(URL + `/${idCampeonato}/equipe/${idEquipe}/remover`)
+    const response = await axios.get(URL + `/${idCampeonato}/equipe/${idEquipe}/remover`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -111,5 +121,6 @@ export const CampeonatoService = {
   buscarCampeonatosInternos,
   buscarCampeonatosExternos,
   cadastrarEndereco,
-  adicionarEquipe
+  adicionarEquipe,
+  removerEquipe
 };

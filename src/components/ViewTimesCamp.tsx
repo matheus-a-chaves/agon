@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, HStack, Image, Text } from 'native-base';
+import { imageConverter } from '../screens/Utils';
 
 interface ViewTimesCampProps {
   numero: number;
@@ -33,7 +34,7 @@ export function ViewTimesCamp(props: ViewTimesCampProps) {
             h="100%"
             w="100%"
             borderRadius={100}
-            source={{ uri: props.imagem }}
+            source={imageConverter(props.imagem, require('../assets/img/amistoso/brasao.png'))}
             alt="imagem do time"
           />
         </Box>
