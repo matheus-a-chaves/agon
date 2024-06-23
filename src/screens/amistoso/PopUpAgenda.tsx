@@ -10,6 +10,7 @@ import { TeamService } from '../../services/time.service';
 import { dateFormat, formatDate, imageConverter } from '../Utils';
 import { set } from 'react-hook-form';
 import { ButtonAdd, Icon } from '../../styles/campeonato/CadastroCss';
+import { useAuth } from '../../contexts/Auth';
 
 // Configuração de idioma para o calendário
 LocaleConfig.locales['pt-br'] = {
@@ -37,6 +38,7 @@ interface AgendaScreenProps {
 }
 
 const AgendaScreen: React.FC<AgendaScreenProps> = ({ onItemSelect, setModalVisible, setNomeTimeData, modalidade }: any) => {
+    const { authData } = useAuth();
     const imagem = require('../../assets/img/amistoso/brasao.png');
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [times, setTimes] = useState<Equipe[]>([]);
@@ -49,40 +51,45 @@ const AgendaScreen: React.FC<AgendaScreenProps> = ({ onItemSelect, setModalVisib
     }, [selectedDate]);
 
     const fetchGames = async (date: string) => {
-        setLoading(true);
-        const timesDisponiveis = await TeamService.buscarTimes(1, 1);
-        setTimes(timesDisponiveis)
-        setLoading(false);
+        try {
+            setLoading(true);
+            const timesDisponiveis = await TeamService.buscarTimesAgenda(modalidade, authData?.id, selectedDate);
+            setTimes(timesDisponiveis)
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
     };
 
-    const renderItem: ListRenderItem<Equipe> = ({ item }) => (
-        <Box
-            m={2}
-            height={'80px'}
-            justifyContent={'center'}
-            alignContent={'center'}
-            borderRadius={'10px'}
-            borderColor={'#A3A3A3'}
-            borderWidth={1}
-        >
-            <Pressable onPress={() => {
-                onItemSelect(item.id, selectedDate)
-                setModalVisible(false)
-                setNomeTimeData("Time - " + item.nome + ", dia: " + dateFormat(selectedDate))
-            }}>
-                <HStack alignItems="center" justifyContent="flex-start" >
-
-                    <Box borderWidth={1} mx={5} borderColor={'#004AAD'} w={'50px'} h={'50px'} borderRadius={'10px'} >
-                        <Image w={'100%'} h={'100%'} source={imageConverter(item.imagem, imagem)} alt={"imagem time"} />
-                    </Box>
-                    <VStack flex={1}>
-                        <Text>{item.nome}</Text>
-                        <Text>{item.nome}</Text>
-                    </VStack>
-                </HStack>
-            </Pressable>
-        </Box>
-    );
+    const renderItem: ListRenderItem<Equipe> = ({ item }) => {
+        return (
+            <Box
+                m={2}
+                height={'80px'}
+                justifyContent={'center'}
+                alignContent={'center'}
+                borderRadius={'10px'}
+                borderColor={'#A3A3A3'}
+                borderWidth={1}
+            >
+                <Pressable onPress={() => {
+                    onItemSelect(item.id, selectedDate);
+                    setModalVisible(false);
+                    setNomeTimeData(item.nome + ", dia: " + dateFormat(selectedDate));
+                }}>
+                    <HStack alignItems="center" justifyContent="flex-start">
+                        <Box borderWidth={1} mx={5} borderColor={'#004AAD'} w={'50px'} h={'50px'} borderRadius={'10px'} justifyContent={'center'} alignItems={'center'}>
+                            <Image borderRadius={'10px'} w={'98%'} h={'98%'} source={imageConverter(item.imagem, imagem)} alt={"imagem time"} />
+                        </Box>
+                        <VStack flex={1}>
+                            <Text>{item.nome}</Text>
+                            <Text>{item.modalidade.nome}</Text>
+                        </VStack>
+                    </HStack>
+                </Pressable>
+            </Box>
+        );
+    };
 
     return (
         <Box flex={1} w={'100%'} backgroundColor={"#004AAD"} h={'100%'}>
@@ -125,20 +132,22 @@ const AgendaScreen: React.FC<AgendaScreenProps> = ({ onItemSelect, setModalVisib
                         <Spinner size="lg" />
                     </Center>
                 ) : (
-                    <FlatList
-                        h={'100%'}
-                        data={times}
-                        disableVirtualization={false}
-                        showsVerticalScrollIndicator={false}
-                        showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={renderItem}
-                        ListEmptyComponent={
-                            <VStack>
-                                <Text textAlign="center" mt={4}>Nenhum time disponivel nesta data.</Text>
-                            </VStack>
-                        }
-                    />
+                    <VStack mb={5}>
+                        <FlatList
+                            h={'90%'}
+                            data={times}
+                            disableVirtualization={false}
+                            showsVerticalScrollIndicator={true}
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={renderItem}
+                            ListEmptyComponent={
+                                <VStack>
+                                    <Text textAlign="center" mt={4}>Nenhum time disponivel nesta data.</Text>
+                                </VStack>
+                            }
+                        />
+                    </VStack>
                 )}
             </Box>
 

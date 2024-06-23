@@ -147,3 +147,30 @@ export function dateFormat(inputDate: any) {
   const [year, month, day] = inputDate.split('-');
   return `${day}/${month}/${year}`;
 }
+
+
+export function converterParaISO(data: any, hora: any) {
+  let [ano, mes, dia] = data.split('-');
+
+  mes = mes.padStart(2, '0');
+  dia = dia.padStart(2, '0');
+  hora = hora.replace(/\s+/g, ' ').trim();
+
+  let [tempo, periodo] = hora.split(' ');
+  let [horas, minutos] = tempo.split(':');
+
+  if (periodo) {
+    if (periodo.toLowerCase() === 'pm' && horas !== '12') {
+      horas = (parseInt(horas) + 12).toString();
+    } else if (periodo.toLowerCase() === 'am' && horas === '12') {
+      horas = '00';
+    }
+  } else {
+    horas = horas.padStart(2, '0');
+  }
+
+  horas = horas.padStart(2, '0');
+  minutos = minutos.padStart(2, '0');
+
+  return `${ano}-${mes}-${dia}T${horas}:${minutos}:00`;
+}

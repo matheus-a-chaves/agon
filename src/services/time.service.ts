@@ -2,6 +2,7 @@ import axios from "axios";
 import { environment } from "../../environment";
 import { Equipe } from "../interfaces/equipeInterface";
 import { ModalideService } from "./modalidade.service";
+import { date } from "yup";
 
 const URL = `${environment.URL}/equipes`;
 
@@ -52,7 +53,6 @@ async function buscarTimes(id: any, tipoUsuario: any): Promise<Equipe[]> {
 
 async function buscarTimesCampeonato(idCampeonato: any): Promise<Equipe[]> {
     try {
-        console.log(URL + `/campeonato/${idCampeonato}`)
         const response = await axios.get(URL + `/campeonato/${idCampeonato}`);
 
         const equipes: Equipe[] = response.data.map((item: any) => {
@@ -69,5 +69,34 @@ async function buscarTimesCampeonato(idCampeonato: any): Promise<Equipe[]> {
     }
 }
 
+async function buscarTimesAgenda(idModalidade: any, idAtletica: any, data: any): Promise<Equipe[]> {
+    try {
+        const URL_AGENDA: string = URL + `/disponiveis/modalidade/${idModalidade}/atletica/${idAtletica}`;
 
-export const TeamService = { buscarTimes, cadastro, buscarTimesCampeonato }
+        const body = {
+            date: data
+        }
+        const response = await axios.post(URL_AGENDA, body);
+        const modalidades = await ModalideService.buscarModalidade();
+        const equipes: Equipe[] = response.data.map((item: any) => {
+            const modalidade = modalidades.find((mod) => mod.id === item.modalidade);
+            return {
+                id: item.id,
+                imagem: item.imagem,
+                nome: item.nome,
+                modalidade: {
+                    id: item.modalidade,
+                    nome: modalidade?.nome
+                }
+            }
+        });
+
+        return equipes;
+    } catch (erro: Error | any) {
+        throw new Error('Erro ao buscar times: ' + erro.message);
+    }
+}
+
+
+
+export const TeamService = { buscarTimes, cadastro, buscarTimesCampeonato, buscarTimesAgenda }

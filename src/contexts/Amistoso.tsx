@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { AmistosoService } from '../services/amistoso.service';
 import { AmistosoSolicitacao } from '../screens/perfil/SolicitacoesScreen';
+import { useAuth } from './Auth';
 
 export interface AmistosoBody {
     equipe?: string;
@@ -13,12 +14,13 @@ export interface AmistosoBody {
     rua?: string;
     numero?: number;
     bairro?: string;
-    data?: Date;
+    data?: string;
+    hora?: string;
 }
 
 interface AmistosoContextData {
     amistosoData?: AmistosoBody;
-    cadastrar(amistoso: any): void;
+    cadastrar(amistoso: AmistosoBody): void;
     setAmistosoBody(novaPropriedade: Partial<AmistosoBody>): void;
     buscarSolicitacao(id: any): Promise<AmistosoSolicitacao[]>;
 }
@@ -35,6 +37,7 @@ export const AmistosoProvider: React.FC<AmistosoProviderProps> = ({
     children,
 }) => {
     const [amistosoData, setAmistoso] = useState<Partial<AmistosoBody>>();
+    const { authData } = useAuth();
 
     useEffect(() => { }, [amistosoData]);
 
@@ -45,9 +48,9 @@ export const AmistosoProvider: React.FC<AmistosoProviderProps> = ({
         }));
     }
 
-    function cadastrar(amistoso: any) {
+    function cadastrar(amistoso: AmistosoBody) {
         try {
-            AmistosoService.cadastro(amistoso);
+            AmistosoService.cadastro(amistoso, authData?.id);
         } catch (error: any) {
             Alert.alert('404');
             return error;

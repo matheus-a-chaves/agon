@@ -16,7 +16,7 @@ import { KeyboardAvoidingView, Platform, Pressable, SafeAreaView, StyleSheet } f
 import { PopUpAgenda } from './PopUpAgenda';
 import { TimePicker } from '../../components/TimePicker';
 import { equipe } from '../Utils';
-import { useAmistoso } from '../../contexts/Amistoso';
+import { AmistosoBody, useAmistoso } from '../../contexts/Amistoso';
 
 type FormData = {
     equpeId: string;
@@ -35,6 +35,7 @@ const CadastroSchema = yup.object().shape({
 });
 
 export function NovoAmistosoScreen() {
+    const { cadastrar } = useAmistoso();
     const bascket = require('../../assets/img/amistoso/novo_amistoso.png');
     const navigation = useNavigation();
     const {
@@ -61,7 +62,7 @@ export function NovoAmistosoScreen() {
 
     function handleConsole(data: FormData) {
 
-        const body = {
+        const body: AmistosoBody = {
             equipe: data.equpeId,
             modalidade: parseInt(data.modalidade),
             data: data.data,
@@ -73,7 +74,8 @@ export function NovoAmistosoScreen() {
             cidade: amistosoData?.cidade,
             estado: amistosoData?.estado,
         }
-        // navigation.navigate('Time' as never);
+        cadastrar(body);
+        navigation.navigate('Time' as never);
     }
 
     const handleItemSelect = (id: any, data: any) => {

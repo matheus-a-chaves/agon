@@ -1,29 +1,31 @@
-import { Campeonato } from '../interfaces/campeonatoModel';
 import axios from 'axios';
-import { formatDate } from '../screens/Utils';
 import { environment } from '../../environment';
 import { AmistosoSolicitacao } from '../screens/perfil/SolicitacoesScreen';
+import { AmistosoBody } from '../contexts/Amistoso';
+import { converterParaISO } from '../screens/Utils';
 
 
-const URL = `${environment.URL}/amistoso`;
+const URL = `${environment.URL}/amistosos`;
 
-async function cadastro(campeonato: Campeonato) {
+async function cadastro(amistoso: AmistosoBody, idAtletica: any) {
     try {
+        const URL_CADASTRO = `${URL}/equipeCasa/${idAtletica}/equipeVisitante/${amistoso.equipe}/criar`;
+
         const body = {
-            nome: campeonato.nome,
-            quantidadeEquipes: campeonato.quantidadeEquipes,
-            dataInicio: formatDate(campeonato.dataInicio),
-            dataFim: formatDate(campeonato.dataFim),
-            regulamento: campeonato.regulamento,
-            imagemCampeonato: campeonato.imagem,
-            formato: {
-                codigoFormato: campeonato.formato,
-            },
+            dataHora: converterParaISO(amistoso.data, amistoso.hora),
             modalidade: {
-                codigoModalidade: campeonato.modalidade,
+                id: amistoso.modalidade,
             },
+            endereco: {
+                rua: amistoso.rua,
+                numero: amistoso.numero,
+                cidade: amistoso.cidade,
+                estado: amistoso.estado,
+                cep: amistoso.cep
+            }
         };
-        const response = await axios.post(URL, body);
+        console.log(body)
+        const response = await axios.post(URL_CADASTRO, body);
         return response.data;
     } catch (error) {
         console.log(error);
