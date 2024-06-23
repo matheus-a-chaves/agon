@@ -10,7 +10,7 @@ import {
   Menu,
   Pressable,
 } from 'native-base';
-import { imageConverter, upload } from '../../Utils';
+import { imageConverter } from '../../Utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ViewTimesCamp } from '../../../components/ViewTimesCamp';

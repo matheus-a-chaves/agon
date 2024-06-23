@@ -4,11 +4,10 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
 import Button from '../../components/Button';
 import { Input } from '../../components/Input';
-import { Controller, set, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { DatePicker } from '../../components/DatePicker';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { useAutoCadastro } from '../../contexts/FormProvider';
 

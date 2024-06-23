@@ -1,23 +1,18 @@
-import { Box, HStack, Image, View, VStack, Text } from 'native-base';
+import { Box, HStack, VStack, Text } from 'native-base';
 import { SafeAreaView } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useNavigation, useRoute } from '@react-navigation/native';
-
-import { Controller, set, useForm } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Input } from '../../components/Input';
 import Button from '../../components/Button';
-import { useAutoCadastro } from '../../contexts/FormProvider';
 import { handleImage } from '../Utils';
 import { ButtonAdd, Icon } from '../../styles/campeonato/CadastroCss';
 import { useAuth } from '../../contexts/Auth';
 import { environment } from '../../../environment';
-
-
 
 type FormData = {
     zipCode: string;

@@ -3,11 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Container, Form } from '../../styles/campeonato/CadastroCss';
-import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
-import { useForm, Controller, set } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import NovoCampeonato from '../../components/NovoCampeonato';
-import { useCampeonato } from '../../contexts/Campeonato';
 import { Modalidade } from '../../interfaces/modalidadesInterface';
 import { Select } from '../../components/Select';
 import { ModalideService } from '../../services/modalidade.service';
@@ -15,7 +13,6 @@ import { HStack } from 'native-base';
 import { KeyboardAvoidingView, Platform, Pressable, SafeAreaView, StyleSheet } from 'react-native';
 import { PopUpAgenda } from './PopUpAgenda';
 import { TimePicker } from '../../components/TimePicker';
-import { equipe } from '../Utils';
 import { AmistosoBody, useAmistoso } from '../../contexts/Amistoso';
 
 type FormData = {
@@ -132,7 +129,6 @@ export function NovoAmistosoScreen() {
             </KeyboardAvoidingView >
         </SafeAreaView>
     );
-
 
 }
 

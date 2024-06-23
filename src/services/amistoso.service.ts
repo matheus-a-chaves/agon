@@ -70,10 +70,6 @@ async function buscarSolicitacao(id: any): Promise<AmistosoSolicitacao[]> {
     }
 }
 
-
-
-
-
 export const AmistosoService = {
     cadastro,
     buscarSolicitacao

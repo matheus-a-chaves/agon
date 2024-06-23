@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Container, Form } from '../../styles/campeonato/CadastroCss';
 import { Button } from '../../components/Button';
-import { useForm, Controller, set } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import NovoCampeonato from '../../components/NovoCampeonato';
 import { useCampeonato } from '../../contexts/Campeonato';
 import { Select } from '../../components/Select';

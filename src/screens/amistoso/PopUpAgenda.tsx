@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Box, HStack, Modal, Pressable, Text, VStack, Avatar, Center, Spinner, FlatList, Image } from 'native-base';
+import { Box, HStack, Modal, Pressable, Text, VStack, Center, Spinner, FlatList, Image } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { Equipe } from '../../interfaces/equipeInterface';
 import { ListRenderItem } from 'react-native';
 import { TeamService } from '../../services/time.service';
-import { dateFormat, formatDate, imageConverter } from '../Utils';
-import { set } from 'react-hook-form';
+import { dateFormat, imageConverter } from '../Utils';
 import { ButtonAdd, Icon } from '../../styles/campeonato/CadastroCss';
 import { useAuth } from '../../contexts/Auth';
 

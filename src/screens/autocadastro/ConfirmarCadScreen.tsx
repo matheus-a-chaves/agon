@@ -1,4 +1,4 @@
-import { Box, HStack, Image, View, VStack, Text, Pressable } from 'native-base';
+import { Box, HStack, Image, View, VStack, Text } from 'native-base';
 import { SafeAreaView } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';

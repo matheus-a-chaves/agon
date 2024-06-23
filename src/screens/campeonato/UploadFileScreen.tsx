@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Text } from 'react-native';
 import { Button } from '../../styles/SharedStyles';
@@ -10,7 +10,7 @@ import {
   Icon,
 } from '../../styles/campeonato/CadastroCss';
 import NovoCampeonato from '../../components/NovoCampeonato';
-import { handleDocument, handleImage, upload } from '../Utils';
+import { handleDocument, handleImage } from '../Utils';
 import { useCampeonato } from '../../contexts/Campeonato';
 
 export function UploadFileScreen() {

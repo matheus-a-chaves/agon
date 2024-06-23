@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
-import { Box, Text, VStack, HStack, Collapse, Avatar, Pressable, IconButton } from 'native-base';
+import { Box, Text, VStack, HStack, Collapse, Avatar, Pressable } from 'native-base';
 import Back from '../../components/Back';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { EditarAmistosoPopUp } from './EditarAmistosoPopUp';
 import { PopUpConfirm } from '../../components/PopUpConfirm';
-import { close } from 'fs';
 import { useAuth } from '../../contexts/Auth';
 import { environment } from '../../../environment';
 

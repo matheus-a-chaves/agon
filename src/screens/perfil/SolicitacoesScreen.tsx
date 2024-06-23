@@ -3,10 +3,7 @@ import { FlatList, ListRenderItem } from 'react-native';
 import { NativeBaseProvider, Box, VStack, Text, Image, HStack, Pressable } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { AmistosoService } from '../../services/amistoso.service';
 import { SolicitacaoService } from '../../services/solicitacao.service';
-
-
 
 export interface AmistosoSolicitacao {
     id: number;

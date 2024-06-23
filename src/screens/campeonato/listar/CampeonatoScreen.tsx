@@ -6,15 +6,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CampeonatoList } from '../../../contexts/Campeonato';
 import { SafeAreaView } from 'react-native';
 import { CampeonatoService } from '../../../services/campeonato.service';
-import { useAuth } from '../../../contexts/Auth';
-
 
 export function CampeonatoScreen() {
   const navigation = useNavigation();
   const [activeInterno, setActiveInterno] = useState('#051326');
   const [activeExterno, setActiveExterno] = useState('');
   const [campeonatos, setCampeonatos] = useState<CampeonatoList[]>([]);
-  const { authData } = useAuth()
   const route = useRoute()
   const { equipe } = route.params as any
   useEffect(() => {
