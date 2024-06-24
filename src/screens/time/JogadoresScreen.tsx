@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import {
     ImageBackground,
     SafeAreaView,
@@ -13,6 +13,7 @@ import { AdicionarJogadorPopUp } from './AdicionarJogadorPopUp';
 import { environment } from '../../../environment';
 import { useAuth } from '../../contexts/Auth';
 import { imageConverter } from '../Utils';
+import { useCallback } from 'react';
 
 export interface Jogador {
     id: string;
@@ -48,6 +49,16 @@ export function JogadoresScreen() {
     useEffect(() => {
         fetchJogadores();
     }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            const fetchData = async () => {
+                fetchJogadores();
+            };
+            fetchData();
+        }, [])
+    );
+
 
     async function onRemovePlayer(id: string) {
         try {
@@ -135,7 +146,7 @@ export function JogadoresScreen() {
         return (
             <Box key={item.id} marginBottom={'10px'}>
                 <HStack space={3} alignItems="center">
-                    <Avatar source={require('../../assets/img/campeonato/basketball.png')} />
+                    <Avatar source={imageConverter(item.imagemPerfil, require('../../assets/img/campeonato/basketball.png'))} />
                     <Text fontSize="md">{item.nome}</Text>
                 </HStack>
                 <Divider mt={2} />

@@ -174,3 +174,24 @@ export function converterParaISO(data: any, hora: any) {
 
   return `${ano}-${mes}-${dia}T${horas}:${minutos}:00`;
 }
+
+
+export function formatDateTime(dateTimeString: string): any {
+  // Cria um objeto Date a partir da string fornecida
+  const date = new Date(dateTimeString);
+
+  // Extrai os componentes da data
+  const day = String(date.getDate()).padStart(2, '0'); // Adiciona zero à esquerda se necessário
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses são base 0 em JavaScript
+  const year = date.getFullYear();
+
+  // Extrai os componentes da hora
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  console.log(dateTimeString);
+  return {
+    data: `${day}/${month}/${year} `,
+    hora: `${hours}:${minutes}`
+  };
+}

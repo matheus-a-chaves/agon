@@ -76,7 +76,6 @@ export function NovaEquipeScreen() {
             imagem: uri,
         }
         cadastrar(equipeBody);
-
         navigation.navigate('Time' as never);
     }
 

@@ -1,6 +1,9 @@
 import axios from "axios";
 import { AuthData } from "../contexts/Auth";
 import { Alert } from "react-native";
+import { environment } from "../../environment";
+import { Membro } from '../interfaces/membrosModel';
+import { MembroService } from "./membro.service";
 
 const URL = `http://localhost:9090/auth/login`;
 
@@ -34,6 +37,12 @@ async function signIn(email: string, password: string): Promise<AuthData> {
                     rua: data.rua,
                     tipoUsuario: data.tipoUsuario
                 };
+                if (usuario.tipoUsuario === environment.PERFIL_JOGADOR) {
+                    const membro: Membro = await MembroService.bsucarPorJogador(usuario.id);
+                    if (membro !== null) {
+                        usuario.idJogador = membro.idAtletica;
+                    }
+                }
                 resolve(usuario);
             }
         } catch (error: Error | any) {

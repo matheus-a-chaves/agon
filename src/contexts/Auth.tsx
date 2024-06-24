@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authService } from '../services/authService';
 import { Alert } from 'react-native';
 import { UsuarioService } from '../services/usuario.service';
+import { SolicitacaoService } from '../services/solicitacao.service';
 
 export interface AuthData {
   token?: string;
@@ -20,7 +21,8 @@ export interface AuthData {
   estado?: string,
   numero?: number,
   rua?: string,
-  tipoUsuario?: number
+  tipoUsuario?: number,
+  idJogador?: number
 }
 
 interface AuthContextData {
@@ -30,6 +32,8 @@ interface AuthContextData {
   setTabBarVisibility: (visibility: boolean) => void;
   getTabBarVisibility: boolean;
   update: (autocadastro: any, id: number) => Promise<AuthData>;
+  setCounterNotification: () => void;
+  notification: number;
 }
 
 interface AuthProviderProps {
@@ -43,6 +47,7 @@ export const AuthContext = createContext<AuthContextData>(
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authData, setAuth] = useState<Partial<AuthData>>();
   const [getTabBarVisibility, setVisibility] = useState(true);
+  const [notification, setNotification] = useState(0);
 
   useEffect(() => {
     loadFromStorage();
@@ -55,6 +60,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }));
   }
 
+  async function setCounterNotification() {
+    try {
+      const counter = await SolicitacaoService.buscarCounterNotification(authData?.id);
+      setNotification(counter);
+    } catch (error: any) {
+      console.log('404');
+      return error;
+    }
+  }
 
   async function loadFromStorage() {
     const auth = await AsyncStorage.getItem('@AuthData');
@@ -108,9 +122,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }
 
-
   return (
-    <AuthContext.Provider value={{ authData, signIn, signOut, getTabBarVisibility, setTabBarVisibility, update }}>
+    <AuthContext.Provider value={{
+      authData,
+      signIn,
+      signOut,
+      getTabBarVisibility,
+      setTabBarVisibility,
+      update,
+      setCounterNotification,
+      notification
+    }}>
       {children}
     </AuthContext.Provider>
   );

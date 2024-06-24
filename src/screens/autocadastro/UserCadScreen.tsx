@@ -20,7 +20,7 @@ type FormData = {
 };
 
 const CadastroSchema = yup.object().shape({
-    nomeCompleto: yup.string().required('Nome é obrigatório').matches(/^[a-zA-Z'-\s]*$/, 'Nome inválido'),
+    nomeCompleto: yup.string().required('Nome é obrigatório').matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ'-\s]*$/, 'Nome inválido'),
     email: yup.string().required('Email é obrigatório').test('email', 'Email inválido', (value) => ValidEmail(value)),
     cpfCnpj: yup.string().required('Cpf é obrigatório'),
     dataNascimento: yup.date().required('Data de nascimento é obrigatória')

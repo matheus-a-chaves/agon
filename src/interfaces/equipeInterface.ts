@@ -8,3 +8,14 @@ export interface Equipe {
     atletica: number
     usuario: string
 }
+
+export function mapEquipe(equipe: any): Equipe {
+    return {
+        id: equipe.id,
+        nome: equipe.nome,
+        imagem: equipe.imagem,
+        modalidade: equipe.modalidade,
+        atletica: equipe.atletica,
+        usuario: equipe.usuario
+    }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { TextInput, ActivityIndicator } from 'react-native';
 import { InputView } from '../../styles/HomeScreenCss';
 import { Box, FlatList, Pressable, Text, VStack, Image } from 'native-base';
@@ -9,6 +9,7 @@ import { useAuth } from '../../contexts/Auth';
 import { environment } from '../../../environment';
 import { useTeam } from '../../contexts/Team';
 import { Equipe } from '../../interfaces/equipeInterface';
+import { useCallback } from 'react';
 
 export function HomeScreen() {
   const { authData } = useAuth();
@@ -19,13 +20,13 @@ export function HomeScreen() {
   const [loading, setLoading] = useState(true);
 
   async function fetchTeams() {
-    setLoading(true);
     await findAllTeam();
-    setLoading(false);
   }
 
   useEffect(() => {
+    setLoading(true);
     fetchTeams();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -34,6 +35,15 @@ export function HomeScreen() {
       setTimeSearch(teamData);
     }
   }, [teamData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        fetchTeams();
+      };
+      fetchData();
+    }, [])
+  );
 
   function searchTeam(value: string) {
     const teamSearch = timeSearch.filter((team) => {

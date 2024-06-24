@@ -30,7 +30,7 @@ export const DatePicker = (props: any) => {
     setData(new Date(selectedDate));
     setShow(false);
     onDateChange(selectedDate);
-
+    console.log(selectedDate)
     let selectDatedate = new Date(selectedDate);
     const dia = adicionaZero(selectDatedate.getDate())
     const mes = adicionaZero(selectDatedate.getMonth() + 1)
@@ -47,7 +47,7 @@ export const DatePicker = (props: any) => {
     return (
       <DateTimePicker
         display="calendar"
-        value={new Date()}
+        value={data}
         mode="date"
         minimumDate={defaultValue}
         onChange={onChange}

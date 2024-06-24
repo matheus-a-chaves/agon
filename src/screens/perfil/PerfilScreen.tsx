@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Box, Image, Pressable, Text, HStack, Center, VStack } from 'native-base';
+import { Box, Image, Pressable, Text, HStack, Center, VStack, Badge } from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,7 +11,7 @@ import { imageConverter } from '../Utils';
 
 export function PerfilScreen() {
   const navigation = useNavigation();
-  const { signOut, authData } = useAuth();
+  const { signOut, authData, notification } = useAuth();
   const imagem = imageConverter(authData?.imagemPerfil, require('../../assets/icons/user.png'));
   return (
     <Box>
@@ -42,8 +42,19 @@ export function PerfilScreen() {
           <ButtonCustom onPress={() => {
             navigation.navigate('Solicitacoes' as never)
           }} title='Solicitações'
-            children={<Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />}
+            children={
+              <Box>
+                <Ionicons name={'duplicate-outline'} size={36} color={'#FFF'} />
+                {notification > 0 && (
+                  <Box position="absolute" top={-5} right={-10}>
+                    <Badge bg="red.500" rounded="full" minWidth={18} minHeight={18}>
+                      <Text fontSize={10} color="white">{notification}</Text>
+                    </Badge>
+                  </Box>)}
+              </Box>
+            }
           />
+
         )}
         <ButtonCustom onPress={() => {
           navigation.navigate('EditarContaScreen' as never)
