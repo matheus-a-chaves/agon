@@ -20,6 +20,9 @@ export interface CampeonatoList {
   imagem: string;
   dataInicio: string;
   modalidade?: number;
+  quantidadeEquipes: number;
+  formato?: any;
+  regulamento?: string;
 }
 
 export interface PartidasEndereco {

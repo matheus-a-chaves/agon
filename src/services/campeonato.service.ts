@@ -40,6 +40,9 @@ async function buscarCampeonatosInternos(idEquipe: any, idModalidade: any): Prom
         imagem: item.imagemCampeonato,
         dataInicio: item.dataInicio,
         modalidade: item.modalidade.id,
+        quantidadeEquipes: item.quantidadeEquipes,
+        formato: item.formato,
+        regulamento: item.regulamento,
         campeonatoTipo: 0
       };
     });
@@ -59,6 +62,10 @@ async function buscarCampeonatosExternos(idEquipe: any, idModalidade: any): Prom
         nome: item.nome,
         imagem: item.imagemCampeonato,
         dataInicio: item.dataInicio,
+        modalidade: item.modalidade.id,
+        quantidadeEquipes: item.quantidadeEquipes,
+        formato: item.formato,
+        regulamento: item.regulamento,
         campeonatoTipo: 1
       };
     });

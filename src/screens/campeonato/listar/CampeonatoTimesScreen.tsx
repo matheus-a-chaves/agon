@@ -21,6 +21,9 @@ import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
 import { Equipe } from '../../../interfaces/equipeInterface';
 import { TeamService } from '../../../services/time.service';
 import { CampeonatoService } from '../../../services/campeonato.service';
+import { formato } from '../../../interfaces/formatoModel';
+import PartidasComponent from './PartidasComponent';
+import { set } from 'react-hook-form';
 
 export function CampeonatoTimesScreen() {
   const { authData } = useAuth()
@@ -30,7 +33,7 @@ export function CampeonatoTimesScreen() {
   const { id }: any = route.params;
   const { campeonato }: any = route.params;
   const [equipes, setEquipes] = useState<Equipe[]>([]);
-
+  const [iniciado, setIniciado] = useState(false);
 
   useEffect(() => {
     fetchEquipes();
@@ -89,11 +92,31 @@ export function CampeonatoTimesScreen() {
                 );
               }}>
               {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && (
-                <Menu.Item onPress={() => navigation.navigate('EnderecoCampScreen' as never, { id })}>Iniciar</Menu.Item>
+                <Menu.Item onPress={
+                  () => {
+                    navigation.navigate('EnderecoCampScreen' as never, { id })
+                    setIniciado(!iniciado)
+                  }}>Iniciar</Menu.Item>
+              )
+              }
+              {campeonato.formato.id === formato.PONTOS_CORRIDOS && (
+                <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
               )}
-              <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
-              <Menu.Item onPress={() => navigation.navigate('FaseDeGrupos' as never)}>Fase de grupos</Menu.Item>
-              <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
+              {campeonato.formato.id === formato.ELIMINATORIA_SIMPLES && (
+                <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
+              )}
+              {campeonato.formato.id === formato.FASE_GRUPOS_ELIMINATORIA_SIMPLES && (
+                <>
+                  <Menu.Item onPress={() => navigation.navigate('FaseDeGrupos' as never)}>Fase de grupos</Menu.Item>
+                  <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
+                </>
+              )}
+              {campeonato.formato.id === formato.PONTOS_CORRIDOS_ELIMINATORIA_SIMPLES && (
+                <>
+                  <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
+                  <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
+                </>
+              )}
             </Menu>
           </Box>
         </HStack>
@@ -113,7 +136,7 @@ export function CampeonatoTimesScreen() {
               alt="imagem do time"
             />
           </Box>
-          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && (
+          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && !iniciado && (
             <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
               <AdicionarTimePopUp campeonato={campeonato} onChangeSalvar={onAdicionarEquipe} />
             </Box>
@@ -122,8 +145,9 @@ export function CampeonatoTimesScreen() {
       </Box>
 
       <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
-        <ListaEquipes />
-        {/* <PartidasComponent /> */}
+        {iniciado ? (
+          <PartidasComponent />
+        ) : (<ListaEquipes />)}
       </VStack>
     </SafeAreaView>
   );
@@ -185,7 +209,7 @@ export function CampeonatoTimesScreen() {
   function ListaEquipes() {
 
     return (
-      <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
+      <VStack bg={'#fff'} h={'98%'} borderTopRadius={'10px'} w={'100%'}>
         <Text px={10} py={5} fontSize={'18px'}>
           Equipes inscritas
         </Text>
