@@ -1,64 +1,195 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
 import Bracket from '../../components/Bracket';
-import { useAuth } from '../../contexts/Auth';
 import Orientation from 'react-native-orientation-locker';
+import { useRoute, useFocusEffect } from '@react-navigation/native';
+import { CampeonatoService } from '../../services/campeonato.service';
+
+export interface Chaveamento {
+    id: string;
+    name: string;
+    logo: string;
+}
+
+const oitavasDefault: Chaveamento[] = [
+    { id: '1', name: '', logo: '' },
+    { id: '2', name: '', logo: '' },
+    { id: '3', name: '', logo: '' },
+    { id: '4', name: '', logo: '' },
+    { id: '5', name: '', logo: '' },
+    { id: '6', name: '', logo: '' },
+    { id: '7', name: '', logo: '' },
+    { id: '8', name: '', logo: '' },
+];
+
+const quartasDefault: Chaveamento[] = [
+    { id: '1', name: '', logo: '' },
+    { id: '2', name: '', logo: '' },
+    { id: '3', name: '', logo: '' },
+    { id: '4', name: '', logo: '' },
+];
+
+const semiDefault = [
+    { id: '1', name: '', logo: '' },
+    { id: '2', name: '', logo: '' },
+];
+
+const finalDefault = [
+    { id: '1', name: '', logo: '' },
+];
 
 const ChaveamentoScreen: React.FC = () => {
+    const [chaveamento, setChaveamento] = useState<any>([]);
+    const [oitavasEsquerda, setOitavasEsquerda] = useState<Chaveamento[]>(oitavasDefault);
+    const [oitavasDireita, setOitavasDireita] = useState<Chaveamento[]>(oitavasDefault);
+    const [quartasEsquerda, setQuartasEsquerda] = useState<Chaveamento[]>(quartasDefault);
+    const [quartasDireita, setQuartasDireita] = useState<Chaveamento[]>(quartasDefault);
+    const [semiEsquerda, setSemiEsquerda] = useState<Chaveamento[]>(semiDefault);
+    const [semiDireita, setSemiDireita] = useState<Chaveamento[]>(semiDefault);
+    const [finalEsquerda, setFinalEsquerda] = useState<Chaveamento[]>(finalDefault);
+    const [finalDireita, setFinalDireita] = useState<Chaveamento[]>(finalDefault);
+    const [champion, setChampion] = useState<Chaveamento[]>(finalDefault);
+    const route = useRoute();
+    const { idCampeonato }: any = route.params;
+    const [isAparence, setIsAparence] = useState(0);
 
     useEffect(() => {
         Orientation.lockToLandscape();
+        const fetchData = async () => {
+            await fetchChaveamento();
+        };
+        fetchData();
     }, []);
 
-    const oitavasEsquerda = [
-        { id: 1, name: 'Grêmio', logo: 'https://i.pinimg.com/originals/7a/1e/15/7a1e15de2e0df008f2de954199b29f0d.png' },
-        { id: 2, name: 'Athletico-PR', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3458.png' },
-        { id: 3, name: 'São Paulo', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2026.png' },
-        { id: 4, name: 'Palmeiras', logo: 'https://w7.pngwing.com/pngs/107/499/png-transparent-palmeiras-hd-logo-thumbnail.png' },
-        { id: 5, name: 'Santos', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Santos_logo.svg/1200px-Santos_logo.svg.png' },
-        { id: 6, name: 'Corinthians', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/874.png' },
-        { id: 7, name: 'Sport', logo: 'https://a.espncdn.com/i/teamlogos/soccer/500/7635.png' },
-        { id: 8, name: 'CSA', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/64/CSA_logo.png' },
-    ];
+    async function fetchChaveamento() {
+        try {
+            const data = await CampeonatoService.buscarChaveamento(idCampeonato);
+            if (data) {
+                verificaMontagem(data);
+            } else {
+                console.error("Data is undefined");
+            }
+        } catch (error) {
+            console.error("Failed to fetch chaveamento:", error);
+        }
+    }
 
-    const quartasEsquerda = [
-        { id: 1, name: 'Grêmio', logo: 'https://i.pinimg.com/originals/7a/1e/15/7a1e15de2e0df008f2de954199b29f0d.png' },
-        { id: 2, name: 'Athletico-PR', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3458.png' },
-        { id: 3, name: 'São Paulo', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2026.png' },
-        { id: 4, name: 'Palmeiras', logo: 'https://w7.pngwing.com/pngs/107/499/png-transparent-palmeiras-hd-logo-thumbnail.png' },
-    ];
+    function verificaMontagem(data: any) {
+        const dataItem = data["1"];
+        console.log(data);
+        if (dataItem && dataItem.length === 8) {
+            setIsAparence(8);
+            montaOitavas(data["1"]);
+        } else if (dataItem && dataItem.length === 4) {
+            setIsAparence(4);
+            montaQuartas(data["1"]);
+        } else if (dataItem && dataItem.length === 2) {
+            setIsAparence(2);
+            montaSemi(data["1"]);
+        }
+    }
 
-    const quartasDireita = [
-        { id: 5, name: 'Santos', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Santos_logo.svg/1200px-Santos_logo.svg.png' },
-        { id: 6, name: 'Corinthians', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/874.png' },
-        { id: 7, name: 'Sport', logo: 'https://a.espncdn.com/i/teamlogos/soccer/500/7635.png' },
-        { id: 8, name: 'CSA', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/64/CSA_logo.png' },
-    ];
+    function montaOitavas(chaveamento: any) {
+        if (chaveamento) {
+            const oitavasEsquerdaData = chaveamento.slice(0, 4).map((match: any) => [
+                {
+                    id: match.equipeUm.id,
+                    name: match.equipeUm.nome,
+                    logo: match.equipeUm.imagem,
+                },
+                {
+                    id: match.equipeDois.id,
+                    name: match.equipeDois.nome,
+                    logo: match.equipeDois.imagem,
+                },
+            ]).flat();
 
-    const semiEsquerda = [
-        { id: 2, name: 'Athletico-PR', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3458.png' },
-        { id: 3, name: 'São Paulo', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2026.png' },
-    ];
+            const oitavasDireitaData = chaveamento.slice(4, 8).map((match: any) => [
+                {
+                    id: match.equipeUm.id,
+                    name: match.equipeUm.nome,
+                    logo: match.equipeUm.imagem,
+                },
+                {
+                    id: match.equipeDois.id,
+                    name: match.equipeDois.nome,
+                    logo: match.equipeDois.imagem,
+                },
+            ]).flat();
 
-    const semiDireita = [
-        { id: 5, name: 'Santos', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Santos_logo.svg/1200px-Santos_logo.svg.png' },
-        { id: 7, name: 'Sport', logo: 'https://a.espncdn.com/i/teamlogos/soccer/500/7635.png' },
-    ];
-    const finalDireita = [
-        { id: 5, name: 'Santos', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Santos_logo.svg/1200px-Santos_logo.svg.png' },
-    ];
-    const finalEsquerda = [
-        { id: 3, name: 'São Paulo', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2026.png' },
-    ];
+            setOitavasEsquerda(oitavasEsquerdaData);
+            setOitavasDireita(oitavasDireitaData);
+        }
+    }
 
-    const champion = [
-        { id: 3, name: 'São Paulo', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2026.png' },
-    ];
+    function montaQuartas(chaveamento: any) {
+        if (chaveamento) {
+            const quartasEsquerdaData = chaveamento.slice(0, 2).map((match: any) => [
+                {
+                    id: match.equipeUm.id,
+                    name: match.equipeUm.nome,
+                    logo: match.equipeUm.imagem,
+                },
+                {
+                    id: match.equipeDois.id,
+                    name: match.equipeDois.nome,
+                    logo: match.equipeDois.imagem,
+                }
+            ]).flat();
+            const quartasDireitaData = chaveamento.slice(2, 4).map((match: any) => [
+                {
+                    id: match.equipeUm.id,
+                    name: match.equipeUm.nome,
+                    logo: match.equipeUm.imagem,
+                },
+                {
+                    id: match.equipeDois.id,
+                    name: match.equipeDois.nome,
+                    logo: match.equipeDois.imagem,
+                }
+            ]).flat();
+
+            setQuartasEsquerda(quartasEsquerdaData);
+            setQuartasDireita(quartasDireitaData);
+        }
+    }
+
+    function montaSemi(chaveamento: any) {
+        if (chaveamento) {
+            const semiEsquerdaData = chaveamento.slice(0, 1).map((match: any) => [
+                {
+                    id: match.equipeUm.id,
+                    name: match.equipeUm.nome,
+                    logo: match.equipeUm.imagem,
+                },
+                {
+                    id: match.equipeDois.id,
+                    name: match.equipeDois.nome,
+                    logo: match.equipeDois.imagem,
+                }
+            ]).flat();
+            const semiDireitaData = chaveamento.slice(1, 2).map((match: any) => [
+                {
+                    id: match.equipeUm.id,
+                    name: match.equipeUm.nome,
+                    logo: match.equipeUm.imagem,
+                },
+                {
+                    id: match.equipeDois.id,
+                    name: match.equipeDois.nome,
+                    logo: match.equipeDois.imagem,
+                }
+            ]).flat();
+
+            setSemiEsquerda(semiEsquerdaData);
+            setSemiDireita(semiDireitaData);
+        }
+    }
 
     return (
         <NativeBaseProvider>
             <Bracket
-                oitavasDireita={oitavasEsquerda}
+                oitavasDireita={oitavasDireita}
                 oitavasEsquerda={oitavasEsquerda}
                 quartasEsquerda={quartasEsquerda}
                 quartasDireita={quartasDireita}
@@ -66,7 +197,9 @@ const ChaveamentoScreen: React.FC = () => {
                 semiEsquerda={semiEsquerda}
                 finalDireita={finalDireita}
                 finalEsquerda={finalEsquerda}
-                champion={champion} />
+                champion={champion}
+                isAparence={isAparence}
+            />
         </NativeBaseProvider>
     );
 };

@@ -123,11 +123,37 @@ async function removerEquipe(idEquipe: number, idCampeonato: number) {
 }
 
 
+async function iniciarCampeonato(idCampeonato: any, enderecoDefault: any) {
+  try {
+    const response = await axios.post(URL + `/${idCampeonato}/iniciar`, enderecoDefault);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function buscarChaveamento(idCampeonato: any): Promise<any> {
+  try {
+    const response = await axios.get(URL + `/${idCampeonato}/chaveamento`);
+    console.log(response.data)
+    const chaveamento = response.data.a
+    console.log(chaveamento)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+
 export const CampeonatoService = {
   cadastro,
   buscarCampeonatosInternos,
   buscarCampeonatosExternos,
   cadastrarEndereco,
   adicionarEquipe,
-  removerEquipe
+  removerEquipe,
+  iniciarCampeonato,
+  buscarChaveamento
 };

@@ -14,6 +14,7 @@ import { DatePicker } from '../../../components/DatePicker';
 import { Input } from '../../../components/Input';
 import Feather from 'react-native-vector-icons/Feather';
 import { EditarEnderecoPopUp } from '../cadastro/EditarEnderecoPopUp';
+import { InserirDataHora } from '../cadastro/InserirDataHora';
 
 const partidas = [
     {
@@ -70,6 +71,7 @@ const partidas = [
 const PartidasComponent = () => {
     const navigation = useNavigation();
     const [rodada, setRodada] = useState(1);
+    const [resultados, setResultados] = useState()
     const totalRodadas = 5;
 
     const [expirado, setExpirado] = useState(false);
@@ -83,6 +85,11 @@ const PartidasComponent = () => {
     function expirar() {
         setExpirado(true);
     }
+
+    function onChangeDados(dados: any) {
+        setResultados(dados)
+    }
+
     return (
         <Box>
             <ScrollView>
@@ -147,17 +154,18 @@ const PartidasComponent = () => {
                                     </Box>
 
 
-                                    {/* {openGameId === partida.id ?
+                                    {openGameId === partida.id ?
                                         <HStack w={'40%'} alignItems={'center'} justifyContent={'space-between'}>
+
                                             <Input widthForm='50px' h={'50px'} />
                                             <Text fontSize={'26px'} fontWeight={'bold'} color={'#A3A3A3'}>X</Text>
                                             <Input widthForm='50px' h={'50px'} />
                                         </HStack>
-                                        : */}
-                                    <Box w={'40%'} alignItems={'center'} justifyContent={'center'}>
-                                        <Text fontSize={'26px'} fontWeight={'bold'} color={'#A3A3A3'}>X</Text>
-                                    </Box>
-                                    {/* } */}
+                                        :
+                                        <Box w={'40%'} alignItems={'center'} justifyContent={'center'}>
+                                            <Text fontSize={'26px'} fontWeight={'bold'} color={'#A3A3A3'}>X</Text>
+                                        </Box>
+                                    }
 
                                     <Box alignItems={'center'} w={'30%'}>
                                         <Box w={'53px'} h={'53px'} borderRadius={5} alignItems={'center'}
@@ -177,8 +185,8 @@ const PartidasComponent = () => {
                                     </Box>
                                 </HStack>
                                 <Collapse isOpen={openGameId === partida.id}>
-
-                                    <InformacoesPartida />
+                                    <DataExpiradaComponent onChange={onChangeDados} />
+                                    {/* <InformacoesPartida /> */}
                                     {/* <InserirDataHora /> */}
                                 </Collapse>
                             </Pressable>
@@ -217,6 +225,147 @@ function InformacoesPartida() {
                     Hora:  18:00 PM
                 </Text>
             </VStack>
+        </VStack>)
+}
+
+function DataExpiradaComponent({ onChange }: any) {
+
+    type FormResultados = {
+        carAmareloEq1: string;
+        carAmareloEq2: string;
+        carVermelhoEq1: string;
+        carVermelhoEq2: string;
+        penaltisEq1: string;
+        penaltisEq2: string;
+    };
+
+
+    const CadastroSchema = yup.object().shape({
+        carAmareloEq1: yup
+            .string()
+            .required('Escolher um time é obrigatório'),
+        carAmareloEq2: yup.string().required('Modalidade é obrigatória'),
+        carVermelhoEq1: yup.string().required('Modalidade é obrigatória'),
+        carVermelhoEq2: yup.string().required('Modalidade é obrigatória'),
+        penaltisEq1: yup.string().required('Modalidade é obrigatória'),
+        penaltisEq2: yup.string().required('Modalidade é obrigatória'),
+    });
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<FormResultados>({ resolver: yupResolver(CadastroSchema) });
+
+    function handleResultados(data: any) {
+        onChange(data);
+    }
+
+
+    return (
+        <VStack my={2} borderRadius={5} borderWidth={1} p={4} borderColor={"#E2E2E2"}>
+
+
+            <VStack alignItems={'center'}>
+                <Text color="#A3A3A3">Cartões amarelos</Text>
+                <HStack w={'100%'} alignItems={'center'} justifyContent={'space-between'}>
+
+                    <Controller
+                        control={control}
+                        name="carAmareloEq1"
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                widthForm='40%'
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.carAmareloEq1?.message}
+                            />
+
+                        )}
+                    />
+
+                    <Text fontSize={'26px'} fontWeight={'bold'} color={'#A3A3A3'}>X</Text>
+                    <Controller
+                        control={control}
+                        name="carAmareloEq2"
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                widthForm='40%'
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.carAmareloEq2?.message}
+                            />
+
+                        )}
+                    />
+                </HStack>
+            </VStack>
+
+
+            <VStack alignItems={'center'}>
+                <Text color="#A3A3A3">Cartões Vermelhos</Text>
+                <HStack w={'100%'} alignItems={'center'} justifyContent={'space-between'}>
+                    <Controller
+                        control={control}
+                        name="carVermelhoEq1"
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                widthForm='40%'
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.carVermelhoEq1?.message}
+                            />
+
+                        )}
+                    />
+                    <Text fontSize={'26px'} fontWeight={'bold'} color={'#A3A3A3'}>X</Text>
+                    <Controller
+                        control={control}
+                        name="carVermelhoEq2"
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                widthForm='40%'
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.carVermelhoEq2?.message}
+                            />
+                        )}
+                    />
+                </HStack>
+            </VStack>
+
+            <VStack alignItems={'center'}>
+                <Text color="#A3A3A3">Pênaltis</Text>
+                <HStack w={'100%'} alignItems={'center'} justifyContent={'space-between'}>
+                    <Controller
+                        control={control}
+                        name="penaltisEq1"
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                widthForm='40%'
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.penaltisEq1?.message}
+                            />
+                        )}
+                    />
+                    <Text fontSize={'26px'} fontWeight={'bold'} color={'#A3A3A3'}>X</Text>
+                    <Controller
+                        control={control}
+                        name="penaltisEq2"
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                widthForm='40%'
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.penaltisEq2?.message}
+                            />
+                        )}
+                    />
+                </HStack>
+            </VStack>
+
+            <Button mt={5} h={'50px'} w={'full'} title={'SALVAR'} onPress={handleSubmit(handleResultados)} />
         </VStack>)
 }
 

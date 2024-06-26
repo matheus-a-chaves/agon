@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Image, VStack } from 'native-base';
-import { Team } from '../Bracket';
+import { imageConverter } from '../../screens/Utils';
+import { Chaveamento } from '../../screens/campeonato/ChaveamentoScreen';
 
 interface TeamsContainerProps {
-    teams: Team[];
+    teams: Chaveamento[];
 }
 
 const TeamsContainer: React.FC<TeamsContainerProps> = ({ teams }) => {
@@ -12,7 +13,7 @@ const TeamsContainer: React.FC<TeamsContainerProps> = ({ teams }) => {
             {teams.map((team) => (
                 <VStack key={team.id} space={'1px'} py={'2px'} alignItems="center">
                     <Box background={"#FFFBFB"} borderRadius={"10px"} p={'2px'}>
-                        <Image source={{ uri: team.logo }} alt={team.name} size={'50px'} />
+                        <Image borderRadius='10px' source={imageConverter(team.logo, require('../../assets/imagemfundo.jpg'))} alt={team.name} size={'50px'} />
                     </Box>
                 </VStack>
             ))}

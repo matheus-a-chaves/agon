@@ -10,6 +10,9 @@ import { useCampeonato } from '../../../contexts/Campeonato';
 import NovoCampeonato from '../../../components/NovoCampeonato';
 import { Input } from '../../../components/Input';
 import Button from '../../../components/Button';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Endereco } from '../../../interfaces/enderecoModel';
+import { CampeonatoService } from '../../../services/campeonato.service';
 
 
 type FormData = {
@@ -32,12 +35,9 @@ const CadastroSchema = yup.object().shape({
 
 
 export const EnderecoCampScreen = () => {
-    const { setCampeonatoBody } = useCampeonato();
-    const [title, setTitle] = useState('');
-
     const bascket = require('../../../assets/img/campeonato/basketball.png');
     const route = useRoute();
-    const { screen }: any = route.params;
+    const { idCampeonato }: any = route.params;
     const {
         control,
         handleSubmit,
@@ -71,18 +71,8 @@ export const EnderecoCampScreen = () => {
         handleSetData(data);
     }, []);
 
-    const campeonatoOrAmistoso = (screen: string) => {
-        if (screen === 'campeonato') {
-            setTitle('Novo Campeonato');
-        } else {
-            setTitle('Novo Amistoso');
-        }
-    }
-
-
 
     useEffect(() => {
-        campeonatoOrAmistoso(screen);
         setValue('zipCode', zipCodeMask(zipCode));
         if (zipCode?.length === 9) {
             handleFetchAddress(zipCode);
@@ -91,118 +81,133 @@ export const EnderecoCampScreen = () => {
 
     const navigation = useNavigation();
 
-    function onData(data: any) {
+    async function onData(data: any) {
+        const endereco: Endereco = {
+            cep: data.zipCode,
+            rua: data.street,
+            numero: data.number,
+            cidade: data.city,
+            estado: data.state,
+            bairro: data.district
+        }
+        await CampeonatoService.iniciarCampeonato(idCampeonato, endereco)
         navigation.goBack();
     }
 
     return (
-        <SafeAreaView style={{ height: '100%', display: 'flex', justifyContent: 'center' }} >
-            <Box w="100%" h={'100%'} bg={'#fff'} >
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+            <KeyboardAwareScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                enableOnAndroid={true}
+                extraHeight={150}
+                keyboardShouldPersistTaps="handled"
+            >
+                <Box w="100%" h={'100%'} bg={'#fff'} >
 
-                <VStack justifyContent={'center'} alignItems={'center'} py={5} bg={'#fff'}
-                    px={5} space={3}>
-                    <NovoCampeonato
-                        title={"Endereço Campeonato"}
-                        image={{ url: bascket, size: 190 }}
-                        descricao="Preencha o endereço onde ocorrerá o evento."
-                        height={380}
-                    />
-                    <VStack w={'100%'} justifyContent={'space-between'}>
-                        <VStack justifyContent={'center'} alignItems={'center'} py={1}
-                            space={3} w={"100%"}>
-                            <HStack space={2}>
-                                <Controller
-                                    control={control}
-                                    name="zipCode"
-                                    render={({ field: { onChange, value } }) => (
-                                        <Input
-                                            widthForm='38%'
-                                            maxLength={9}
-                                            placeholder="CEP"
-                                            onChangeText={onChange}
-                                            value={value}
-                                            errorMessage={errors.zipCode?.message}
-                                        />
-                                    )}
-                                />
-                                <Controller
-                                    control={control}
-                                    name="city"
-                                    render={({ field: { onChange, value } }) => (
-                                        <Input
-                                            widthForm='42%'
-                                            placeholder="Cidade"
-                                            onChangeText={onChange}
-                                            value={value}
-                                            errorMessage={errors.city?.message}
-                                        />
-                                    )}
-                                />
-                                <Controller
-                                    control={control}
-                                    name="state"
-                                    render={({ field: { onChange, value } }) => (
-                                        <Input
-                                            widthForm='15%'
-                                            placeholder="UF"
-                                            onChangeText={onChange}
-                                            value={value}
-                                            errorMessage={errors.state?.message}
-                                        />
-                                    )}
-                                />
-                            </HStack>
-
-                            <Controller
-                                control={control}
-                                name="street"
-                                render={({ field: { onChange, value } }) => (
-                                    <Input
-                                        widthForm='100%'
-                                        placeholder="Rua"
-                                        onChangeText={onChange}
-                                        value={value}
-                                        errorMessage={errors.street?.message}
+                    <VStack justifyContent={'center'} alignItems={'center'} py={5} bg={'#fff'}
+                        px={5} space={3}>
+                        <NovoCampeonato
+                            title={"Endereço Campeonato"}
+                            image={{ url: bascket, size: 190 }}
+                            descricao="Preencha o endereço onde ocorrerá o evento."
+                            height={380}
+                        />
+                        <VStack w={'100%'} justifyContent={'space-between'}>
+                            <VStack justifyContent={'center'} alignItems={'center'} py={1}
+                                space={3} w={"100%"}>
+                                <HStack space={2}>
+                                    <Controller
+                                        control={control}
+                                        name="zipCode"
+                                        render={({ field: { onChange, value } }) => (
+                                            <Input
+                                                widthForm='38%'
+                                                maxLength={9}
+                                                placeholder="CEP"
+                                                onChangeText={onChange}
+                                                value={value}
+                                                errorMessage={errors.zipCode?.message}
+                                            />
+                                        )}
                                     />
-                                )}
-                            />
+                                    <Controller
+                                        control={control}
+                                        name="city"
+                                        render={({ field: { onChange, value } }) => (
+                                            <Input
+                                                widthForm='42%'
+                                                placeholder="Cidade"
+                                                onChangeText={onChange}
+                                                value={value}
+                                                errorMessage={errors.city?.message}
+                                            />
+                                        )}
+                                    />
+                                    <Controller
+                                        control={control}
+                                        name="state"
+                                        render={({ field: { onChange, value } }) => (
+                                            <Input
+                                                widthForm='15%'
+                                                placeholder="UF"
+                                                onChangeText={onChange}
+                                                value={value}
+                                                errorMessage={errors.state?.message}
+                                            />
+                                        )}
+                                    />
+                                </HStack>
 
-                            <HStack space={2}>
                                 <Controller
                                     control={control}
-                                    name="number"
+                                    name="street"
                                     render={({ field: { onChange, value } }) => (
                                         <Input
-                                            widthForm='38%'
-                                            placeholder="Nº"
+                                            widthForm='100%'
+                                            placeholder="Rua"
                                             onChangeText={onChange}
                                             value={value}
-                                            errorMessage={errors.number?.message}
+                                            errorMessage={errors.street?.message}
                                         />
                                     )}
                                 />
-                                <Controller
-                                    control={control}
-                                    name="district"
-                                    render={({ field: { onChange, value } }) => (
-                                        <Input
-                                            widthForm='60%'
-                                            placeholder="Bairro"
-                                            onChangeText={onChange}
-                                            value={value}
-                                            errorMessage={errors.district?.message}
-                                        />
-                                    )}
-                                />
-                            </HStack>
+
+                                <HStack space={2}>
+                                    <Controller
+                                        control={control}
+                                        name="number"
+                                        render={({ field: { onChange, value } }) => (
+                                            <Input
+                                                widthForm='38%'
+                                                placeholder="Nº"
+                                                onChangeText={onChange}
+                                                value={value}
+                                                errorMessage={errors.number?.message}
+                                            />
+                                        )}
+                                    />
+                                    <Controller
+                                        control={control}
+                                        name="district"
+                                        render={({ field: { onChange, value } }) => (
+                                            <Input
+                                                widthForm='60%'
+                                                placeholder="Bairro"
+                                                onChangeText={onChange}
+                                                value={value}
+                                                errorMessage={errors.district?.message}
+                                            />
+                                        )}
+                                    />
+                                </HStack>
+                            </VStack>
+
                         </VStack>
-
+                        <Button title={'INICIAR CAMPEONATO'} size={'full'} onPress={handleSubmit(onData)} />
                     </VStack>
-                    <Button title={'INICIAR CAMPEONATO'} size={'full'} onPress={handleSubmit(onData)} />
-                </VStack>
 
-            </Box>
-
+                </Box>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
     );
 }

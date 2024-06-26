@@ -14,7 +14,7 @@ import { imageConverter } from '../../Utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ViewTimesCamp } from '../../../components/ViewTimesCamp';
-import { SafeAreaView } from 'react-native';
+import { Alert, SafeAreaView } from 'react-native';
 import { environment } from '../../../../environment';
 import { useAuth } from '../../../contexts/Auth';
 import { AdicionarTimePopUp } from '../cadastro/AdicionarTimePopUp';
@@ -23,7 +23,6 @@ import { TeamService } from '../../../services/time.service';
 import { CampeonatoService } from '../../../services/campeonato.service';
 import { formato } from '../../../interfaces/formatoModel';
 import PartidasComponent from './PartidasComponent';
-import { set } from 'react-hook-form';
 
 export function CampeonatoTimesScreen() {
   const { authData } = useAuth()
@@ -34,10 +33,23 @@ export function CampeonatoTimesScreen() {
   const { campeonato }: any = route.params;
   const [equipes, setEquipes] = useState<Equipe[]>([]);
   const [iniciado, setIniciado] = useState(false);
+  const [iniciar, setIniciar] = useState(false);
+  const idCampeonato = campeonato.id;
 
   useEffect(() => {
     fetchEquipes();
   }, []);
+
+  function verificarIniciadoCampeonato() {
+    if (campeonato.quantidadeEquipes === equipes.length) {
+      setIniciar(true)
+      navigation.navigate('EnderecoCampScreen' as never, { idCampeonato })
+    } else {
+      setIniciar(false)
+      Alert.alert('Quantidade de equipes inscritas está diferente da esperada.')
+    }
+  }
+
 
   const fetchEquipes = async () => {
     try {
@@ -91,19 +103,19 @@ export function CampeonatoTimesScreen() {
                   </Pressable>
                 );
               }}>
-              {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && (
-                <Menu.Item onPress={
-                  () => {
-                    navigation.navigate('EnderecoCampScreen' as never, { id })
-                    setIniciado(!iniciado)
-                  }}>Iniciar</Menu.Item>
-              )
+              {authData?.tipoUsuario === environment.PERFIL_ATLETICA &&
+                campeonato.campeonatoTipo === 0 && (
+                  <Menu.Item onPress={
+                    () => {
+                      verificarIniciadoCampeonato();
+                    }}>Iniciar</Menu.Item>
+                )
               }
               {campeonato.formato.id === formato.PONTOS_CORRIDOS && (
                 <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
               )}
               {campeonato.formato.id === formato.ELIMINATORIA_SIMPLES && (
-                <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
+                <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato', { idCampeonato })}>Chaveamento</Menu.Item>
               )}
               {campeonato.formato.id === formato.FASE_GRUPOS_ELIMINATORIA_SIMPLES && (
                 <>
@@ -114,7 +126,7 @@ export function CampeonatoTimesScreen() {
               {campeonato.formato.id === formato.PONTOS_CORRIDOS_ELIMINATORIA_SIMPLES && (
                 <>
                   <Menu.Item onPress={() => navigation.navigate('PontosCorridos' as never)}>Pontos corridos</Menu.Item>
-                  <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato' as never)}>Chaveamento</Menu.Item>
+                  <Menu.Item onPress={() => navigation.navigate('ChaveamentoCampeonato', { idCampeonato })}>Chaveamento</Menu.Item>
                 </>
               )}
             </Menu>
@@ -136,16 +148,19 @@ export function CampeonatoTimesScreen() {
               alt="imagem do time"
             />
           </Box>
-          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 && !iniciado && (
-            <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
-              <AdicionarTimePopUp campeonato={campeonato} onChangeSalvar={onAdicionarEquipe} />
-            </Box>
-          )}
+          {authData?.tipoUsuario === environment.PERFIL_ATLETICA && campeonato.campeonatoTipo === 0 &&
+            campeonato.quantidadeEquipes !== equipes.length
+            && (
+              <Box alignItems={'flex-start'} justifyContent={'flex-start'} w={'95%'}>
+                <AdicionarTimePopUp campeonato={campeonato} onChangeSalvar={onAdicionarEquipe} />
+              </Box>
+            )}
         </VStack>
       </Box>
 
       <VStack bg={'#fff'} h={'66%'} borderTopRadius={'10px'} w={'100%'}>
         {iniciado ? (
+
           <PartidasComponent />
         ) : (<ListaEquipes />)}
       </VStack>
